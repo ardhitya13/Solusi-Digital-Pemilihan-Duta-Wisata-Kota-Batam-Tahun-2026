@@ -1,14 +1,3 @@
-# PSTEAM Fullstack Project
-## Kelompok 7 - Proyek PSTEAM
-
-Website resmi PSTEAM (Polibatam Software Team) yang dikembangkan sebagai proyek fullstack menggunakan Next.js pada sisi frontend serta Node.js + Express + Prisma pada sisi backend.  
-Proyek ini dibuat untuk memenuhi tugas mata kuliah PBL.
-
-- Program Studi: D3 Teknik Informatika
-- Kelas: IF 3A Malam - Web
-- Kelompok: 7
-- Institusi: Politeknik Negeri Batam
-
 ## Proyek Duta Pariwisata Batam
 
 - Kode Tim: IF-4MA-02
