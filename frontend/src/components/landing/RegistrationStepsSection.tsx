@@ -1,0 +1,139 @@
+import Link from "next/link";
+import { schedule } from "../../data/mockData";
+
+const stepLabels = [
+  "Buat akun peserta",
+  "Lengkapi biodata",
+  "Unggah berkas",
+  "Submit pendaftaran",
+];
+
+export default function RegistrationStepsSection() {
+  return (
+    <section id="registration" className="py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <p
+            className="text-sm tracking-widest uppercase mb-3"
+            style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+          >
+            Pendaftaran
+          </p>
+          <h2
+            style={{
+              fontFamily: "var(--font-cinzel)",
+              background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              fontSize: "clamp(1.8rem, 4vw, 2.7rem)",
+              fontWeight: 700,
+            }}
+          >
+            TATA CARA PENDAFTARAN
+          </h2>
+          <div
+            className="w-24 h-[2px] mx-auto mt-4"
+            style={{
+              background: "linear-gradient(90deg, transparent, #D4AF37, transparent)",
+            }}
+          />
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div
+            className="rounded-2xl p-6 sm:p-8"
+            style={{
+              background: "#1A1A1A",
+              border: "1px solid rgba(212,175,55,0.25)",
+            }}
+          >
+            <h3
+              className="mb-5"
+              style={{ color: "#F5D06F", fontFamily: "var(--font-cinzel)", fontWeight: 700 }}
+            >
+              Langkah Pendaftaran
+            </h3>
+
+            <div className="space-y-3">
+              {stepLabels.map((step, index) => (
+                <div
+                  key={step}
+                  className="rounded-xl px-4 py-3 flex items-center gap-3"
+                  style={{
+                    background: "rgba(212,175,55,0.08)",
+                    border: "1px solid rgba(212,175,55,0.2)",
+                  }}
+                >
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                    style={{
+                      background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                      color: "#0F0F0F",
+                      fontFamily: "var(--font-cinzel)",
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                  <p style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>{step}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <Link
+                href="/auth/register"
+                className="inline-flex items-center px-5 py-2 rounded-xl text-sm font-semibold"
+                style={{
+                  background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                  color: "#0F0F0F",
+                  fontFamily: "var(--font-cinzel)",
+                }}
+              >
+                Daftar Sekarang
+              </Link>
+            </div>
+          </div>
+
+          <div
+            className="rounded-2xl p-6 sm:p-8"
+            style={{
+              background: "#1A1A1A",
+              border: "1px solid rgba(212,175,55,0.25)",
+            }}
+          >
+            <h3
+              className="mb-5"
+              style={{ color: "#F5D06F", fontFamily: "var(--font-cinzel)", fontWeight: 700 }}
+            >
+              Jadwal Penting
+            </h3>
+            <div className="space-y-3">
+              {schedule.map((item) => (
+                <div
+                  key={item.activity}
+                  className="rounded-xl px-4 py-3"
+                  style={{
+                    background: "rgba(212,175,55,0.08)",
+                    border: "1px solid rgba(212,175,55,0.2)",
+                  }}
+                >
+                  <p
+                    className="text-sm"
+                    style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+                  >
+                    {item.activity}
+                  </p>
+                  <p className="text-xs mt-1" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+                    {item.date}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+

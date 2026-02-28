@@ -1,0 +1,381 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  UserPlus,
+  CheckCircle,
+} from "lucide-react";
+import { useApp } from "../../../context/AppContext";
+import { GoldButton } from "../../../components/ui/GoldButton";
+
+type Step = "form" | "otp" | "success";
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const { login } = useApp();
+
+  const [step, setStep] = useState<Step>("form");
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+
+  const [form, setForm] = useState({
+    nama: "",
+    email: "",
+    noHp: "",
+    password: "",
+    confirmPassword: "",
+    kategori: "encik",
+  });
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (form.password !== form.confirmPassword) {
+      setError("Password tidak cocok!");
+      return;
+    }
+    if (form.password.length < 6) {
+      setError("Password minimal 6 karakter!");
+      return;
+    }
+
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 1000));
+    setLoading(false);
+    setStep("otp");
+  };
+
+  const handleOtpSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    await new Promise((r) => setTimeout(r, 800));
+    setLoading(false);
+
+    if (otp.length === 6) {
+      setStep("success");
+      setTimeout(() => {
+        login(form.email, form.password, "participant");
+        router.push("/participant/dashboard");
+      }, 2000);
+    } else {
+      setError("Kode OTP harus 6 digit!");
+    }
+  };
+
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden"
+      style={{ background: "#0F0F0F" }}
+    >
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          style={{
+            position: "absolute",
+            top: "10%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "600px",
+            height: "600px",
+            background:
+              "radial-gradient(ellipse, rgba(212,175,55,0.06) 0%, transparent 70%)",
+          }}
+        />
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        <button
+          onClick={() => router.push("/")}
+          className="flex items-center gap-2 mb-8 text-sm transition-opacity hover:opacity-80"
+          style={{
+            color: "#D4AF37",
+            fontFamily: "var(--font-poppins)",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+          type="button"
+        >
+          <ArrowLeft size={16} />
+          Kembali ke Beranda
+        </button>
+
+        <div
+          className="rounded-2xl p-8"
+          style={{
+            background: "#1A1A1A",
+            border: "1px solid rgba(212,175,55,0.3)",
+            boxShadow: "0 0 40px rgba(212,175,55,0.08)",
+          }}
+        >
+          <div className="text-center mb-8">
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={64}
+              height={64}
+              className="w-16 h-16 object-contain mx-auto mb-3"
+              style={{ filter: "drop-shadow(0 0 10px rgba(212,175,55,0.4))" }}
+            />
+            <h1
+              style={{
+                fontFamily: "var(--font-cinzel)",
+                color: "#D4AF37",
+                fontSize: "1.2rem",
+                fontWeight: 700,
+              }}
+            >
+              PENDAFTARAN PESERTA
+            </h1>
+            <p className="text-xs mt-1" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+              Duta Wisata Kota Batam 2026
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 mb-8">
+            {(["form", "otp", "success"] as Step[]).map((s, i) => (
+              <React.Fragment key={s}>
+                <div
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                  style={{
+                    background:
+                      step === s
+                        ? "linear-gradient(135deg, #F5D06F, #D4AF37)"
+                        : ["form", "otp", "success"].indexOf(step) > i
+                        ? "rgba(212,175,55,0.3)"
+                        : "rgba(255,255,255,0.05)",
+                    color: step === s ? "#0F0F0F" : "#BDBDBD",
+                    fontFamily: "var(--font-cinzel)",
+                  }}
+                >
+                  {i + 1}
+                </div>
+                {i < 2 ? (
+                  <div className="w-8 h-0.5" style={{ background: "rgba(212,175,55,0.2)" }} />
+                ) : null}
+              </React.Fragment>
+            ))}
+          </div>
+
+          {step === "form" ? (
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                  Nama Lengkap *
+                </label>
+                <input
+                  type="text"
+                  value={form.nama}
+                  onChange={(e) => setForm({ ...form, nama: e.target.value })}
+                  placeholder="Nama sesuai KTP"
+                  required
+                  className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder="email@example.com"
+                  required
+                  className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                  No. HP / WhatsApp *
+                </label>
+                <input
+                  type="tel"
+                  value={form.noHp}
+                  onChange={(e) => setForm({ ...form, noHp: e.target.value })}
+                  placeholder="08xxxxxxxxxx"
+                  required
+                  className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                  Kategori *
+                </label>
+                <select
+                  value={form.kategori}
+                  onChange={(e) => setForm({ ...form, kategori: e.target.value })}
+                  className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                >
+                  <option value="encik">Encik (Putra)</option>
+                  <option value="puan">Puan (Putri)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                  Password *
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPass ? "text" : "password"}
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    placeholder="Minimal 6 karakter"
+                    required
+                    className="w-full rounded-xl px-4 py-3 pr-12 text-sm outline-none"
+                    style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                    style={{ color: "#BDBDBD", background: "none", border: "none", cursor: "pointer" }}
+                  >
+                    {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                  Konfirmasi Password *
+                </label>
+                <input
+                  type="password"
+                  value={form.confirmPassword}
+                  onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+                  placeholder="Ulangi password"
+                  required
+                  className="w-full rounded-xl px-4 py-3 text-sm outline-none"
+                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                />
+              </div>
+
+              {error ? (
+                <p className="text-xs text-red-400" style={{ fontFamily: "var(--font-poppins)" }}>
+                  {error}
+                </p>
+              ) : null}
+
+              <GoldButton type="submit" variant="primary" fullWidth disabled={loading}>
+                <UserPlus size={16} />
+                {loading ? "Memproses..." : "Daftar & Kirim OTP"}
+              </GoldButton>
+
+              <div className="text-center">
+                <p className="text-xs" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+                  Sudah punya akun?{" "}
+                  <button
+                    onClick={() => router.push("/auth/login")}
+                    style={{ color: "#D4AF37", background: "none", border: "none", cursor: "pointer", fontWeight: 600 }}
+                    type="button"
+                  >
+                    Login
+                  </button>
+                </p>
+              </div>
+            </form>
+          ) : null}
+
+          {step === "otp" ? (
+            <form onSubmit={handleOtpSubmit} className="space-y-6">
+              <div className="text-center">
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+                  style={{ background: "rgba(212,175,55,0.15)", border: "1px solid rgba(212,175,55,0.3)" }}
+                >
+                  <span style={{ color: "#D4AF37", fontSize: "1.5rem" }}>✉</span>
+                </div>
+                <p className="text-sm mb-1" style={{ color: "#F5E6C8", fontFamily: "var(--font-cinzel)", fontWeight: 600 }}>
+                  Verifikasi Email
+                </p>
+                <p className="text-xs" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+                  Kode OTP telah dikirim ke
+                  <br />
+                  <strong style={{ color: "#D4AF37" }}>{form.email}</strong>
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-xs mb-1.5 text-center" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                  Masukkan Kode OTP (6 digit)
+                </label>
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  placeholder="_ _ _ _ _ _"
+                  maxLength={6}
+                  className="w-full rounded-xl px-4 py-3 text-center text-2xl tracking-widest outline-none"
+                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5D06F", fontFamily: "var(--font-cinzel)" }}
+                />
+                <p className="text-xs text-center mt-2" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)", opacity: 0.6 }}>
+                  Demo: masukkan 6 digit angka apapun
+                </p>
+              </div>
+
+              {error ? (
+                <p className="text-xs text-red-400 text-center" style={{ fontFamily: "var(--font-poppins)" }}>
+                  {error}
+                </p>
+              ) : null}
+
+              <GoldButton type="submit" variant="primary" fullWidth disabled={loading}>
+                {loading ? "Memverifikasi..." : "Verifikasi OTP"}
+              </GoldButton>
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => setStep("form")}
+                  className="text-xs"
+                  style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)", background: "none", border: "none", cursor: "pointer" }}
+                >
+                  ← Ubah email
+                </button>
+              </div>
+            </form>
+          ) : null}
+
+          {step === "success" ? (
+            <div className="text-center py-4">
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
+                style={{ background: "rgba(34,197,94,0.15)", border: "2px solid rgba(34,197,94,0.4)" }}
+              >
+                <CheckCircle size={32} style={{ color: "#22c55e" }} />
+              </div>
+              <h3 className="mb-2" style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.1rem", fontWeight: 700 }}>
+                Pendaftaran Berhasil!
+              </h3>
+              <p className="text-sm mb-4" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+                Selamat datang, <strong style={{ color: "#F5D06F" }}>{form.nama}</strong>!
+                Akun Anda telah berhasil dibuat.
+              </p>
+              <p className="text-xs" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)", opacity: 0.7 }}>
+                Mengalihkan ke dashboard...
+              </p>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
