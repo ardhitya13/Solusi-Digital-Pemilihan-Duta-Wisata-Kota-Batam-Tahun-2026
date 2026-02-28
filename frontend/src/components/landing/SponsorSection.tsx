@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 const partnerLogos = [
+  { id: "logo-site", src: "/logo.png", alt: "Duta Wisata Batam" },
   { id: "batam", src: "/partners/dinas_kebudayaan.png", alt: "Dinas Pariwisata Kota Batam" },
   { id: "bbi", src: "/partners/bbi.png", alt: "Bangga Buatan Indonesia" },
   {
@@ -8,7 +9,7 @@ const partnerLogos = [
     src: "/partners/wonderful.png",
     alt: "Wonderful Indonesia",
   },
-  { id: "logo-site", src: "/logo.png", alt: "Duta Wisata Batam" },
+  { id: "polibatam", src: "/partners/polibatam.png", alt: "Politeknik Negeri Batam" },
 ];
 
 const loopedLogos = [...partnerLogos, ...partnerLogos];
