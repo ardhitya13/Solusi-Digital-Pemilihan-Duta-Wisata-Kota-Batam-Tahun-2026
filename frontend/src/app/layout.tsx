@@ -2,6 +2,7 @@ import "./globals.css";
 import { Cinzel, Poppins } from "next/font/google";
 import { AppProvider } from "../context/AppContext";
 import AppShell from "../components/layout/AppShell";
+import GlobalPreloader from "../components/layout/GlobalPreloader";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
     >
       <body className="bg-elegantBlack text-softCream">
         <AppProvider>
+          <GlobalPreloader />
           <AppShell>{children}</AppShell>
         </AppProvider>
       </body>
