@@ -65,7 +65,7 @@ export default function RegisterPage() {
       setStep("success");
       setTimeout(() => {
         login(form.email, form.password, "participant");
-        router.push("/participant/dashboard");
+        router.push("/pages/participant/dashboard");
       }, 2000);
     } else {
       setError("Kode OTP harus 6 digit!");

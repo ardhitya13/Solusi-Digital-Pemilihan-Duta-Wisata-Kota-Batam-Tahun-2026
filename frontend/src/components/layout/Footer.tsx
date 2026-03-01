@@ -9,7 +9,9 @@ const footerLinks = [
   { label: "About", href: "/about" },
   { label: "News", href: "/news" },
   { label: "Vote", href: "/vote" },
-  { label: "Daftar", href: "/auth/register" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Feedback", href: "/feedback" },
+  { label: "Register", href: "/auth/register" },
   { label: "Login", href: "/auth/login" },
 ];
 
@@ -94,30 +96,35 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={14} style={{ color: "#D4AF37" }} />
-                <p
-                  className="text-xs"
+                <a
+                  href="tel:+62778469000"
+                  className="text-xs transition-colors hover:text-[#D4AF37]"
                   style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
                 >
                   (0778) 469000
-                </p>
+                </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail size={14} style={{ color: "#D4AF37" }} />
-                <p
-                  className="text-xs"
+                <a
+                  href="mailto:dutawisata@batam.go.id"
+                  className="text-xs transition-colors hover:text-[#D4AF37]"
                   style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
                 >
                   dutawisata@batam.go.id
-                </p>
+                </a>
               </div>
               <div className="flex items-center gap-2">
                 <Instagram size={14} style={{ color: "#D4AF37" }} />
-                <p
-                  className="text-xs"
+                <a
+                  href="https://instagram.com/dutawisatabatam"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs transition-colors hover:text-[#D4AF37]"
                   style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
                 >
                   @dutawisatabatam
-                </p>
+                </a>
               </div>
             </div>
           </div>

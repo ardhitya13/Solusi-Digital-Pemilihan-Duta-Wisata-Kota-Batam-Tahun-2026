@@ -67,7 +67,7 @@ export default function LoginPage() {
     if (ok) {
       if (role === "admin") router.push("/admin/dashboard");
       else if (role === "juri") router.push("/admin/dashboard");
-      else router.push("/participant/dashboard");
+      else router.push("/pages/participant/dashboard");
     } else {
       setError("Email atau password salah. Silakan coba lagi.");
     }

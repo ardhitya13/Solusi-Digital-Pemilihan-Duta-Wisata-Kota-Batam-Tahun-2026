@@ -112,7 +112,7 @@ export default function Navbar() {
             </Link>
             <Link href="/auth/register" onClick={() => setMenuOpen(false)}>
               <GoldButton variant="primary" size="sm">
-                Daftar
+                Register
               </GoldButton>
             </Link>
           </div>
@@ -162,7 +162,7 @@ export default function Navbar() {
                 </Link>
                 <Link href="/auth/register" onClick={() => setMenuOpen(false)}>
                   <GoldButton variant="primary" fullWidth>
-                    Daftar Sekarang
+                    Register
                   </GoldButton>
                 </Link>
               </div>

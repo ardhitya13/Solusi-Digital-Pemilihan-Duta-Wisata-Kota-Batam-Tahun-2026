@@ -50,7 +50,7 @@ export function AboutSection() {
           </h2>
 
           <div
-            className="w-24 h-[2px] mx-auto mt-4"
+            className="w-24 h-0.5 mx-auto mt-4"
             style={{
               background: "linear-gradient(90deg, transparent, #D4AF37, transparent)",
             }}
@@ -62,7 +62,7 @@ export function AboutSection() {
           {/* Tentang */}
           <div className="rounded-2xl p-8 bg-[#1A1A1A] border border-yellow-700/30">
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#F5D06F] to-[#D4AF37]">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-linear-to-br from-[#F5D06F] to-[#D4AF37]">
                 <Users size={18} color="#0F0F0F" />
               </div>
               <h3
@@ -86,7 +86,7 @@ export function AboutSection() {
           {/* Visi Misi */}
           <div className="rounded-2xl p-8 bg-[#1A1A1A] border border-yellow-700/30">
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#F5D06F] to-[#D4AF37]">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-linear-to-br from-[#F5D06F] to-[#D4AF37]">
                 <Target size={18} color="#0F0F0F" />
               </div>
               <h3
@@ -141,7 +141,7 @@ export function AboutSection() {
                 key={`${item.title}-${index}`}
                 className="rounded-xl p-5 text-center bg-[#1A1A1A] border border-yellow-700/20"
               >
-                <div className="mb-3 w-8 h-8 mx-auto rounded-full flex items-center justify-center bg-gradient-to-br from-[#F5D06F] to-[#8C6A1C] text-black font-bold text-xs">
+                <div className="mb-3 w-8 h-8 mx-auto rounded-full flex items-center justify-center bg-linear-to-br from-[#F5D06F] to-[#8C6A1C] text-black font-bold text-xs">
                   {index + 1}
                 </div>
 

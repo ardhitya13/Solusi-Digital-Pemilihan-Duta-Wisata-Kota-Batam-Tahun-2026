@@ -9,6 +9,7 @@ const partnerLogos = [
     src: "/partners/wonderful.png",
     alt: "Wonderful Indonesia",
   },
+  { id: "kementrian-pariwisata", src: "/partners/kemenpar.png", alt: "Kementrian Pariwisata" },
   { id: "polibatam", src: "/partners/polibatam.png", alt: "Politeknik Negeri Batam" },
 ];
 
@@ -39,7 +40,7 @@ export default function SponsorSection() {
             SPONSOR & MITRA RESMI
           </h2>
           <div
-            className="w-24 h-[2px] mx-auto mt-4"
+            className="w-24 h-0.5 mx-auto mt-4"
             style={{ background: "linear-gradient(90deg, transparent, #D4AF37, transparent)" }}
           />
         </div>
@@ -68,15 +69,15 @@ export default function SponsorSection() {
                   alt={item.alt}
                   width={260}
                   height={110}
-                  className="h-[70px] sm:h-[80px] md:h-[92px] w-auto object-contain"
+                  className="h-17.5 sm:h-20 md:h-23 w-auto object-contain"
                   priority={index < 3}
                 />
               </div>
             ))}
           </div>
 
-          <div className="pointer-events-none absolute left-0 top-0 h-full w-20 sm:w-28 md:w-40 bg-gradient-to-r from-[#FFFFFF] to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-20 sm:w-28 md:w-40 bg-gradient-to-l from-[#FFFFFF] to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-20 sm:w-28 md:w-40 bg-linear-to-r from-[#FFFFFF] to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-20 sm:w-28 md:w-40 bg-linear-to-l from-[#FFFFFF] to-transparent" />
         </div>
       </div>
     </section>
