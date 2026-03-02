@@ -90,6 +90,15 @@ export interface Participant {
 
   photo: string;
   status: StageStatus;
+  submittedToAdmin?: boolean;
+  rejectionReason?: string;
+  agreementNoAgency?: "yes" | "no";
+  agencyName?: string;
+  agreementParentPermission?: "yes" | "no";
+  agreementAllStages?: "yes" | "no";
+  motivationStatement?: string;
+  contributionIdea?: string;
+  publicSpeakingExperience?: string;
   registeredAt: string; // yyyy-mm-dd
   scores: ParticipantScore[];
   likes?: number;

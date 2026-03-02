@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import NextImage from "next/image";
-import { Save, CheckCircle, Upload } from "lucide-react";
+import { Save, Upload, CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useApp } from "../../../../context/AppContext";
 import GoldCard from "../../../../components/dashboard/GoldCard";
@@ -26,6 +26,13 @@ type FormState = {
   profilePhoto: string;
   educationCategory: "SMA" | "SMK" | "MA" | "Kampus";
   educationDegree: string;
+  agreementNoAgency: "" | "yes" | "no";
+  agencyName: string;
+  agreementParentPermission: "" | "yes" | "no";
+  agreementAllStages: "" | "yes" | "no";
+  motivationStatement: string;
+  contributionIdea: string;
+  publicSpeakingExperience: string;
 };
 
 type EducationCategory = FormState["educationCategory"];
@@ -38,17 +45,18 @@ const inputStyle: React.CSSProperties = {
 };
 
 export default function BiodataPage() {
+  // Ambil data peserta aktif dan state form biodata.
   const router = useRouter();
   const { currentParticipant, setCurrentParticipant, participantList, setParticipantList } = useApp();
   const participant = currentParticipant ?? participantList[0] ?? null;
   const [isSaved, setIsSaved] = useState(false);
-  const [isSubmittedToAdmin, setIsSubmittedToAdmin] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showInstitutionDropdown, setShowInstitutionDropdown] = useState(false);
   const [showMajorDropdown, setShowMajorDropdown] = useState(false);
   const institutionRef = useRef<HTMLDivElement | null>(null);
   const majorRef = useRef<HTMLDivElement | null>(null);
 
+  // Data referensi pendidikan per kategori (SMA/SMK/MA/Kampus).
   const educationData = {
     SMA: {
       institutions: [
@@ -162,6 +170,7 @@ export default function BiodataPage() {
   const isEducationCategory = (value: string | undefined): value is EducationCategory =>
     value === "SMA" || value === "SMK" || value === "MA" || value === "Kampus";
 
+  // Parsing string pendidikan lama ke format field terpisah.
   const parseEducation = (value: string | undefined) => {
     if (!value) return { institution: "", major: "" };
     const normalized = value.replace(" – ", " - ").replace(" | ", " - ");
@@ -176,6 +185,7 @@ export default function BiodataPage() {
 
   const parsedEducation = parseEducation(participant?.education);
 
+  // Initial state form biodata peserta.
   const [form, setForm] = useState<FormState>({
     fullName: participant?.name ?? "",
     gender: participant?.gender ?? "Encik",
@@ -194,8 +204,16 @@ export default function BiodataPage() {
     achievement: "",
     introVideoUrl: "",
     profilePhoto: participant?.photo ?? "",
+    agreementNoAgency: participant?.agreementNoAgency ?? "",
+    agencyName: participant?.agencyName ?? "",
+    agreementParentPermission: participant?.agreementParentPermission ?? "",
+    agreementAllStages: participant?.agreementAllStages ?? "",
+    motivationStatement: participant?.motivationStatement ?? "",
+    contributionIdea: participant?.contributionIdea ?? "",
+    publicSpeakingExperience: participant?.publicSpeakingExperience ?? "",
   });
 
+  // Progress kelengkapan biodata untuk indikator persentase.
   const completionProgress = useMemo(() => {
     const requiredFields = [
       form.fullName,
@@ -207,12 +225,19 @@ export default function BiodataPage() {
       form.instagram,
       form.vision,
       form.mission,
+      form.agreementNoAgency,
+      form.agreementParentPermission,
+      form.agreementAllStages,
+      form.motivationStatement,
+      form.contributionIdea,
+      form.publicSpeakingExperience,
       form.introVideoUrl,
     ];
     const filledCount = requiredFields.filter(Boolean).length;
     return Math.round((filledCount / requiredFields.length) * 100);
   }, [form]);
 
+  // Opsi dropdown yang berubah sesuai kategori pendidikan.
   const selectedEducation = educationData[form.educationCategory] ?? educationData.Kampus;
   const institutionOptions = selectedEducation.institutions;
   const majorOptions = selectedEducation.majors;
@@ -228,6 +253,7 @@ export default function BiodataPage() {
     ? majorOptions.filter((item) => item.toLowerCase().includes(majorKeyword))
     : majorOptions;
 
+  // Menutup dropdown jika klik di luar area field.
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -242,10 +268,12 @@ export default function BiodataPage() {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
+  // Helper update field agar penulisan state tetap konsisten.
   const updateFormField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  // Merangkai teks pendidikan ke format penyimpanan peserta.
   const buildEducationValue = () =>
     form.educationInstitution.trim()
       ? form.educationMajor.trim()
@@ -255,11 +283,11 @@ export default function BiodataPage() {
         : form.educationInstitution.trim()
       : "";
 
+  // Simpan draft biodata peserta.
   const handleSaveDraft = (event: React.FormEvent) => {
     event.preventDefault();
     if (!participant) return;
     setErrorMessage("");
-    setIsSubmittedToAdmin(false);
 
     const parsedHeight = Number(form.heightCm);
     const normalizedHeight =
@@ -278,6 +306,13 @@ export default function BiodataPage() {
       education: educationValue,
       instagram: form.instagram,
       photo: form.profilePhoto || participant.photo,
+      agreementNoAgency: form.agreementNoAgency || undefined,
+      agencyName: form.agencyName.trim() || undefined,
+      agreementParentPermission: form.agreementParentPermission || undefined,
+      agreementAllStages: form.agreementAllStages || undefined,
+      motivationStatement: form.motivationStatement.trim() || undefined,
+      contributionIdea: form.contributionIdea.trim() || undefined,
+      publicSpeakingExperience: form.publicSpeakingExperience.trim() || undefined,
     };
 
     setCurrentParticipant(updatedParticipant);
@@ -289,63 +324,7 @@ export default function BiodataPage() {
     window.setTimeout(() => setIsSaved(false), 2800);
   };
 
-  const handleSubmitToAdmin = () => {
-    if (!participant) return;
-    setErrorMessage("");
-    setIsSaved(false);
-    setIsSubmittedToAdmin(false);
-
-    if (completionProgress < 100) {
-      setErrorMessage("Lengkapi data hingga 100% sebelum kirim ke seleksi admin.");
-      return;
-    }
-
-    const parsedHeight = Number(form.heightCm);
-    const minimumHeight = form.gender === "Encik" ? 175 : 170;
-    if (!Number.isFinite(parsedHeight) || parsedHeight < minimumHeight) {
-      setErrorMessage(
-        `Tinggi badan minimal untuk ${form.gender === "Encik" ? "Encik" : "Puan"} adalah ${minimumHeight} cm.`
-      );
-      return;
-    }
-
-    if (form.educationCategory === "Kampus" && !form.educationDegree.trim()) {
-      setErrorMessage("Pilih jenjang pendidikan kampus (D3/D4/S1/S2/S3/Profesi).");
-      return;
-    }
-
-    const introVideoUrl = form.introVideoUrl.trim();
-    const isAllowedVideoUrl =
-      introVideoUrl.includes("youtube.com") ||
-      introVideoUrl.includes("youtu.be") ||
-      introVideoUrl.includes("drive.google.com");
-    if (!introVideoUrl || !isAllowedVideoUrl) {
-      setErrorMessage("Link video harus diisi dan berasal dari YouTube atau Google Drive.");
-      return;
-    }
-
-    const updatedParticipant = {
-      ...participant,
-      name: form.fullName,
-      gender: form.gender,
-      nationalId: form.nationalId,
-      birthPlace: form.birthPlace,
-      birthDate: form.birthDate,
-      heightCm: parsedHeight,
-      education: buildEducationValue(),
-      instagram: form.instagram,
-      photo: form.profilePhoto || participant.photo,
-      status: "Pending" as const,
-    };
-
-    setCurrentParticipant(updatedParticipant);
-    setParticipantList((prev) =>
-      prev.map((item) => (item.id === updatedParticipant.id ? updatedParticipant : item))
-    );
-
-    setIsSubmittedToAdmin(true);
-  };
-
+  // Komponen helper input standar.
   const renderInputField = ({
     label,
     name,
@@ -386,6 +365,7 @@ export default function BiodataPage() {
     </div>
   );
 
+  // Komponen helper textarea standar.
   const renderTextAreaField = ({
     label,
     name,
@@ -426,16 +406,59 @@ export default function BiodataPage() {
     </div>
   );
 
+  // Komponen helper radio Ya/Tidak untuk pertanyaan tambahan.
+  const renderYesNoField = ({
+    label,
+    name,
+    required = false,
+  }: {
+    label: string;
+    name: "agreementNoAgency" | "agreementParentPermission" | "agreementAllStages";
+    required?: boolean;
+  }) => (
+    <div>
+      <label
+        className="block text-xs mb-1.5"
+        style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+      >
+        {label} {required ? <span style={{ color: "#ef4444" }}>*</span> : null}
+      </label>
+      <div className="flex gap-3">
+        <label className="inline-flex items-center gap-2 text-sm" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
+          <input
+            type="radio"
+            name={String(name)}
+            checked={form[name] === "yes"}
+            onChange={() => updateFormField(name, "yes")}
+          />
+          Ya
+        </label>
+        <label className="inline-flex items-center gap-2 text-sm" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
+          <input
+            type="radio"
+            name={String(name)}
+            checked={form[name] === "no"}
+            onChange={() => updateFormField(name, "no")}
+          />
+          Tidak
+        </label>
+      </div>
+    </div>
+  );
+
+  // Validasi + preview upload foto profil peserta.
   const handleProfilePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
       setErrorMessage("Foto profil harus berupa file gambar.");
+      window.setTimeout(() => setErrorMessage(""), 2800);
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
       setErrorMessage("Ukuran foto profil maksimal 5 MB.");
+      window.setTimeout(() => setErrorMessage(""), 2800);
       return;
     }
 
@@ -449,6 +472,7 @@ export default function BiodataPage() {
 
   return (
     <div className="max-w-4xl">
+      {/* Header halaman biodata + progress */}
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
         <div>
           <h1
@@ -489,41 +513,8 @@ export default function BiodataPage() {
         </div>
       </div>
 
-      {isSaved ? (
-        <div
-          className="mb-6 p-4 rounded-xl flex items-center gap-3"
-          style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.3)" }}
-        >
-          <CheckCircle size={16} style={{ color: "#22c55e" }} />
-          <p className="text-sm" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
-            Biodata berhasil disimpan.
-          </p>
-        </div>
-      ) : null}
-
-      {errorMessage ? (
-        <div
-          className="mb-6 p-4 rounded-xl"
-          style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.35)" }}
-        >
-          <p className="text-sm" style={{ color: "#ef4444", fontFamily: "var(--font-poppins)" }}>
-            {errorMessage}
-          </p>
-        </div>
-      ) : null}
-
-      {isSubmittedToAdmin ? (
-        <div
-          className="mb-6 p-4 rounded-xl"
-          style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.3)" }}
-        >
-          <p className="text-sm" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
-            Data berhasil dikirim ke seleksi admin. Silakan pantau progres di menu Status Seleksi.
-          </p>
-        </div>
-      ) : null}
-
       <form onSubmit={handleSaveDraft} className="space-y-6">
+        {/* Section data pribadi peserta */}
         <GoldCard glow>
           <h2
             className="text-sm font-bold mb-5 pb-3"
@@ -789,6 +780,7 @@ export default function BiodataPage() {
           </div>
         </GoldCard>
 
+        {/* Section sosial media */}
         <GoldCard>
           <h2
             className="text-sm font-bold mb-5 pb-3"
@@ -809,6 +801,7 @@ export default function BiodataPage() {
           })}
         </GoldCard>
 
+        {/* Section visi, misi, pengalaman */}
         <GoldCard>
           <h2
             className="text-sm font-bold mb-5 pb-3"
@@ -844,6 +837,73 @@ export default function BiodataPage() {
           </div>
         </GoldCard>
 
+        {/* Section pertanyaan tambahan untuk screening awal */}
+        <GoldCard>
+          <h2
+            className="text-sm font-bold mb-5 pb-3"
+            style={{
+              color: "#D4AF37",
+              fontFamily: "var(--font-cinzel)",
+              borderBottom: "1px solid rgba(212,175,55,0.15)",
+            }}
+          >
+            PERTANYAAN TAMBAHAN
+          </h2>
+          <div className="space-y-4">
+            {renderYesNoField({
+              label: "Apakah Anda saat ini terikat kontrak dengan agensi model?",
+              name: "agreementNoAgency",
+              required: true,
+            })}
+            {form.agreementNoAgency === "yes"
+              ? renderInputField({
+                  label: "Jika Ya, sebutkan nama agensi",
+                  name: "agencyName",
+                  placeholder: "Nama agensi model",
+                })
+              : null}
+
+            {renderYesNoField({
+              label:
+                "Apakah Anda bersedia dan sudah mendapat izin orang tua/wali/sekolah/kampus/kantor untuk mengikuti seluruh rangkaian seleksi?",
+              name: "agreementParentPermission",
+              required: true,
+            })}
+
+            {renderYesNoField({
+              label:
+                "Jika menjadi finalis atau juara, apakah Anda bersedia mengikuti kegiatan skala lokal, nasional, maupun internasional?",
+              name: "agreementAllStages",
+              required: true,
+            })}
+
+            {renderTextAreaField({
+              label: "Motivasi mengikuti Pemilihan Duta Wisata",
+              name: "motivationStatement",
+              placeholder: "Tuliskan alasan utama Anda mengikuti ajang ini...",
+              required: true,
+              rows: 3,
+            })}
+
+            {renderTextAreaField({
+              label: "Rencana kontribusi untuk pariwisata Kota Batam",
+              name: "contributionIdea",
+              placeholder: "Tuliskan ide atau program nyata yang ingin Anda jalankan...",
+              required: true,
+              rows: 3,
+            })}
+
+            {renderTextAreaField({
+              label: "Pengalaman public speaking / duta / modeling",
+              name: "publicSpeakingExperience",
+              placeholder: "Jelaskan pengalaman yang pernah Anda ikuti...",
+              required: true,
+              rows: 3,
+            })}
+          </div>
+        </GoldCard>
+
+        {/* Section informasi tambahan */}
         <GoldCard>
           <h2
             className="text-sm font-bold mb-5 pb-3"
@@ -872,26 +932,54 @@ export default function BiodataPage() {
           </div>
         </GoldCard>
 
+        {/* Tombol aksi utama halaman biodata */}
         <div className="flex gap-3 flex-wrap">
           <GoldButton type="submit" variant="outline" size="md">
             <Save size={16} />
             Simpan Draft
-          </GoldButton>
-          <GoldButton
-            type="button"
-            variant="primary"
-            size="md"
-            onClick={handleSubmitToAdmin}
-            disabled={completionProgress < 100}
-          >
-            <CheckCircle size={16} />
-            Kirim ke Seleksi Admin
           </GoldButton>
           <GoldButton variant="outline" size="md" onClick={() => router.push("/pages/participant/dashboard")}>
             Batal
           </GoldButton>
         </div>
       </form>
+
+      {/* Toast sukses simpan draft */}
+      {isSaved ? (
+        <div
+          className="fixed bottom-5 right-5 z-50 rounded-xl px-4 py-3 shadow-lg"
+          style={{
+            background: "rgba(17,17,17,0.95)",
+            border: "1px solid rgba(34,197,94,0.5)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <div className="flex items-center gap-2">
+            <CheckCircle size={16} style={{ color: "#22c55e" }} />
+            <p className="text-sm" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
+              Draft berhasil disimpan
+            </p>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Toast error validasi/input */}
+      {errorMessage ? (
+        <div
+          className="fixed bottom-5 right-5 z-50 rounded-xl px-4 py-3 shadow-lg"
+          style={{
+            background: "rgba(17,17,17,0.95)",
+            border: "1px solid rgba(239,68,68,0.55)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <div className="flex items-center gap-2">
+            <p className="text-sm" style={{ color: "#ef4444", fontFamily: "var(--font-poppins)" }}>
+              {errorMessage}
+            </p>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

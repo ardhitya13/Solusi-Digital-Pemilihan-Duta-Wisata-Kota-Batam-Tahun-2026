@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   User,
@@ -28,11 +28,16 @@ function getStageIndex(status: string): number {
 }
 
 export default function ParticipantDashboardPage() {
+  // Router dan context utama peserta.
   const router = useRouter();
-  const { user, currentParticipant, participantList } = useApp();
+  const { user, currentParticipant, participantList, setCurrentParticipant, setParticipantList } = useApp();
+  const [submitInfo, setSubmitInfo] = useState("");
+  const [submitInfoType, setSubmitInfoType] = useState<"success" | "error">("error");
 
+  // Peserta aktif, fallback ke data pertama untuk mode demo.
   const participant = currentParticipant ?? participantList[0] ?? null;
 
+  // Mapping tampilan status seleksi ke warna/icon.
   const statusConfig = useMemo(
     () => ({
       Pending: { color: "#BDBDBD", bg: "rgba(189,189,189,0.1)", icon: <Clock size={14} /> },
@@ -56,6 +61,7 @@ export default function ParticipantDashboardPage() {
     []
   );
 
+  // Ringkasan dokumen untuk progress dashboard.
   const requiredDocuments = participant
     ? [
         { label: "KTP / NIK", done: Boolean(participant.nationalId) },
@@ -70,6 +76,7 @@ export default function ParticipantDashboardPage() {
   const completedDocuments = requiredDocuments.filter((d) => d.done).length;
   const documentProgress = toPercent(completedDocuments, requiredDocuments.length);
 
+  // Ringkasan field biodata untuk progress dashboard.
   const profileFields = participant
     ? [
         participant.name,
@@ -81,17 +88,28 @@ export default function ParticipantDashboardPage() {
         participant.instagram,
         participant.phone,
         participant.email,
+        participant.agreementNoAgency ?? "",
+        participant.agreementParentPermission ?? "",
+        participant.agreementAllStages ?? "",
+        participant.motivationStatement ?? "",
+        participant.contributionIdea ?? "",
+        participant.publicSpeakingExperience ?? "",
       ]
     : [];
 
+  // Kalkulasi progress dan syarat submit ke admin.
   const filledProfile = profileFields.filter((v) => Boolean(v)).length;
   const profileProgress = toPercent(filledProfile, profileFields.length);
   const overallProgress = Math.round((profileProgress + documentProgress) / 2);
+  const alreadySubmitted = Boolean(participant?.submittedToAdmin);
+  const canSubmitToAdmin =
+    Boolean(participant) && profileProgress === 100 && documentProgress === 100 && !alreadySubmitted;
 
   const statusValue = participant?.status ?? "Pending";
   const statusInfo = statusConfig[statusValue];
   const stageIndex = getStageIndex(statusValue);
 
+  // Tahapan utama proses seleksi.
   const stages = [
     { label: "Administrasi", index: 0 },
     { label: "Audisi", index: 1 },
@@ -101,9 +119,45 @@ export default function ParticipantDashboardPage() {
     { label: "Juara", index: 5 },
   ];
 
+  // Toast submit admin akan hilang otomatis.
+  useEffect(() => {
+    if (!submitInfo) return;
+    const timer = window.setTimeout(() => setSubmitInfo(""), 3000);
+    return () => window.clearTimeout(timer);
+  }, [submitInfo]);
+
+  // Kirim data peserta ke admin jika semua syarat lengkap.
+  const handleSubmitToAdmin = () => {
+    if (alreadySubmitted) {
+      setSubmitInfoType("success");
+      setSubmitInfo("Anda sudah mengirim data Anda. Mohon tunggu verifikasi admin.");
+      return;
+    }
+
+    if (!participant || !canSubmitToAdmin) {
+      setSubmitInfoType("error");
+      setSubmitInfo("Lengkapi biodata dan dokumen sampai 100% sebelum kirim ke admin.");
+      return;
+    }
+
+    const updatedParticipant = {
+      ...participant,
+      status: "Pending" as const,
+      submittedToAdmin: true,
+    };
+
+    setCurrentParticipant(updatedParticipant);
+    setParticipantList((prev) =>
+      prev.map((item) => (item.id === updatedParticipant.id ? updatedParticipant : item))
+    );
+    setSubmitInfoType("success");
+    setSubmitInfo("Data berhasil dikirim ke admin. Silakan tunggu proses verifikasi.");
+  };
+
   return (
     <>
       <div className="mb-8">
+        {/* Header halaman dashboard peserta */}
         <h1
           style={{
             fontFamily: "var(--font-cinzel)",
@@ -164,6 +218,22 @@ export default function ParticipantDashboardPage() {
         </div>
       ) : null}
 
+      {/* Banner khusus jika peserta berstatus ditolak */}
+      {participant?.status === "Rejected" ? (
+        <div
+          className="mb-6 rounded-xl p-3"
+          style={{
+            background: "rgba(239,68,68,0.1)",
+            border: "1px solid rgba(239,68,68,0.35)",
+          }}
+        >
+          <p className="text-sm" style={{ color: "#ef4444", fontFamily: "var(--font-poppins)" }}>
+            Alasan penolakan: {participant.rejectionReason ?? "Berkas atau data belum memenuhi ketentuan panitia. Silakan perbaiki dan kirim ulang sesuai arahan admin."}
+          </p>
+        </div>
+      ) : null}
+
+      {/* Kartu statistik ringkas progress peserta */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
           {
@@ -208,6 +278,7 @@ export default function ParticipantDashboardPage() {
         ))}
       </div>
 
+      {/* Kolom progress pendaftaran + timeline seleksi */}
       <div className="grid lg:grid-cols-2 gap-6 mb-6">
         <GoldCard glow>
           <h3 className="text-sm font-bold mb-5" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
@@ -252,7 +323,20 @@ export default function ParticipantDashboardPage() {
             <GoldButton variant="outline" size="sm" onClick={() => router.push("/pages/participant/dokumen")}>
               Upload Berkas
             </GoldButton>
+            <GoldButton variant="primary" size="sm" onClick={handleSubmitToAdmin} disabled={!canSubmitToAdmin}>
+              Kirim Seleksi Admin
+            </GoldButton>
           </div>
+          {!canSubmitToAdmin && !alreadySubmitted ? (
+            <p className="mt-2 text-xs" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+              Tombol aktif jika Biodata 100% dan Upload Berkas Wajib 100%.
+            </p>
+          ) : null}
+          {alreadySubmitted ? (
+            <p className="mt-2 text-xs" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
+              Data sudah dikirim ke admin dan sedang menunggu verifikasi.
+            </p>
+          ) : null}
         </GoldCard>
 
         <GoldCard>
@@ -333,6 +417,7 @@ export default function ParticipantDashboardPage() {
         </GoldCard>
       </div>
 
+      {/* Checklist cepat status dokumen */}
       <GoldCard>
         <h3 className="text-sm font-bold mb-4" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
           Status Upload Berkas
@@ -362,6 +447,31 @@ export default function ParticipantDashboardPage() {
           </div>
         ) : null}
       </GoldCard>
+
+      {/* Toast notifikasi aksi kirim seleksi admin */}
+      {submitInfo ? (
+        <div
+          className="fixed bottom-5 right-5 z-50 rounded-xl px-4 py-3 shadow-lg"
+          style={{
+            background: "rgba(17,17,17,0.95)",
+            border:
+              submitInfoType === "success"
+                ? "1px solid rgba(34,197,94,0.55)"
+                : "1px solid rgba(239,68,68,0.55)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <p
+            className="text-sm"
+            style={{
+              color: submitInfoType === "success" ? "#22c55e" : "#ef4444",
+              fontFamily: "var(--font-poppins)",
+            }}
+          >
+            {submitInfo}
+          </p>
+        </div>
+      ) : null}
     </>
   );
 }

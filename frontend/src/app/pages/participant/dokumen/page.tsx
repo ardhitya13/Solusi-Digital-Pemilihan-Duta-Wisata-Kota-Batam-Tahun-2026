@@ -1,112 +1,28 @@
-"use client";
+﻿"use client";
 
-import React, { useState } from "react";
-import NextImage from "next/image";
-import { Upload, CheckCircle, AlertCircle, FileText, Image as ImageIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { AlertCircle, CheckCircle, FileText } from "lucide-react";
 import { useApp } from "../../../../context/AppContext";
 import GoldCard from "../../../../components/dashboard/GoldCard";
-
-type UploadFileInfo = {
-  name: string;
-  size: string;
-  preview?: string;
-};
-
-type DocumentItem = {
-  key: string;
-  label: string;
-  required: boolean;
-  accept: string;
-  maxSize: string;
-  description: string;
-  icon: React.ReactNode;
-};
-
-const requiredDocuments: DocumentItem[] = [
-  {
-    key: "identityCard",
-    label: "KTP / Kartu Pelajar",
-    required: true,
-    accept: "image/*,.pdf",
-    maxSize: "2 MB",
-    description: "Foto/scan KTP atau Kartu Pelajar yang masih berlaku",
-    icon: <FileText size={20} />,
-  },
-  {
-    key: "closeUpPhoto",
-    label: "Foto Close Up",
-    required: true,
-    accept: "image/*",
-    maxSize: "5 MB",
-    description: "Foto wajah terbaru, latar putih/polos, berkualitas tinggi",
-    icon: <ImageIcon size={20} />,
-  },
-  {
-    key: "fullBodyPhoto",
-    label: "Foto Full Body",
-    required: true,
-    accept: "image/*",
-    maxSize: "5 MB",
-    description: "Foto badan penuh terbaru, pakaian formal/adat, latar polos",
-    icon: <ImageIcon size={20} />,
-  },
-  {
-    key: "formS01",
-    label: "Formulir S-01",
-    required: true,
-    accept: "image/*,.pdf",
-    maxSize: "2 MB",
-    description: "Formulir pendaftaran yang telah diisi dan ditandatangani",
-    icon: <FileText size={20} />,
-  },
-  {
-    key: "formS02",
-    label: "Formulir S-02",
-    required: true,
-    accept: "image/*,.pdf",
-    maxSize: "2 MB",
-    description: "Surat pernyataan peserta bermaterai 10.000",
-    icon: <FileText size={20} />,
-  },
-  {
-    key: "formS03",
-    label: "Formulir S-03",
-    required: true,
-    accept: "image/*,.pdf",
-    maxSize: "2 MB",
-    description: "Surat keterangan sehat dari dokter/puskesmas",
-    icon: <FileText size={20} />,
-  },
-  {
-    key: "formS04",
-    label: "Formulir S-04",
-    required: true,
-    accept: "image/*,.pdf",
-    maxSize: "2 MB",
-    description: "Surat keterangan domisili Kota Batam",
-    icon: <FileText size={20} />,
-  },
-];
-
-const optionalDocuments: DocumentItem[] = [
-  {
-    key: "certificate",
-    label: "Sertifikat / Piagam Prestasi",
-    required: false,
-    accept: "image/*,.pdf",
-    maxSize: "10 MB",
-    description: "Sertifikat atau piagam prestasi relevan (boleh lebih dari 1)",
-    icon: <FileText size={20} />,
-  },
-];
+import DocumentUploadCard from "../components/DocumentUploadCard";
+import ParticipantGuidePanel from "../components/ParticipantGuidePanel";
+import {
+  optionalDocuments,
+  requiredDocuments,
+  type UploadFileInfo,
+} from "../components/documentUploadConfig";
 
 export default function ParticipantDocumentsPage() {
+  // Ambil data peserta aktif (fallback ke data pertama jika belum ada sesi aktif).
   const { currentParticipant, participantList } = useApp();
   const participant = currentParticipant ?? participantList[0] ?? null;
 
+  // State lokal upload dokumen pada halaman ini.
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, UploadFileInfo | null>>({});
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
+  const [noticeMessage, setNoticeMessage] = useState("");
 
+  // Menentukan dokumen sudah lengkap berdasarkan data profil peserta.
   const inferredDoneFromProfile = (key: string) => {
     switch (key) {
       case "identityCard":
@@ -119,8 +35,10 @@ export default function ParticipantDocumentsPage() {
     }
   };
 
+  // Menentukan status selesai per dokumen (gabungan data existing + upload lokal).
   const isDone = (key: string) => Boolean(uploadedFiles[key]) || inferredDoneFromProfile(key);
 
+  // Handler upload file per jenis dokumen.
   const handleFileChange = async (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -141,147 +59,25 @@ export default function ParticipantDocumentsPage() {
       ...prev,
       [key]: { name: file.name, size: formattedSize, preview: previewUrl },
     }));
+    setNoticeMessage(`Berkas ${file.name} berhasil diupload.`);
   };
 
+  // Ringkasan progress upload dokumen wajib.
   const totalRequired = requiredDocuments.length;
   const completedRequired = requiredDocuments.filter((doc) => isDone(doc.key)).length;
   const uploadProgress = Math.round((completedRequired / totalRequired) * 100);
 
-  const renderDocumentCard = (item: DocumentItem) => {
-    const done = isDone(item.key);
-    const uploading = uploadingKey === item.key;
-    const uploaded = uploadedFiles[item.key];
-
-    return (
-      <div
-        key={item.key}
-        className="rounded-2xl p-5"
-        style={{
-          background: "#1A1A1A",
-          border: `1px solid ${
-            done ? "rgba(34,197,94,0.35)" : item.required ? "rgba(239,68,68,0.25)" : "rgba(212,175,55,0.2)"
-          }`,
-        }}
-      >
-        <div className="flex items-start gap-4">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{
-              background: done ? "rgba(34,197,94,0.15)" : item.required ? "rgba(239,68,68,0.1)" : "rgba(212,175,55,0.1)",
-              color: done ? "#22c55e" : item.required ? "#ef4444" : "#D4AF37",
-            }}
-          >
-            {done ? <CheckCircle size={20} /> : item.required ? <AlertCircle size={20} /> : item.icon}
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <h4 className="text-sm font-semibold" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
-                {item.label}
-              </h4>
-              <span
-                className="text-xs px-2 py-0.5 rounded-full"
-                style={{
-                  background: item.required ? "rgba(239,68,68,0.1)" : "rgba(212,175,55,0.1)",
-                  color: item.required ? "#ef4444" : "#D4AF37",
-                  fontFamily: "var(--font-poppins)",
-                }}
-              >
-                {item.required ? "Wajib" : "Opsional"}
-              </span>
-            </div>
-
-            <p className="text-xs mb-2" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
-              {item.description}
-            </p>
-            <p className="text-xs" style={{ color: "#666", fontFamily: "var(--font-poppins)" }}>
-              Format: {item.accept} | Maks: {item.maxSize}
-            </p>
-
-            {done && uploaded ? (
-              <div className="mt-3 flex items-center gap-3">
-                {uploaded.preview ? (
-                  <NextImage
-                    src={uploaded.preview}
-                    alt="Preview dokumen"
-                    width={40}
-                    height={40}
-                    unoptimized
-                    className="w-10 h-10 rounded-lg object-cover"
-                  />
-                ) : null}
-                <div>
-                  <p
-                    className="text-xs font-medium truncate max-w-48"
-                    style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}
-                  >
-                    {uploaded.name}
-                  </p>
-                  <p className="text-xs" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
-                    {uploaded.size}
-                  </p>
-                </div>
-              </div>
-            ) : null}
-
-            {done && !uploaded ? (
-              <div className="mt-2 flex items-center gap-2">
-                <CheckCircle size={12} style={{ color: "#22c55e" }} />
-                <span className="text-xs" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
-                  Berkas sudah terupload
-                </span>
-              </div>
-            ) : null}
-          </div>
-
-          <div>
-            <label className="cursor-pointer">
-              <input
-                type="file"
-                accept={item.accept}
-                className="hidden"
-                onChange={(event) => handleFileChange(item.key, event)}
-                disabled={uploading}
-              />
-              <div
-                className="px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all"
-                style={{
-                  background: done
-                    ? "rgba(34,197,94,0.1)"
-                    : "linear-gradient(135deg, rgba(245,208,111,0.15), rgba(212,175,55,0.15))",
-                  border: done ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(212,175,55,0.3)",
-                  color: done ? "#22c55e" : "#D4AF37",
-                  fontFamily: "var(--font-poppins)",
-                  cursor: uploading ? "not-allowed" : "pointer",
-                }}
-              >
-                {uploading ? (
-                  <>
-                    <div className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin" />
-                    Upload...
-                  </>
-                ) : done ? (
-                  <>
-                    <CheckCircle size={12} />
-                    Re-upload
-                  </>
-                ) : (
-                  <>
-                    <Upload size={12} />
-                    Upload
-                  </>
-                )}
-              </div>
-            </label>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  // Auto close notifikasi toast upload.
+  useEffect(() => {
+    if (!noticeMessage) return;
+    const timer = window.setTimeout(() => setNoticeMessage(""), 2800);
+    return () => window.clearTimeout(timer);
+  }, [noticeMessage]);
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-5xl">
       <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
+        {/* Header halaman upload dokumen */}
         <div>
           <h1
             style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.5rem", fontWeight: 700 }}
@@ -289,7 +85,7 @@ export default function ParticipantDocumentsPage() {
             Upload Berkas Persyaratan
           </h1>
           <p className="text-sm mt-1" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
-            Upload semua berkas persyaratan dengan format yang benar
+            Unduh dulu dokumen resmi, ikuti tata cara, lalu upload berkas dengan format yang benar.
           </p>
         </div>
         <div className="text-right">
@@ -305,6 +101,10 @@ export default function ParticipantDocumentsPage() {
         </div>
       </div>
 
+      {/* Panduan lengkap sebelum peserta upload dokumen */}
+      <ParticipantGuidePanel />
+
+      {/* Card progress upload dokumen wajib */}
       <GoldCard className="mb-6">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
@@ -329,11 +129,12 @@ export default function ParticipantDocumentsPage() {
         {completedRequired === totalRequired ? (
           <p className="text-xs mt-2 flex items-center gap-1" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
             <CheckCircle size={12} />
-            Semua berkas wajib telah lengkap! Menunggu verifikasi admin.
+            Semua berkas wajib telah lengkap. Silakan tunggu verifikasi admin.
           </p>
         ) : null}
       </GoldCard>
 
+      {/* Daftar dokumen wajib */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
           <AlertCircle size={16} style={{ color: "#ef4444" }} />
@@ -341,9 +142,21 @@ export default function ParticipantDocumentsPage() {
             BERKAS WAJIB
           </h2>
         </div>
-        <div className="space-y-3">{requiredDocuments.map((item) => renderDocumentCard(item))}</div>
+        <div className="space-y-3">
+          {requiredDocuments.map((item) => (
+            <DocumentUploadCard
+              key={item.key}
+              item={item}
+              done={isDone(item.key)}
+              uploading={uploadingKey === item.key}
+              uploaded={uploadedFiles[item.key]}
+              onFileChange={handleFileChange}
+            />
+          ))}
+        </div>
       </div>
 
+      {/* Daftar dokumen opsional */}
       <div>
         <div className="flex items-center gap-2 mb-4">
           <FileText size={16} style={{ color: "#D4AF37" }} />
@@ -351,8 +164,35 @@ export default function ParticipantDocumentsPage() {
             BERKAS OPSIONAL
           </h2>
         </div>
-        <div className="space-y-3">{optionalDocuments.map((item) => renderDocumentCard(item))}</div>
+        <div className="space-y-3">
+          {optionalDocuments.map((item) => (
+            <DocumentUploadCard
+              key={item.key}
+              item={item}
+              done={isDone(item.key)}
+              uploading={uploadingKey === item.key}
+              uploaded={uploadedFiles[item.key]}
+              onFileChange={handleFileChange}
+            />
+          ))}
+        </div>
       </div>
+
+      {/* Toast notifikasi upload berhasil */}
+      {noticeMessage ? (
+        <div
+          className="fixed bottom-5 right-5 z-50 rounded-xl px-4 py-3 shadow-lg"
+          style={{
+            background: "rgba(17,17,17,0.95)",
+            border: "1px solid rgba(34,197,94,0.55)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <p className="text-sm" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
+            {noticeMessage}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }

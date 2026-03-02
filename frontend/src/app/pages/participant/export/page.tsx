@@ -21,12 +21,14 @@ const statusLabel: Record<StageStatus, string> = {
 };
 
 export default function ExportPDFPage() {
+  // Ambil data peserta aktif dan state proses cetak PDF.
   const { currentParticipant, participantList, user } = useApp();
   const [printing, setPrinting] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
   const participant = currentParticipant ?? participantList[0] ?? null;
 
+  // Ringkasan berkas untuk ditampilkan di surat PDF.
   const berkasWajib = useMemo(
     () => [
       { label: "KTP", done: Boolean(participant?.nationalId) },
@@ -42,6 +44,7 @@ export default function ExportPDFPage() {
 
   const doneCount = berkasWajib.filter((b) => b.done).length;
 
+  // Normalisasi teks pendidikan agar lebih rapi di output PDF.
   const educationDisplay = useMemo(() => {
     const raw = participant?.education?.trim();
     if (!raw) return "-";
@@ -52,6 +55,7 @@ export default function ExportPDFPage() {
     return parts.join(" - ");
   }, [participant?.education]);
 
+  // Tanggal cetak dipakai satu kali saat render.
   const printedDate = useMemo(
     () =>
       new Date().toLocaleDateString("id-ID", {
@@ -62,6 +66,7 @@ export default function ExportPDFPage() {
     []
   );
 
+  // Trigger print browser untuk generate PDF.
   const handlePrint = async () => {
     if (!printRef.current) return;
     setPrinting(true);
@@ -72,6 +77,7 @@ export default function ExportPDFPage() {
 
   return (
     <div className="max-w-3xl">
+      {/* Header halaman export */}
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
         <div>
           <h1 style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.5rem", fontWeight: 700 }}>
@@ -87,6 +93,7 @@ export default function ExportPDFPage() {
         </GoldButton>
       </div>
 
+      {/* Card info format dokumen PDF */}
       <GoldCard className="mb-6">
         <div className="flex items-start gap-3">
           <FileText size={16} style={{ color: "#D4AF37", marginTop: 1 }} />
@@ -102,6 +109,7 @@ export default function ExportPDFPage() {
         </div>
       </GoldCard>
 
+      {/* Area konten yang akan dicetak menjadi PDF */}
       <div ref={printRef}>
         <div
           className="rounded-2xl overflow-hidden print:shadow-none"
@@ -111,6 +119,7 @@ export default function ExportPDFPage() {
             boxShadow: "0 0 40px rgba(212,175,55,0.1)",
           }}
         >
+          {/* Header surat */}
           <div
             className="p-6"
             style={{
@@ -149,6 +158,7 @@ export default function ExportPDFPage() {
             </div>
           </div>
 
+          {/* Isi utama surat */}
           <div className="p-6">
             <div className="grid sm:grid-cols-3 gap-6 mb-6">
               <div className="flex justify-center">
@@ -206,6 +216,7 @@ export default function ExportPDFPage() {
               </div>
             </div>
 
+            {/* Status checklist dokumen */}
             <div className="mb-5">
               <p className="text-xs font-bold mb-3" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
                 STATUS BERKAS ({doneCount}/{berkasWajib.length})
@@ -228,6 +239,7 @@ export default function ExportPDFPage() {
               </div>
             </div>
 
+            {/* Ringkasan status seleksi saat ini */}
             <div
               className="flex items-center justify-between p-4 rounded-xl"
               style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.25)" }}
@@ -251,6 +263,7 @@ export default function ExportPDFPage() {
             </div>
           </div>
 
+          {/* Footer surat */}
           <div
             className="px-6 py-4"
             style={{ borderTop: "1px solid rgba(212,175,55,0.2)", background: "rgba(212,175,55,0.03)" }}

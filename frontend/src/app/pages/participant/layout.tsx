@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import DashboardLayout from "../../../components/dashboard/DashboardLayout";
 
+// Navigation khusus area peserta.
 const participantNavItems = [
   { label: "Dashboard", href: "/pages/participant/dashboard", icon: <LayoutDashboard size={16} /> },
   { label: "Biodata", href: "/pages/participant/biodata", icon: <User size={16} /> },
@@ -23,6 +24,7 @@ export default function ParticipantPagesLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Wrapper layout seluruh halaman /pages/participant/*
   return (
     <DashboardLayout navItems={participantNavItems} role="participant">
       {children}

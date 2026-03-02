@@ -9,7 +9,7 @@ const generalRequirements = [
   "Berusia 18 – 25 tahun pada saat pendaftaran",
   "Belum menikah",
   "Pendidikan minimal SMA/SMK/sederajat",
-  "Tinggi badan minimal: Pria 175 cm, Wanita 170 cm",
+  "Tinggi badan minimal: Pria 175 cm, Wanita 165 cm",
   "Sehat jasmani dan rohani",
 ];
 

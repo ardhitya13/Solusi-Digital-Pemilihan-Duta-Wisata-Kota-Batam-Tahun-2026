@@ -9,6 +9,7 @@ import GoldCard from "../../../../components/dashboard/GoldCard";
 
 type TimelineState = "done" | "active" | "failed" | "pending";
 
+// Urutan status seleksi untuk kebutuhan timeline.
 const stageOrder: StageStatus[] = [
   "Pending",
   "Verified",
@@ -20,6 +21,7 @@ const stageOrder: StageStatus[] = [
   "Winner",
 ];
 
+// Label status yang tampil ke peserta (bahasa Indonesia).
 const statusDisplayMap: Record<StageStatus, string> = {
   Pending: "Menunggu Verifikasi",
   Verified: "Lolos Administrasi",
@@ -32,6 +34,7 @@ const statusDisplayMap: Record<StageStatus, string> = {
   Winner: "Pemenang",
 };
 
+// Definisi tahapan seleksi yang ditampilkan dalam timeline.
 const timelineStages = [
   {
     id: "administrasi",
@@ -60,6 +63,7 @@ const timelineStages = [
   },
 ] as const;
 
+// Mapping visual untuk badge state timeline.
 const stateIcon: Record<TimelineState, React.ReactNode> = {
   done: <CheckCircle size={20} style={{ color: "#22c55e" }} />,
   active: <Star size={20} style={{ color: "#D4AF37" }} fill="#D4AF37" />,
@@ -96,11 +100,13 @@ const stateLabel: Record<TimelineState, string> = {
 };
 
 export default function ParticipantStatusPage() {
+  // Ambil peserta aktif untuk ditampilkan statusnya.
   const { currentParticipant, participantList } = useApp();
   const participant = currentParticipant ?? participantList[0] ?? null;
   const currentStatus: StageStatus = participant?.status ?? "Pending";
   const currentStageIndex = stageOrder.indexOf(currentStatus);
 
+  // Tentukan state tiap tahap berdasarkan status peserta saat ini.
   const getTimelineState = (stageId: (typeof timelineStages)[number]["id"]): TimelineState => {
     if (currentStatus === "Rejected") {
       return stageId === "administrasi" ? "failed" : "pending";
@@ -139,6 +145,7 @@ export default function ParticipantStatusPage() {
 
   return (
     <div className="max-w-3xl">
+      {/* Header halaman status seleksi */}
       <div className="mb-8">
         <h1 style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.5rem", fontWeight: 700 }}>
           Status Seleksi
@@ -148,6 +155,7 @@ export default function ParticipantStatusPage() {
         </p>
       </div>
 
+      {/* Ringkasan profil + status terkini peserta */}
       {participant ? (
         <GoldCard glow className="mb-6">
           <div className="flex items-center gap-4 flex-wrap">
@@ -210,6 +218,7 @@ export default function ParticipantStatusPage() {
         </GoldCard>
       ) : null}
 
+      {/* Timeline perjalanan tahap seleksi */}
       <div className="space-y-4 mb-8">
         {timelineStages.map((stage, index) => {
           const timelineState = getTimelineState(stage.id);
@@ -286,6 +295,7 @@ export default function ParticipantStatusPage() {
         })}
       </div>
 
+      {/* Informasi umum untuk peserta */}
       <GoldCard>
         <h3 className="text-sm font-bold mb-3" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
           Informasi Penting
