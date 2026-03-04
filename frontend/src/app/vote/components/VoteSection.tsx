@@ -7,16 +7,8 @@ import { useApp } from "../../../context/AppContext";
 import { GoldButton } from "../../../components/ui/GoldButton";
 
 export default function VoteSection() {
-  const {
-    voteCandidateList,
-    voteTopList,
-    voteTopPublished,
-    judgeWinnerList,
-    judgeWinnersPublished,
-  } = useApp();
+  const { voteCandidateList } = useApp();
   const finalists = voteCandidateList.filter((item) => item.enabled);
-  const sortedVoteTop = [...voteTopList].sort((a, b) => a.rank - b.rank);
-  const sortedJudgeWinners = [...judgeWinnerList].sort((a, b) => a.rank - b.rank);
 
   return (
     <section className="py-20 lg:py-28">
@@ -220,74 +212,6 @@ export default function VoteSection() {
             })}
           </div>
         )}
-
-        {judgeWinnersPublished || voteTopPublished ? (
-          <div className="grid lg:grid-cols-2 gap-5 mt-12">
-            {judgeWinnersPublished ? (
-              <div className="rounded-2xl p-4" style={{ background: "#1A1A1A", border: "1px solid rgba(200,162,77,0.25)" }}>
-                <h3 className="text-sm font-bold mb-4" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
-                  JUARA VERSI JURI
-                </h3>
-                <div className="space-y-2">
-                  {sortedJudgeWinners.length === 0 ? (
-                    <p className="text-xs" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
-                      Belum diumumkan.
-                    </p>
-                  ) : (
-                    sortedJudgeWinners.map((winner) => (
-                      <div key={winner.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                        <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "rgba(212,175,55,0.2)", color: "#D4AF37" }}>
-                          {winner.rank}
-                        </span>
-                        <Image src={winner.photo} alt={winner.name} width={32} height={32} unoptimized className="w-8 h-8 rounded-full object-cover" />
-                        <div>
-                          <p className="text-xs font-semibold" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
-                            {winner.name}
-                          </p>
-                          <p className="text-xs" style={{ color: "#9CA3AF", fontFamily: "var(--font-poppins)" }}>
-                            {winner.number} • {winner.totalScore.toFixed(2)}
-                          </p>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            ) : null}
-
-            {voteTopPublished ? (
-              <div className="rounded-2xl p-4" style={{ background: "#1A1A1A", border: "1px solid rgba(200,162,77,0.25)" }}>
-                <h3 className="text-sm font-bold mb-4" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
-                  VOTE TERBANYAK
-                </h3>
-                <div className="space-y-2">
-                  {sortedVoteTop.length === 0 ? (
-                    <p className="text-xs" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
-                      Belum ada data vote.
-                    </p>
-                  ) : (
-                    sortedVoteTop.map((voteItem) => (
-                      <div key={voteItem.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                        <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "rgba(212,175,55,0.2)", color: "#D4AF37" }}>
-                          {voteItem.rank}
-                        </span>
-                        <Image src={voteItem.photo} alt={voteItem.name} width={32} height={32} unoptimized className="w-8 h-8 rounded-full object-cover" />
-                        <div>
-                          <p className="text-xs font-semibold" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
-                            {voteItem.name}
-                          </p>
-                          <p className="text-xs" style={{ color: "#9CA3AF", fontFamily: "var(--font-poppins)" }}>
-                            {voteItem.number} • {voteItem.voteCount.toLocaleString("id-ID")} vote
-                          </p>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
       </div>
     </section>
   );
