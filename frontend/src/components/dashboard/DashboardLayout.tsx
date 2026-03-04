@@ -8,8 +8,9 @@ import { useApp } from "../../context/AppContext";
 
 type NavItem = {
   label: string;
-  href: string;
+  href?: string;
   icon: React.ReactNode;
+  children?: NavItem[];
 };
 
 type DashboardLayoutProps = {
@@ -29,6 +30,7 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({});
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
   const participant = currentParticipant ?? participantList[0] ?? null;
   const profilePhoto = role === "participant" ? participant?.photo : undefined;
@@ -61,6 +63,32 @@ export default function DashboardLayout({
   }, []);
 
   const changePasswordPath = role === "participant" ? "/pages/participant/change-password" : "/auth/forgot-password";
+
+  const isItemActive = (item: NavItem) => {
+    const hasSelfActive = item.href ? pathname === item.href || pathname.startsWith(`${item.href}/`) : false;
+    const hasChildActive = item.children?.some((child) => child.href && (pathname === child.href || pathname.startsWith(`${child.href}/`)));
+    return hasSelfActive || Boolean(hasChildActive);
+  };
+
+  const handleNavItemClick = (item: NavItem) => {
+    if (item.children && item.children.length > 0) {
+      if (sidebarCollapsed) {
+        const firstChildHref = item.children[0]?.href;
+        if (firstChildHref) {
+          router.push(firstChildHref);
+          setSidebarOpen(false);
+        }
+        return;
+      }
+      setExpandedMenus((prev) => ({ ...prev, [item.label]: !prev[item.label] }));
+      return;
+    }
+
+    if (item.href) {
+      router.push(item.href);
+      setSidebarOpen(false);
+    }
+  };
 
   const renderSidebarContent = () => (
     <div className="flex flex-col h-full">
@@ -181,32 +209,81 @@ export default function DashboardLayout({
         ) : null}
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto hide-scrollbar">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = isItemActive(item);
+          const hasChildren = Boolean(item.children && item.children.length > 0);
+          const hasActiveChild = Boolean(
+            item.children?.some(
+              (child) => child.href && (pathname === child.href || pathname.startsWith(`${child.href}/`))
+            )
+          );
+          const isExpanded = expandedMenus[item.label] ?? hasActiveChild;
+
           return (
-            <button
-              key={item.href}
-              onClick={() => {
-                router.push(item.href);
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center rounded-xl text-sm text-left transition-all duration-200 ${
-                sidebarCollapsed ? "justify-center px-2 py-3" : "gap-3 px-4 py-3"
-              }`}
-              style={{
-                background: isActive ? "rgba(200,162,77,0.15)" : "transparent",
-                border: isActive ? "1px solid rgba(200,162,77,0.3)" : "1px solid transparent",
-                color: isActive ? "#C8A24D" : "#BDBDBD",
-                fontFamily: "var(--font-poppins)",
-              }}
-              type="button"
-              title={item.label}
-            >
-              <span style={{ color: isActive ? "#C8A24D" : "#888" }}>{item.icon}</span>
-              {sidebarCollapsed ? null : <span className="flex-1">{item.label}</span>}
-              {isActive && !sidebarCollapsed ? <ChevronRight size={14} style={{ color: "#C8A24D" }} /> : null}
-            </button>
+            <div key={item.href ?? item.label}>
+              <button
+                onClick={() => handleNavItemClick(item)}
+                className={`w-full flex items-center rounded-xl text-sm text-left transition-all duration-200 ${
+                  sidebarCollapsed ? "justify-center px-2 py-3" : "gap-3 px-4 py-3"
+                }`}
+                style={{
+                  background: isActive ? "rgba(200,162,77,0.15)" : "transparent",
+                  border: isActive ? "1px solid rgba(200,162,77,0.3)" : "1px solid transparent",
+                  color: isActive ? "#C8A24D" : "#BDBDBD",
+                  fontFamily: "var(--font-poppins)",
+                }}
+                type="button"
+                title={item.label}
+              >
+                <span style={{ color: isActive ? "#C8A24D" : "#888" }}>{item.icon}</span>
+                {sidebarCollapsed ? null : <span className="flex-1">{item.label}</span>}
+                {!sidebarCollapsed ? (
+                  hasChildren ? (
+                    <ChevronDown
+                      size={14}
+                      style={{
+                        color: isActive ? "#C8A24D" : "#777",
+                        transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                        transition: "transform 0.2s ease",
+                      }}
+                    />
+                  ) : isActive ? (
+                    <ChevronRight size={14} style={{ color: "#C8A24D" }} />
+                  ) : null
+                ) : null}
+              </button>
+
+              {!sidebarCollapsed && hasChildren && isExpanded ? (
+                <div className="mt-1 pl-3 space-y-1">
+                  {item.children?.map((child) => {
+                    const isChildActive = isItemActive(child);
+                    return (
+                      <button
+                        key={child.href ?? child.label}
+                        onClick={() => {
+                          if (child.href) {
+                            router.push(child.href);
+                            setSidebarOpen(false);
+                          }
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs text-left transition-all"
+                        style={{
+                          background: isChildActive ? "rgba(200,162,77,0.14)" : "transparent",
+                          border: isChildActive ? "1px solid rgba(200,162,77,0.24)" : "1px solid transparent",
+                          color: isChildActive ? "#F5D06F" : "#9CA3AF",
+                          fontFamily: "var(--font-poppins)",
+                        }}
+                        type="button"
+                      >
+                        <span style={{ color: isChildActive ? "#D4AF37" : "#666" }}>{child.icon}</span>
+                        <span className="flex-1">{child.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
           );
         })}
       </nav>
@@ -234,7 +311,7 @@ export default function DashboardLayout({
   );
 
   return (
-    <div className="flex h-screen warm-champagne-bg">
+    <div className="flex h-screen warm-champagne-bg overflow-hidden">
       <aside
         className={`hidden lg:flex flex-col shrink-0 transition-all duration-200 ${
           sidebarCollapsed ? "w-20" : "w-64"
@@ -387,7 +464,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <main className="flex-1 overflow-y-auto dashboard-scrollbar p-4 lg:p-6">
           <div className="w-full">{children}</div>
         </main>
       </div>

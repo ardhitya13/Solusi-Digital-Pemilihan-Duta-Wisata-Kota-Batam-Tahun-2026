@@ -1,15 +1,22 @@
 ﻿"use client";
 
 import React from "react";
+import Image from "next/image";
 import { Instagram, Star, Crown } from "lucide-react";
 import { useApp } from "../../../context/AppContext";
 import { GoldButton } from "../../../components/ui/GoldButton";
 
 export default function VoteSection() {
-  const { participantList } = useApp();
-  const finalists = participantList.filter(
-    (p) => p.status === "GrandFinal" || p.status === "Winner"
-  );
+  const {
+    voteCandidateList,
+    voteTopList,
+    voteTopPublished,
+    judgeWinnerList,
+    judgeWinnersPublished,
+  } = useApp();
+  const finalists = voteCandidateList.filter((item) => item.enabled);
+  const sortedVoteTop = [...voteTopList].sort((a, b) => a.rank - b.rank);
+  const sortedJudgeWinners = [...judgeWinnerList].sort((a, b) => a.rank - b.rank);
 
   return (
     <section className="py-20 lg:py-28">
@@ -90,20 +97,21 @@ export default function VoteSection() {
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {finalists.map((participant) => {
-              const number = participant.number.includes("-")
-                ? participant.number.split("-")[1]
-                : participant.number;
-              const genderLabel = participant.gender === "Encik" ? "ENCIK" : "PUAN";
+            {finalists.map((candidate) => {
+              const number = candidate.number.includes("-")
+                ? candidate.number.split("-")[1]
+                : candidate.number;
+              const genderLabel = candidate.gender === "Encik" ? "ENCIK" : "PUAN";
               const genderBg =
-                participant.gender === "Encik"
+                candidate.gender === "Encik"
                   ? "rgba(34,117,196,0.65)"
                   : "rgba(183,61,131,0.65)";
-              const igHandle = participant.instagram.replace("@", "");
+              const igHandle = candidate.instagramHandle.replace("@", "");
+              const instagramTarget = candidate.instagramProfileUrl || `https://instagram.com/${igHandle}`;
 
               return (
                 <div
-                  key={participant.id}
+                  key={candidate.id}
                   className="rounded-2xl overflow-hidden group transition-all duration-300 hover:-translate-y-1"
                   style={{
                     background: "#1A1A1A",
@@ -112,11 +120,12 @@ export default function VoteSection() {
                   }}
                 >
                   <div className="relative overflow-hidden h-[260px]">
-                    <img
-                      src={participant.photo}
-                      alt={participant.name}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
+                    <Image
+                      src={candidate.photo}
+                      alt={candidate.name}
+                      fill
+                      unoptimized
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
 
                     <div
@@ -159,7 +168,7 @@ export default function VoteSection() {
                           fontFamily: "var(--font-cinzel)",
                         }}
                       >
-                        {participant.name}
+                        {candidate.name}
                       </p>
                       <p
                         className="text-xs mt-1"
@@ -168,7 +177,7 @@ export default function VoteSection() {
                           fontFamily: "var(--font-poppins)",
                         }}
                       >
-                        {participant.number}
+                        {candidate.number}
                       </p>
                     </div>
                   </div>
@@ -181,7 +190,7 @@ export default function VoteSection() {
                         fontFamily: "var(--font-poppins)",
                       }}
                     >
-                      {participant.education.split(" - ")[0].trim()}
+                      {candidate.education.split(" - ")[0].trim()}
                     </p>
                     <p
                       className="text-xs mb-4 truncate"
@@ -191,7 +200,7 @@ export default function VoteSection() {
                       }}
                     >
                       <Instagram size={11} className="inline mr-1" />
-                      {participant.instagram}
+                      {candidate.instagramHandle || "-"}
                     </p>
 
                     <GoldButton
@@ -199,7 +208,7 @@ export default function VoteSection() {
                       size="sm"
                       fullWidth
                       onClick={() =>
-                        window.open(`https://instagram.com/${igHandle}`, "_blank")
+                        window.open(instagramTarget, "_blank")
                       }
                     >
                       <Instagram size={14} />
@@ -211,6 +220,74 @@ export default function VoteSection() {
             })}
           </div>
         )}
+
+        {judgeWinnersPublished || voteTopPublished ? (
+          <div className="grid lg:grid-cols-2 gap-5 mt-12">
+            {judgeWinnersPublished ? (
+              <div className="rounded-2xl p-4" style={{ background: "#1A1A1A", border: "1px solid rgba(200,162,77,0.25)" }}>
+                <h3 className="text-sm font-bold mb-4" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+                  JUARA VERSI JURI
+                </h3>
+                <div className="space-y-2">
+                  {sortedJudgeWinners.length === 0 ? (
+                    <p className="text-xs" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
+                      Belum diumumkan.
+                    </p>
+                  ) : (
+                    sortedJudgeWinners.map((winner) => (
+                      <div key={winner.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                        <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "rgba(212,175,55,0.2)", color: "#D4AF37" }}>
+                          {winner.rank}
+                        </span>
+                        <Image src={winner.photo} alt={winner.name} width={32} height={32} unoptimized className="w-8 h-8 rounded-full object-cover" />
+                        <div>
+                          <p className="text-xs font-semibold" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
+                            {winner.name}
+                          </p>
+                          <p className="text-xs" style={{ color: "#9CA3AF", fontFamily: "var(--font-poppins)" }}>
+                            {winner.number} • {winner.totalScore.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            ) : null}
+
+            {voteTopPublished ? (
+              <div className="rounded-2xl p-4" style={{ background: "#1A1A1A", border: "1px solid rgba(200,162,77,0.25)" }}>
+                <h3 className="text-sm font-bold mb-4" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+                  VOTE TERBANYAK
+                </h3>
+                <div className="space-y-2">
+                  {sortedVoteTop.length === 0 ? (
+                    <p className="text-xs" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
+                      Belum ada data vote.
+                    </p>
+                  ) : (
+                    sortedVoteTop.map((voteItem) => (
+                      <div key={voteItem.id} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                        <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "rgba(212,175,55,0.2)", color: "#D4AF37" }}>
+                          {voteItem.rank}
+                        </span>
+                        <Image src={voteItem.photo} alt={voteItem.name} width={32} height={32} unoptimized className="w-8 h-8 rounded-full object-cover" />
+                        <div>
+                          <p className="text-xs font-semibold" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
+                            {voteItem.name}
+                          </p>
+                          <p className="text-xs" style={{ color: "#9CA3AF", fontFamily: "var(--font-poppins)" }}>
+                            {voteItem.number} • {voteItem.voteCount.toLocaleString("id-ID")} vote
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </section>
   );

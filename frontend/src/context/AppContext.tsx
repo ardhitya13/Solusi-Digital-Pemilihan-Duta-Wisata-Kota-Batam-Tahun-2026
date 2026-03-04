@@ -19,6 +19,7 @@ import {
   mockNews,
   mockScores, // ✅ ini harus ScoreRecord[]
 } from "../data/mockData";
+import { faqItems, type FAQItem } from "../data/faqData";
 
 export type Role = "participant" | "admin" | "judge";
 
@@ -29,6 +30,58 @@ export type AuthUser = {
   role: Role;
   participantId?: string;
   judgeId?: string;
+};
+
+export type VotePublicCandidate = {
+  id: string;
+  participantId: string;
+  number: string;
+  name: string;
+  gender: "Encik" | "Puan";
+  education: string;
+  photo: string;
+  instagramHandle: string;
+  instagramProfileUrl: string;
+  instagramPostUrl: string;
+  enabled: boolean;
+};
+
+export type VoteTopItem = {
+  id: string;
+  participantId: string;
+  number: string;
+  name: string;
+  gender: "Encik" | "Puan";
+  photo: string;
+  instagramHandle: string;
+  instagramProfileUrl: string;
+  instagramPostUrl: string;
+  voteCount: number;
+  rank: 1 | 2 | 3;
+};
+
+export type JudgeWinnerItem = {
+  id: string;
+  participantId: string;
+  number: string;
+  name: string;
+  gender: "Encik" | "Puan";
+  photo: string;
+  instagramHandle: string;
+  totalScore: number;
+  rank: 1 | 2 | 3;
+};
+
+export type FeedbackCategory = "Saran" | "Kritik" | "Pertanyaan" | "Lainnya";
+
+export type FeedbackEntry = {
+  id: string;
+  name: string;
+  email: string;
+  category: FeedbackCategory;
+  message: string;
+  createdAt: string;
+  status: "baru" | "ditinjau" | "selesai";
 };
 
 type AppContextType = {
@@ -55,9 +108,83 @@ type AppContextType = {
   setCurrentParticipant: React.Dispatch<
     React.SetStateAction<Participant | null>
   >;
+
+  faqList: FAQItem[];
+  setFaqList: React.Dispatch<React.SetStateAction<FAQItem[]>>;
+
+  voteCandidateList: VotePublicCandidate[];
+  setVoteCandidateList: React.Dispatch<React.SetStateAction<VotePublicCandidate[]>>;
+
+  voteTopList: VoteTopItem[];
+  setVoteTopList: React.Dispatch<React.SetStateAction<VoteTopItem[]>>;
+  voteTopPublished: boolean;
+  setVoteTopPublished: React.Dispatch<React.SetStateAction<boolean>>;
+
+  judgeWinnerList: JudgeWinnerItem[];
+  setJudgeWinnerList: React.Dispatch<React.SetStateAction<JudgeWinnerItem[]>>;
+  judgeWinnersPublished: boolean;
+  setJudgeWinnersPublished: React.Dispatch<React.SetStateAction<boolean>>;
+
+  feedbackList: FeedbackEntry[];
+  setFeedbackList: React.Dispatch<React.SetStateAction<FeedbackEntry[]>>;
+  addFeedbackEntry: (payload: {
+    name: string;
+    email: string;
+    category: FeedbackCategory;
+    message: string;
+  }) => void;
 };
 
 const AppContext = createContext<AppContextType | null>(null);
+
+function toInstagramHandle(raw: string) {
+  return raw.replace("@", "").trim();
+}
+
+function buildVoteCandidates(participants: Participant[]): VotePublicCandidate[] {
+  return participants
+    .filter((participant) => participant.status === "GrandFinal" || participant.status === "Winner")
+    .map((participant) => {
+      const handle = toInstagramHandle(participant.instagram);
+      return {
+        id: `vc-${participant.id}`,
+        participantId: participant.id,
+        number: participant.number,
+        name: participant.name,
+        gender: participant.gender,
+        education: participant.education,
+        photo: participant.photo,
+        instagramHandle: handle ? `@${handle}` : "",
+        instagramProfileUrl: handle ? `https://instagram.com/${handle}` : "",
+        instagramPostUrl: "",
+        enabled: true,
+      };
+    });
+}
+
+function buildInitialVoteTop(candidates: VotePublicCandidate[], participants: Participant[]): VoteTopItem[] {
+  const sorted = [...participants]
+    .filter((participant) => participant.status === "GrandFinal" || participant.status === "Winner")
+    .sort((a, b) => (b.likes ?? 0) - (a.likes ?? 0))
+    .slice(0, 3);
+
+  return sorted.map((participant, index) => {
+    const candidate = candidates.find((item) => item.participantId === participant.id);
+    return {
+      id: `vt-${index + 1}`,
+      participantId: participant.id,
+      number: participant.number,
+      name: participant.name,
+      gender: participant.gender,
+      photo: candidate?.photo ?? participant.photo,
+      instagramHandle: candidate?.instagramHandle ?? participant.instagram,
+      instagramProfileUrl: candidate?.instagramProfileUrl ?? "",
+      instagramPostUrl: candidate?.instagramPostUrl ?? "",
+      voteCount: participant.likes ?? 0,
+      rank: (index + 1) as 1 | 2 | 3,
+    };
+  });
+}
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -74,6 +201,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const [currentParticipant, setCurrentParticipant] =
     useState<Participant | null>(null);
+  const [faqList, setFaqList] = useState<FAQItem[]>(faqItems);
+
+  const [voteCandidateList, setVoteCandidateList] = useState<VotePublicCandidate[]>(
+    () => buildVoteCandidates(mockParticipants)
+  );
+  const [voteTopList, setVoteTopList] = useState<VoteTopItem[]>(() =>
+    buildInitialVoteTop(buildVoteCandidates(mockParticipants), mockParticipants)
+  );
+  const [voteTopPublished, setVoteTopPublished] = useState<boolean>(true);
+  const [judgeWinnerList, setJudgeWinnerList] = useState<JudgeWinnerItem[]>([]);
+  const [judgeWinnersPublished, setJudgeWinnersPublished] = useState<boolean>(false);
+  const [feedbackList, setFeedbackList] = useState<FeedbackEntry[]>([]);
 
   const [passwordStore, setPasswordStore] = useState<Record<string, string>>({
     "admin@dutawisatabatam.id": "admin123",
@@ -243,6 +382,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setCurrentParticipant(null);
   }, []);
 
+  const addFeedbackEntry = useCallback(
+    (payload: { name: string; email: string; category: FeedbackCategory; message: string }) => {
+      const newItem: FeedbackEntry = {
+        id: `fb-${Date.now()}`,
+        name: payload.name.trim(),
+        email: payload.email.trim().toLowerCase(),
+        category: payload.category,
+        message: payload.message.trim(),
+        createdAt: new Date().toISOString(),
+        status: "baru",
+      };
+      setFeedbackList((prev) => [newItem, ...prev]);
+    },
+    []
+  );
+
   const value = useMemo<AppContextType>(
     () => ({
       user,
@@ -266,6 +421,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       currentParticipant,
       setCurrentParticipant,
+
+      faqList,
+      setFaqList,
+
+      voteCandidateList,
+      setVoteCandidateList,
+
+      voteTopList,
+      setVoteTopList,
+      voteTopPublished,
+      setVoteTopPublished,
+
+      judgeWinnerList,
+      setJudgeWinnerList,
+      judgeWinnersPublished,
+      setJudgeWinnersPublished,
+
+      feedbackList,
+      setFeedbackList,
+      addFeedbackEntry,
     }),
     [
       user,
@@ -280,6 +455,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       newsList,
       scoreList,
       currentParticipant,
+      faqList,
+      voteCandidateList,
+      voteTopList,
+      voteTopPublished,
+      judgeWinnerList,
+      judgeWinnersPublished,
+      feedbackList,
+      addFeedbackEntry,
     ]
   );
 

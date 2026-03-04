@@ -1,9 +1,10 @@
 ﻿"use client";
 
 import React, { useMemo, useState } from "react";
-import { faqItems } from "../../../data/faqData";
+import { useApp } from "../../../context/AppContext";
 
 export default function FAQList({ limit }: { limit?: number }) {
+  const { faqList } = useApp();
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<
     "Semua" | "Pendaftaran" | "Berkas" | "Tahapan" | "Akun" | "Penilaian"
@@ -12,13 +13,13 @@ export default function FAQList({ limit }: { limit?: number }) {
   const categories = ["Semua", "Pendaftaran", "Berkas", "Tahapan", "Akun", "Penilaian"] as const;
 
   const filtered = useMemo(() => {
-    return faqItems.filter((x) => {
+    return faqList.filter((x) => {
       const matchCategory = activeCategory === "Semua" ? true : x.category === activeCategory;
       const matchQuery =
         (x.question + " " + x.answer).toLowerCase().includes(query.toLowerCase());
       return matchCategory && matchQuery;
     });
-  }, [query, activeCategory]);
+  }, [faqList, query, activeCategory]);
 
   const displayed = typeof limit === "number" ? filtered.slice(0, limit) : filtered;
 

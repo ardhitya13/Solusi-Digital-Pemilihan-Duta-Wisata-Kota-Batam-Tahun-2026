@@ -1,6 +1,11 @@
-﻿import Link from "next/link";
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 import { Calendar, ArrowLeft } from "lucide-react";
-import { mockNews, type NewsBlock } from "../../../data/mockData";
+import { useApp } from "../../../context/AppContext";
+import type { NewsBlock } from "../../../data/mockData";
 import NewsArticleClient from "../components/NewsArticleClient";
 
 function formatDateId(dateStr: string) {
@@ -11,17 +16,13 @@ function formatDateId(dateStr: string) {
   });
 }
 
-export default async function NewsDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const news = mockNews.find((n) => n.id === id);
+export default function NewsDetailPage() {
+  const params = useParams<{ id: string }>();
+  const { newsList } = useApp();
+  const id = params?.id ?? "";
+  const news = newsList.find((item) => item.id === id) ?? null;
   const articleBody: NewsBlock[] =
-    news && news.body.length > 0
-      ? news.body
-      : [{ type: "paragraph", text: news?.excerpt ?? "" }];
+    news && news.body.length > 0 ? news.body : [{ type: "paragraph", text: news?.excerpt ?? "" }];
 
   if (!news) {
     return (
@@ -38,13 +39,8 @@ export default async function NewsDetailPage({
 
   return (
     <article className="pb-20">
-      {/* Hero */}
       <div className="relative w-full overflow-hidden" style={{ height: 420 }}>
-        <img
-          src={news.image}
-          alt={news.title}
-          className="w-full h-full object-cover"
-        />
+        <Image src={news.image} alt={news.title} fill unoptimized className="object-cover" />
 
         <div
           className="absolute inset-0"
@@ -79,12 +75,7 @@ export default async function NewsDetailPage({
 
               <div className="flex items-center gap-2 text-xs">
                 <Calendar size={12} style={{ color: "#C8A24D" }} />
-                <span
-                  style={{
-                    color: "#BDBDBD",
-                    fontFamily: "var(--font-poppins)",
-                  }}
-                >
+                <span style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
                   {formatDateId(news.date)}
                 </span>
               </div>
@@ -105,7 +96,6 @@ export default async function NewsDetailPage({
         </div>
       </div>
 
-      {/* Body card (Figma card style) */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
         <div
           className="rounded-2xl p-6 sm:p-10"
@@ -115,7 +105,6 @@ export default async function NewsDetailPage({
             boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
           }}
         >
-          {/* lead/excerpt */}
           <p
             className="mb-7"
             style={{
@@ -128,10 +117,7 @@ export default async function NewsDetailPage({
             {news.excerpt}
           </p>
 
-          <div
-            className="w-full h-px mb-8"
-            style={{ background: "rgba(200,162,77,0.15)" }}
-          />
+          <div className="w-full h-px mb-8" style={{ background: "rgba(200,162,77,0.15)" }} />
 
           <NewsArticleClient body={articleBody} />
         </div>

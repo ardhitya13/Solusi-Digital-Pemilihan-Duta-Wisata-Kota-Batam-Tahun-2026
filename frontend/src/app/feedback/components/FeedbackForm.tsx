@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import { GoldButton } from "../../../components/ui/GoldButton";
+import { useApp, type FeedbackCategory } from "../../../context/AppContext";
 
 type FormState = {
   name: string;
   email: string;
-  category: "Saran" | "Kritik" | "Pertanyaan" | "Lainnya";
+  category: FeedbackCategory;
   message: string;
 };
 
@@ -18,6 +19,7 @@ const initialState: FormState = {
 };
 
 export default function FeedbackForm() {
+  const { addFeedbackEntry } = useApp();
   const [form, setForm] = useState<FormState>(initialState);
   const [submitted, setSubmitted] = useState(false);
 
@@ -31,6 +33,7 @@ export default function FeedbackForm() {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    addFeedbackEntry(form);
     setSubmitted(true);
     setForm(initialState);
   };
