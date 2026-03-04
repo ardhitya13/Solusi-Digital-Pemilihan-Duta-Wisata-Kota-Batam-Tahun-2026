@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 import { GoldButton } from "../ui/GoldButton";
 
 const navLinks = [
@@ -38,18 +39,18 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-[9999] transition-all duration-300"
       style={{
         background: scrolled
-          ? "rgba(10, 10, 10, 0.95)"
-          : "linear-gradient(180deg, rgba(10,10,10,0.8) 0%, transparent 100%)",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(212,175,55,0.2)" : "none",
+          ? "rgba(20, 16, 10, 0.82)"
+          : "linear-gradient(180deg, rgba(20,16,10,0.88) 0%, rgba(20,16,10,0.46) 62%, rgba(20,16,10,0) 100%)",
+        backdropFilter: "blur(12px)",
+        borderBottom: scrolled ? "1px solid rgba(200,162,77,0.22)" : "none",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-3 cursor-pointer select-none"
+            className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none min-w-0"
             onClick={() => setMenuOpen(false)}
           >
             <Image
@@ -57,14 +58,14 @@ export default function Navbar() {
               alt="Duta Wisata Batam"
               width={48}
               height={48}
-              className="w-10 h-10 lg:w-12 lg:h-12 object-contain"
+              className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 object-contain shrink-0"
               priority
             />
-            <div className="block max-w-[140px] sm:max-w-none">
+            <div className="block min-w-0">
               <p
                 className="text-[10px] sm:text-xs leading-tight truncate"
                 style={{
-                  color: "#D4AF37",
+                  color: "#C8A24D",
                   fontFamily: "var(--font-cinzel)",
                   letterSpacing: "0.08em",
                 }}
@@ -72,7 +73,7 @@ export default function Navbar() {
                 DUTA WISATA
               </p>
               <p
-                className="text-[10px] sm:text-xs leading-tight truncate"
+                className="text-[9px] sm:text-xs leading-tight truncate"
                 style={{
                   color: "#F5E6C8",
                   fontFamily: "var(--font-poppins)",
@@ -93,7 +94,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="text-sm transition-colors duration-200 hover:opacity-80"
                 style={{
-                  color: isActive(link.href) ? "#D4AF37" : "#F5E6C8",
+                  color: isActive(link.href) ? "#C8A24D" : "#F5E6C8",
                   fontFamily: "var(--font-poppins)",
                   letterSpacing: "0.05em",
                 }}
@@ -120,12 +121,12 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             className="lg:hidden p-2 rounded-lg"
-            style={{ color: "#D4AF37", background: "rgba(212,175,55,0.1)" }}
+            style={{ color: "#C8A24D", background: "rgba(200,162,77,0.1)" }}
             onClick={() => setMenuOpen((v) => !v)}
             type="button"
             aria-label="Toggle menu"
           >
-            <span className="text-lg">{menuOpen ? "✕" : "☰"}</span>
+            {menuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
 
@@ -134,8 +135,8 @@ export default function Navbar() {
           <div
             className="lg:hidden py-4 border-t"
             style={{
-              borderColor: "rgba(212,175,55,0.2)",
-              background: "rgba(10,10,10,0.98)",
+              borderColor: "rgba(200,162,77,0.2)",
+              background: "rgba(20,16,10,0.96)",
             }}
           >
             <div className="flex flex-col gap-1">
@@ -146,7 +147,7 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   className="text-left px-4 py-3 rounded-lg text-sm transition-colors hover:bg-white/5"
                   style={{
-                    color: isActive(link.href) ? "#D4AF37" : "#F5E6C8",
+                    color: isActive(link.href) ? "#C8A24D" : "#F5E6C8",
                     fontFamily: "var(--font-poppins)",
                   }}
                 >
@@ -173,3 +174,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+

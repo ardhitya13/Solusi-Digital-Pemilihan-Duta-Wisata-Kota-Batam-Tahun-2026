@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useMemo, useState } from "react";
 import { faqItems } from "../../../data/faqData";
@@ -41,11 +41,11 @@ export default function FAQList({ limit }: { limit?: number }) {
               onClick={() => setActiveCategory(c)}
               className="px-3 py-2 rounded-xl text-sm border transition"
               style={{
-                borderColor: "rgba(212,175,55,0.25)",
+                borderColor: "rgba(200,162,77,0.25)",
                 color: activeCategory === c ? "#0F0F0F" : "#F5E6C8",
                 background:
                   activeCategory === c
-                    ? "linear-gradient(135deg, #F5D06F, #D4AF37, #8C6A1C)"
+                    ? "linear-gradient(135deg, #F5D06F, #C8A24D, #8C6A1C)"
                     : "transparent",
                 fontFamily: "var(--font-poppins)",
               }}
@@ -74,7 +74,7 @@ export default function FAQList({ limit }: { limit?: number }) {
               {item.answer}
             </p>
             <p className="mt-3 text-xs text-gray-500">
-              Kategori: <span style={{ color: "#D4AF37" }}>{item.category}</span>
+              Kategori: <span style={{ color: "#C8A24D" }}>{item.category}</span>
             </p>
           </details>
         ))}
@@ -88,3 +88,4 @@ export default function FAQList({ limit }: { limit?: number }) {
     </div>
   );
 }
+

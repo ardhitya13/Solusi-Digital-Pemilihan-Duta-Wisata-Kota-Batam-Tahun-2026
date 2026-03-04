@@ -1,4 +1,4 @@
-import FeedbackForm from "./components/FeedbackForm";
+﻿import FeedbackForm from "./components/FeedbackForm";
 
 export default function FeedbackPage() {
   return (
@@ -9,7 +9,7 @@ export default function FeedbackPage() {
       <div className="max-w-5xl mx-auto">
         <p
           className="text-sm tracking-widest uppercase mb-3"
-          style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+          style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
         >
           Masukan Pengguna
         </p>
@@ -18,7 +18,7 @@ export default function FeedbackPage() {
           className="mb-3"
           style={{
             fontFamily: "var(--font-cinzel)",
-            background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+            background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -42,4 +42,5 @@ export default function FeedbackPage() {
     </section>
   );
 }
+
 

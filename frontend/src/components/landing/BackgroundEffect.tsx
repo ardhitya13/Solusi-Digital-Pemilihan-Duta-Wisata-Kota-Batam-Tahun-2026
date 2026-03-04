@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useRef } from "react";
 
@@ -83,7 +83,7 @@ export default function BackgroundEffect() {
         className="absolute left-1/2 top-[30%] h-[900px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl opacity-35"
         style={{
           background:
-            "radial-gradient(circle, rgba(212,175,55,0.55) 0%, rgba(15,15,15,0) 60%)",
+            "radial-gradient(circle, rgba(200,162,77,0.55) 0%, rgba(15,15,15,0) 60%)",
         }}
       />
 
@@ -91,7 +91,7 @@ export default function BackgroundEffect() {
         className="absolute inset-0 opacity-40"
         style={{
           background:
-            "conic-gradient(from 210deg at 50% 35%, rgba(245,208,111,0.18), rgba(15,15,15,0) 20%, rgba(212,175,55,0.16) 35%, rgba(15,15,15,0) 55%, rgba(182,141,42,0.12) 70%, rgba(15,15,15,0) 100%)",
+            "conic-gradient(from 210deg at 50% 35%, rgba(245,208,111,0.18), rgba(15,15,15,0) 20%, rgba(200,162,77,0.16) 35%, rgba(15,15,15,0) 55%, rgba(182,141,42,0.12) 70%, rgba(15,15,15,0) 100%)",
         }}
       />
 
@@ -128,3 +128,4 @@ export default function BackgroundEffect() {
     </div>
   );
 }
+

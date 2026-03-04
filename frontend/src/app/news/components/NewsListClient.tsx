@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -17,13 +17,13 @@ export default function NewsListClient() {
   };
 
   return (
-    <section className="py-20 lg:py-32" style={{ background: "#0F0F0F" }}>
+    <section className="py-20 lg:py-32 warm-champagne-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header (Figma style) */}
         <div className="text-center mb-14">
           <p
             className="text-sm tracking-widest uppercase mb-3"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
           >
             Berita Terkini
           </p>
@@ -31,7 +31,7 @@ export default function NewsListClient() {
           <h2
             style={{
               fontFamily: "var(--font-cinzel)",
-              background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+              background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -46,7 +46,7 @@ export default function NewsListClient() {
             className="w-24 h-0.5 mx-auto mt-4"
             style={{
               background:
-                "linear-gradient(90deg, transparent, #D4AF37, transparent)",
+                "linear-gradient(90deg, transparent, #C8A24D, transparent)",
             }}
           />
         </div>
@@ -60,20 +60,20 @@ export default function NewsListClient() {
               className="rounded-2xl overflow-hidden group cursor-pointer transition-transform duration-300 hover:-translate-y-1 block"
               style={{
                 background: "#1A1A1A",
-                border: "1px solid rgba(212,175,55,0.25)",
+                border: "1px solid rgba(200,162,77,0.25)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLAnchorElement).style.boxShadow =
-                  "0 8px 30px rgba(212,175,55,0.2)";
+                  "0 8px 30px rgba(200,162,77,0.2)";
                 (e.currentTarget as HTMLAnchorElement).style.borderColor =
-                  "rgba(212,175,55,0.5)";
+                  "rgba(200,162,77,0.5)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLAnchorElement).style.boxShadow =
                   "0 4px 20px rgba(0,0,0,0.3)";
                 (e.currentTarget as HTMLAnchorElement).style.borderColor =
-                  "rgba(212,175,55,0.25)";
+                  "rgba(200,162,77,0.25)";
               }}
             >
               {/* Image (pakai img biar ga error host) */}
@@ -93,7 +93,7 @@ export default function NewsListClient() {
                 <span
                   className="absolute top-3 left-3 text-xs px-2 py-1 rounded-full"
                   style={{
-                    background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                    background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                     color: "#0F0F0F",
                     fontFamily: "var(--font-poppins)",
                     fontWeight: 600,
@@ -106,7 +106,7 @@ export default function NewsListClient() {
               {/* Content */}
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-3">
-                  <Calendar size={12} style={{ color: "#D4AF37" }} />
+                  <Calendar size={12} style={{ color: "#C8A24D" }} />
                   <span
                     className="text-xs"
                     style={{
@@ -142,7 +142,7 @@ export default function NewsListClient() {
                 <div
                   className="flex items-center gap-2 text-xs font-medium transition-all duration-200 group-hover:gap-3"
                   style={{
-                    color: "#D4AF37",
+                    color: "#C8A24D",
                     fontFamily: "var(--font-poppins)",
                   }}
                 >
@@ -157,4 +157,5 @@ export default function NewsListClient() {
     </section>
   );
 }
+
 

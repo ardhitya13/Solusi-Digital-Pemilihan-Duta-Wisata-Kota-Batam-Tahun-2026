@@ -12,7 +12,7 @@ export default function ParticipantGuidePanel() {
     <div className="space-y-6 mb-6">
       {/* Intro section untuk ringkasan alur pendaftaran */}
       <GoldCard glow>
-        <h2 className="text-sm sm:text-base font-bold mb-3" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+        <h2 className="text-sm sm:text-base font-bold mb-3" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
           PENDAFTARAN PEMILIHAN DUTA WISATA ENCIK & PUAN KOTA BATAM 2026
         </h2>
         <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
@@ -24,7 +24,7 @@ export default function ParticipantGuidePanel() {
       {/* Section unduhan seluruh dokumen resmi peserta */}
       <GoldCard>
         <div className="flex items-center gap-2 mb-4">
-          <Download size={16} style={{ color: "#D4AF37" }} />
+          <Download size={16} style={{ color: "#C8A24D" }} />
           <h3 className="text-sm font-bold" style={{ color: "#F5E6C8", fontFamily: "var(--font-cinzel)" }}>
             Unduh Dokumen Resmi
           </h3>
@@ -38,8 +38,8 @@ export default function ParticipantGuidePanel() {
               rel="noreferrer"
               className="rounded-xl p-3 transition-all"
               style={{
-                background: "rgba(212,175,55,0.07)",
-                border: "1px solid rgba(212,175,55,0.22)",
+                background: "rgba(200,162,77,0.07)",
+                border: "1px solid rgba(200,162,77,0.22)",
               }}
             >
               <p className="text-xs sm:text-sm font-semibold mb-1" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
@@ -52,10 +52,10 @@ export default function ParticipantGuidePanel() {
           ))}
         </div>
         <div className="mt-4 space-y-1">
-          <Link href={officialLinks.guide} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs mr-4" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+          <Link href={officialLinks.guide} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs mr-4" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}>
             <BookOpen size={12} /> Link panduan online <ExternalLink size={12} />
           </Link>
-          <Link href={officialLinks.forms} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+          <Link href={officialLinks.forms} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}>
             <FileText size={12} /> Link berkas online <ExternalLink size={12} />
           </Link>
         </div>
@@ -90,7 +90,7 @@ export default function ParticipantGuidePanel() {
             width={640}
             height={360}
             className="w-full h-auto rounded-xl border"
-            style={{ borderColor: "rgba(212,175,55,0.3)" }}
+            style={{ borderColor: "rgba(200,162,77,0.3)" }}
           />
         </GoldCard>
 
@@ -106,7 +106,7 @@ export default function ParticipantGuidePanel() {
               width={400}
               height={400}
               className="w-full h-auto rounded-xl border"
-              style={{ borderColor: "rgba(212,175,55,0.3)" }}
+              style={{ borderColor: "rgba(200,162,77,0.3)" }}
             />
             <NextImage
               src="/participant-resources/qr-grup-wa-dutawisata-2026.jpg"
@@ -114,7 +114,7 @@ export default function ParticipantGuidePanel() {
               width={400}
               height={640}
               className="w-full h-auto rounded-xl border"
-              style={{ borderColor: "rgba(212,175,55,0.3)" }}
+              style={{ borderColor: "rgba(200,162,77,0.3)" }}
             />
           </div>
           <p className="text-xs mb-2" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
@@ -122,7 +122,7 @@ export default function ParticipantGuidePanel() {
           </p>
           <div className="flex flex-wrap gap-2 mb-3">
             {hashtags.map((tag) => (
-              <span key={tag} className="text-xs px-2 py-1 rounded-full" style={{ background: "rgba(212,175,55,0.12)", color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+              <span key={tag} className="text-xs px-2 py-1 rounded-full" style={{ background: "rgba(200,162,77,0.12)", color: "#C8A24D", fontFamily: "var(--font-poppins)" }}>
                 <Hash size={10} className="inline mr-1" />
                 {tag}
               </span>
@@ -140,10 +140,11 @@ export default function ParticipantGuidePanel() {
           Kontak Admin
         </h3>
         <div className="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
-          <p className="inline-flex items-center gap-2"><Phone size={13} style={{ color: "#D4AF37" }} /> 085869123178 (Encik Luthfi)</p>
-          <p className="inline-flex items-center gap-2"><Phone size={13} style={{ color: "#D4AF37" }} /> 081992012712 (Puan Adys)</p>
+          <p className="inline-flex items-center gap-2"><Phone size={13} style={{ color: "#C8A24D" }} /> 085869123178 (Encik Luthfi)</p>
+          <p className="inline-flex items-center gap-2"><Phone size={13} style={{ color: "#C8A24D" }} /> 081992012712 (Puan Adys)</p>
         </div>
       </GoldCard>
     </div>
   );
 }
+

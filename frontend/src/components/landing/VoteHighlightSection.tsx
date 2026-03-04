@@ -14,16 +14,35 @@ function modulo(index: number, length: number) {
 export default function VoteHighlightSection() {
   const { participantList, scoreList } = useApp();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [thumbPage, setThumbPage] = useState(0);
+  const [thumbsPerPage, setThumbsPerPage] = useState(10);
 
   const finalists = useMemo(() => {
+    const getDisplayOrder = (photoPath: string, fallbackNumber: string) => {
+      const photoMatch = photoPath.match(/\/(\d+)\.(jpg|jpeg|png|webp)$/i);
+      if (photoMatch) return Number.parseInt(photoMatch[1], 10);
+
+      const numberMatch = fallbackNumber.match(/(\d+)$/);
+      if (numberMatch) return Number.parseInt(numberMatch[1], 10);
+
+      return Number.MAX_SAFE_INTEGER;
+    };
+
     return participantList
       .filter((p) => p.status === "GrandFinal" || p.status === "Winner")
-      .sort((a, b) => (b.likes ?? 0) - (a.likes ?? 0));
+      .sort(
+        (a, b) =>
+          getDisplayOrder(a.photo, a.number) - getDisplayOrder(b.photo, b.number)
+      );
   }, [participantList]);
 
-  const ranking = finalists.slice(0, 8);
+  const ranking = finalists;
   const hasData = ranking.length > 0;
   const safeActive = modulo(activeIndex, ranking.length);
+  const totalThumbPages = Math.max(1, Math.ceil(ranking.length / thumbsPerPage));
+  const safeThumbPage = modulo(thumbPage, totalThumbPages);
+  const thumbStart = safeThumbPage * thumbsPerPage;
+  const visibleThumbs = ranking.slice(thumbStart, thumbStart + thumbsPerPage);
 
   const center = ranking[safeActive];
   const left = ranking[modulo(safeActive - 1, ranking.length)];
@@ -67,6 +86,8 @@ export default function VoteHighlightSection() {
 
   const goPrev = () => setActiveIndex((prev) => prev - 1);
   const goNext = () => setActiveIndex((prev) => prev + 1);
+  const goPrevThumbPage = () => setThumbPage((prev) => prev - 1);
+  const goNextThumbPage = () => setThumbPage((prev) => prev + 1);
 
   useEffect(() => {
     if (ranking.length <= 1) return;
@@ -78,9 +99,28 @@ export default function VoteHighlightSection() {
     return () => window.clearInterval(timer);
   }, [ranking.length]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      if (w < 640) setThumbsPerPage(5);
+      else if (w < 1024) setThumbsPerPage(8);
+      else setThumbsPerPage(10);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (ranking.length === 0) return;
+    const targetPage = Math.floor(safeActive / thumbsPerPage);
+    setThumbPage(targetPage);
+  }, [safeActive, ranking.length, thumbsPerPage]);
+
   const cardBaseStyle: React.CSSProperties = {
     background: "#1A1A1A",
-    border: "1px solid rgba(212,175,55,0.28)",
+    border: "1px solid rgba(200,162,77,0.28)",
     boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
   };
 
@@ -90,14 +130,14 @@ export default function VoteHighlightSection() {
         <div className="text-center mb-10">
           <p
             className="text-sm tracking-widest uppercase mb-3"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
           >
             Duta Wisata Batam 2026
           </p>
           <h2
             style={{
               fontFamily: "var(--font-cinzel)",
-              background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+              background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -111,7 +151,7 @@ export default function VoteHighlightSection() {
 
         {!hasData ? (
           <div className="text-center py-14 rounded-2xl" style={cardBaseStyle}>
-            <Crown size={42} style={{ color: "#D4AF37", margin: "0 auto 12px", opacity: 0.7 }} />
+            <Crown size={42} style={{ color: "#C8A24D", margin: "0 auto 12px", opacity: 0.7 }} />
             <p style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
               Data finalis belum tersedia.
             </p>
@@ -147,7 +187,7 @@ export default function VoteHighlightSection() {
                       </p>
                       <p
                         className="text-xs mt-1"
-                        style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+                        style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
                       >
                         {item.number} • {item.gender}
                       </p>
@@ -158,7 +198,7 @@ export default function VoteHighlightSection() {
                           rel="noreferrer"
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs"
                           style={{
-                            background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                            background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                             color: "#0F0F0F",
                             fontFamily: "var(--font-poppins)",
                             fontWeight: 600,
@@ -179,7 +219,7 @@ export default function VoteHighlightSection() {
                 type="button"
                 onClick={goPrev}
                 className="w-9 h-9 rounded-full flex items-center justify-center"
-                style={{ background: "rgba(212,175,55,0.12)", color: "#D4AF37" }}
+                style={{ background: "rgba(200,162,77,0.12)", color: "#C8A24D" }}
                 aria-label="Sebelumnya"
               >
                 <ChevronLeft size={18} />
@@ -193,30 +233,74 @@ export default function VoteHighlightSection() {
                 type="button"
                 onClick={goNext}
                 className="w-9 h-9 rounded-full flex items-center justify-center"
-                style={{ background: "rgba(212,175,55,0.12)", color: "#D4AF37" }}
+                style={{ background: "rgba(200,162,77,0.12)", color: "#C8A24D" }}
                 aria-label="Berikutnya"
               >
                 <ChevronRight size={18} />
               </button>
             </div>
 
-            <div className="grid grid-cols-4 sm:grid-cols-8 gap-3 mb-10">
-              {ranking.map((item, idx) => (
+            <div className="mb-10">
+              <div className="flex items-center gap-3">
                 <button
-                  key={item.id}
                   type="button"
-                  onClick={() => setActiveIndex(idx)}
-                  className="relative overflow-hidden rounded-lg border transition-all duration-200"
-                  style={{
-                    borderColor:
-                      idx === safeActive ? "rgba(212,175,55,0.8)" : "rgba(212,175,55,0.25)",
-                    opacity: idx === safeActive ? 1 : 0.55,
-                  }}
-                  aria-label={`Pilih ${item.name}`}
+                  onClick={goPrevThumbPage}
+                  className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: "rgba(200,162,77,0.12)", color: "#C8A24D" }}
+                  aria-label="Slide foto sebelumnya"
                 >
-                  <img src={item.photo} alt={item.name} className="w-full h-28 object-cover object-top" />
+                  <ChevronLeft size={18} />
                 </button>
-              ))}
+
+                <div
+                  className="grid gap-3 flex-1"
+                  style={{
+                    gridTemplateColumns: `repeat(${thumbsPerPage}, minmax(0, 1fr))`,
+                  }}
+                >
+                  {visibleThumbs.map((item, indexOnPage) => {
+                    const realIndex = thumbStart + indexOnPage;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setActiveIndex(realIndex)}
+                        className="relative overflow-hidden rounded-lg border transition-all duration-200"
+                        style={{
+                          borderColor:
+                            realIndex === safeActive
+                              ? "rgba(200,162,77,0.8)"
+                              : "rgba(200,162,77,0.25)",
+                          opacity: realIndex === safeActive ? 1 : 0.55,
+                        }}
+                        aria-label={`Pilih ${item.name}`}
+                      >
+                        <img
+                          src={item.photo}
+                          alt={item.name}
+                          className="w-full h-28 object-cover object-top"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={goNextThumbPage}
+                  className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: "rgba(200,162,77,0.12)", color: "#C8A24D" }}
+                  aria-label="Slide foto berikutnya"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+              <p
+                className="text-xs mt-3 text-center"
+                style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
+              >
+                Slide {safeThumbPage + 1} dari {totalThumbPages}
+              </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-4">
@@ -235,14 +319,14 @@ export default function VoteHighlightSection() {
                         key={winner.id}
                         className="rounded-xl px-4 py-3 flex items-center gap-3"
                         style={{
-                          background: "rgba(212,175,55,0.08)",
-                          border: "1px solid rgba(212,175,55,0.25)",
+                          background: "rgba(200,162,77,0.08)",
+                          border: "1px solid rgba(200,162,77,0.25)",
                         }}
                       >
                         <div
                           className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                           style={{
-                            background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                            background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                             color: "#0F0F0F",
                             fontFamily: "var(--font-cinzel)",
                           }}
@@ -253,7 +337,7 @@ export default function VoteHighlightSection() {
                           src={winner.photo}
                           alt={winner.name}
                           className="w-11 h-11 rounded-lg object-cover object-top border"
-                          style={{ borderColor: "rgba(212,175,55,0.35)" }}
+                          style={{ borderColor: "rgba(200,162,77,0.35)" }}
                         />
                         <div className="min-w-0">
                           <p
@@ -264,7 +348,7 @@ export default function VoteHighlightSection() {
                           </p>
                           <p
                             className="text-xs"
-                            style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+                            style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
                           >
                             {winner.number} • Peringkat pilihan juri
                           </p>
@@ -297,14 +381,14 @@ export default function VoteHighlightSection() {
                       key={`vote-${winner.id}`}
                       className="rounded-xl px-4 py-3 flex items-center gap-3"
                       style={{
-                        background: "rgba(212,175,55,0.08)",
-                        border: "1px solid rgba(212,175,55,0.25)",
+                        background: "rgba(200,162,77,0.08)",
+                        border: "1px solid rgba(200,162,77,0.25)",
                       }}
                     >
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                         style={{
-                          background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                          background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                           color: "#0F0F0F",
                           fontFamily: "var(--font-cinzel)",
                         }}
@@ -315,7 +399,7 @@ export default function VoteHighlightSection() {
                         src={winner.photo}
                         alt={winner.name}
                         className="w-11 h-11 rounded-lg object-cover object-top border"
-                        style={{ borderColor: "rgba(212,175,55,0.35)" }}
+                        style={{ borderColor: "rgba(200,162,77,0.35)" }}
                       />
                       <div className="min-w-0">
                         <p
@@ -326,7 +410,7 @@ export default function VoteHighlightSection() {
                         </p>
                         <p
                           className="text-xs"
-                          style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+                          style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
                         >
                           {winner.number} • {(winner.likes ?? 0).toLocaleString("id-ID")} vote
                         </p>
@@ -348,7 +432,7 @@ export default function VoteHighlightSection() {
                   <Link
                     href="/vote"
                     className="text-sm"
-                    style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+                    style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
                   >
                     Lihat semua finalis di halaman Vote
                   </Link>
@@ -361,4 +445,5 @@ export default function VoteHighlightSection() {
     </section>
   );
 }
+
 

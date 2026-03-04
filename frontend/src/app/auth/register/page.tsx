@@ -17,7 +17,7 @@ type Step = "form" | "otp" | "success";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { login } = useApp();
+  const { login, setPasswordForEmail } = useApp();
 
   const [step, setStep] = useState<Step>("form");
   const [loading, setLoading] = useState(false);
@@ -34,6 +34,13 @@ export default function RegisterPage() {
     kategori: "encik",
   });
 
+  const hasMinLength = form.password.length >= 8;
+  const hasLetter = /[A-Za-z]/.test(form.password);
+  const hasNumber = /\d/.test(form.password);
+  const passwordScore = [hasMinLength, hasLetter, hasNumber].filter(Boolean).length;
+  const passwordStrengthLabel =
+    passwordScore <= 1 ? "Lemah" : passwordScore === 2 ? "Sedang" : "Kuat";
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -42,8 +49,12 @@ export default function RegisterPage() {
       setError("Password tidak cocok!");
       return;
     }
-    if (form.password.length < 6) {
-      setError("Password minimal 6 karakter!");
+    if (form.password.length < 8) {
+      setError("Password minimal 8 karakter!");
+      return;
+    }
+    if (!hasLetter || !hasNumber) {
+      setError("Password harus mengandung huruf dan angka.");
       return;
     }
 
@@ -63,6 +74,7 @@ export default function RegisterPage() {
 
     if (otp.length === 6) {
       setStep("success");
+      setPasswordForEmail(form.email, form.password);
       setTimeout(() => {
         login(form.email, form.password, "participant");
         router.push("/pages/participant/dashboard");
@@ -87,7 +99,7 @@ export default function RegisterPage() {
             width: "600px",
             height: "600px",
             background:
-              "radial-gradient(ellipse, rgba(212,175,55,0.06) 0%, transparent 70%)",
+              "radial-gradient(ellipse, rgba(200,162,77,0.06) 0%, transparent 70%)",
           }}
         />
       </div>
@@ -97,7 +109,7 @@ export default function RegisterPage() {
           onClick={() => router.push("/")}
           className="flex items-center gap-2 mb-8 text-sm transition-opacity hover:opacity-80"
           style={{
-            color: "#D4AF37",
+            color: "#C8A24D",
             fontFamily: "var(--font-poppins)",
             background: "none",
             border: "none",
@@ -113,8 +125,8 @@ export default function RegisterPage() {
           className="rounded-2xl p-8"
           style={{
             background: "#1A1A1A",
-            border: "1px solid rgba(212,175,55,0.3)",
-            boxShadow: "0 0 40px rgba(212,175,55,0.08)",
+            border: "1px solid rgba(200,162,77,0.3)",
+            boxShadow: "0 0 40px rgba(200,162,77,0.08)",
           }}
         >
           <div className="text-center mb-8">
@@ -124,12 +136,12 @@ export default function RegisterPage() {
               width={64}
               height={64}
               className="w-16 h-16 object-contain mx-auto mb-3"
-              style={{ filter: "drop-shadow(0 0 10px rgba(212,175,55,0.4))" }}
+              style={{ filter: "drop-shadow(0 0 10px rgba(200,162,77,0.4))" }}
             />
             <h1
               style={{
                 fontFamily: "var(--font-cinzel)",
-                color: "#D4AF37",
+                color: "#C8A24D",
                 fontSize: "1.2rem",
                 fontWeight: 700,
               }}
@@ -149,9 +161,9 @@ export default function RegisterPage() {
                   style={{
                     background:
                       step === s
-                        ? "linear-gradient(135deg, #F5D06F, #D4AF37)"
+                        ? "linear-gradient(135deg, #F5D06F, #C8A24D)"
                         : ["form", "otp", "success"].indexOf(step) > i
-                        ? "rgba(212,175,55,0.3)"
+                        ? "rgba(200,162,77,0.3)"
                         : "rgba(255,255,255,0.05)",
                     color: step === s ? "#0F0F0F" : "#BDBDBD",
                     fontFamily: "var(--font-cinzel)",
@@ -160,7 +172,7 @@ export default function RegisterPage() {
                   {i + 1}
                 </div>
                 {i < 2 ? (
-                  <div className="w-8 h-0.5" style={{ background: "rgba(212,175,55,0.2)" }} />
+                  <div className="w-8 h-0.5" style={{ background: "rgba(200,162,77,0.2)" }} />
                 ) : null}
               </React.Fragment>
             ))}
@@ -169,7 +181,7 @@ export default function RegisterPage() {
           {step === "form" ? (
             <form onSubmit={handleFormSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                <label className="block text-xs mb-1.5" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
                   Nama Lengkap *
                 </label>
                 <input
@@ -179,12 +191,12 @@ export default function RegisterPage() {
                   placeholder="Nama sesuai KTP"
                   required
                   className="w-full rounded-xl px-4 py-3 text-sm outline-none"
-                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                  style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
                 />
               </div>
 
               <div>
-                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                <label className="block text-xs mb-1.5" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
                   Email *
                 </label>
                 <input
@@ -194,12 +206,12 @@ export default function RegisterPage() {
                   placeholder="email@example.com"
                   required
                   className="w-full rounded-xl px-4 py-3 text-sm outline-none"
-                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                  style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
                 />
               </div>
 
               <div>
-                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                <label className="block text-xs mb-1.5" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
                   No. HP / WhatsApp *
                 </label>
                 <input
@@ -209,19 +221,19 @@ export default function RegisterPage() {
                   placeholder="08xxxxxxxxxx"
                   required
                   className="w-full rounded-xl px-4 py-3 text-sm outline-none"
-                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                  style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
                 />
               </div>
 
               <div>
-                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                <label className="block text-xs mb-1.5" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
                   Kategori *
                 </label>
                 <select
                   value={form.kategori}
                   onChange={(e) => setForm({ ...form, kategori: e.target.value })}
                   className="w-full rounded-xl px-4 py-3 text-sm outline-none"
-                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                  style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
                 >
                   <option value="encik">Encik (Putra)</option>
                   <option value="puan">Puan (Putri)</option>
@@ -229,7 +241,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                <label className="block text-xs mb-1.5" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
                   Password *
                 </label>
                 <div className="relative">
@@ -237,10 +249,10 @@ export default function RegisterPage() {
                     type={showPass ? "text" : "password"}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    placeholder="Minimal 6 karakter"
+                    placeholder="Minimal 8 karakter (huruf + angka)"
                     required
                     className="w-full rounded-xl px-4 py-3 pr-12 text-sm outline-none"
-                    style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                    style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
                   />
                   <button
                     type="button"
@@ -251,10 +263,30 @@ export default function RegisterPage() {
                     {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
+                <div className="mt-2">
+                  <div className="h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.08)" }}>
+                    <div
+                      className="h-full rounded-full transition-all duration-300"
+                      style={{
+                        width: `${(passwordScore / 3) * 100}%`,
+                        background:
+                          passwordScore <= 1
+                            ? "linear-gradient(90deg,#ef4444,#f97316)"
+                            : passwordScore === 2
+                            ? "linear-gradient(90deg,#f59e0b,#facc15)"
+                            : "linear-gradient(90deg,#22c55e,#16a34a)",
+                      }}
+                    />
+                  </div>
+                  <p className="text-[11px] mt-1" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+                    Kekuatan password: <strong style={{ color: "#C8A24D" }}>{passwordStrengthLabel}</strong>
+                    {" · "}Gunakan minimal 8 karakter, huruf, dan angka.
+                  </p>
+                </div>
               </div>
 
               <div>
-                <label className="block text-xs mb-1.5" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                <label className="block text-xs mb-1.5" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
                   Konfirmasi Password *
                 </label>
                 <input
@@ -264,7 +296,7 @@ export default function RegisterPage() {
                   placeholder="Ulangi password"
                   required
                   className="w-full rounded-xl px-4 py-3 text-sm outline-none"
-                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
+                  style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)", color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}
                 />
               </div>
 
@@ -284,7 +316,7 @@ export default function RegisterPage() {
                   Sudah punya akun?{" "}
                   <button
                     onClick={() => router.push("/auth/login")}
-                    style={{ color: "#D4AF37", background: "none", border: "none", cursor: "pointer", fontWeight: 600 }}
+                    style={{ color: "#C8A24D", background: "none", border: "none", cursor: "pointer", fontWeight: 600 }}
                     type="button"
                   >
                     Login
@@ -299,9 +331,9 @@ export default function RegisterPage() {
               <div className="text-center">
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{ background: "rgba(212,175,55,0.15)", border: "1px solid rgba(212,175,55,0.3)" }}
+                  style={{ background: "rgba(200,162,77,0.15)", border: "1px solid rgba(200,162,77,0.3)" }}
                 >
-                  <span style={{ color: "#D4AF37", fontSize: "1.5rem" }}>✉</span>
+                  <span style={{ color: "#C8A24D", fontSize: "1.5rem" }}>✉</span>
                 </div>
                 <p className="text-sm mb-1" style={{ color: "#F5E6C8", fontFamily: "var(--font-cinzel)", fontWeight: 600 }}>
                   Verifikasi Email
@@ -309,12 +341,12 @@ export default function RegisterPage() {
                 <p className="text-xs" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
                   Kode OTP telah dikirim ke
                   <br />
-                  <strong style={{ color: "#D4AF37" }}>{form.email}</strong>
+                  <strong style={{ color: "#C8A24D" }}>{form.email}</strong>
                 </p>
               </div>
 
               <div>
-                <label className="block text-xs mb-1.5 text-center" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                <label className="block text-xs mb-1.5 text-center" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
                   Masukkan Kode OTP (6 digit)
                 </label>
                 <input
@@ -324,7 +356,7 @@ export default function RegisterPage() {
                   placeholder="_ _ _ _ _ _"
                   maxLength={6}
                   className="w-full rounded-xl px-4 py-3 text-center text-2xl tracking-widest outline-none"
-                  style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)", color: "#F5D06F", fontFamily: "var(--font-cinzel)" }}
+                  style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)", color: "#F5D06F", fontFamily: "var(--font-cinzel)" }}
                 />
                 <p className="text-xs text-center mt-2" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)", opacity: 0.6 }}>
                   Demo: masukkan 6 digit angka apapun
@@ -362,7 +394,7 @@ export default function RegisterPage() {
               >
                 <CheckCircle size={32} style={{ color: "#22c55e" }} />
               </div>
-              <h3 className="mb-2" style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.1rem", fontWeight: 700 }}>
+              <h3 className="mb-2" style={{ fontFamily: "var(--font-cinzel)", color: "#C8A24D", fontSize: "1.1rem", fontWeight: 700 }}>
                 Pendaftaran Berhasil!
               </h3>
               <p className="text-sm mb-4" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
@@ -379,3 +411,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

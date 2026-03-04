@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -20,8 +20,8 @@ export default function Footer() {
     <footer
       className="py-12"
       style={{
-        background: "#0A0A0A",
-        borderTop: "1px solid rgba(212,175,55,0.2)",
+        background: "linear-gradient(180deg, #1A140A 0%, #120E08 100%)",
+        borderTop: "1px solid rgba(200,162,77,0.24)",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,7 +38,7 @@ export default function Footer() {
               <div>
                 <p
                   style={{
-                    color: "#D4AF37",
+                    color: "#C8A24D",
                     fontFamily: "var(--font-cinzel)",
                     fontWeight: 700,
                     fontSize: "0.9rem",
@@ -60,7 +60,7 @@ export default function Footer() {
             </div>
             <p
               className="text-xs leading-relaxed"
-              style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
+              style={{ color: "#CBB998", fontFamily: "var(--font-poppins)" }}
             >
               Platform digital resmi Pemilihan Encik dan Puan Duta Wisata Kota Batam
               2026 yang diselenggarakan oleh Dinas Kebudayaan dan Pariwisata Kota
@@ -72,7 +72,7 @@ export default function Footer() {
             <h4
               className="mb-4 text-sm"
               style={{
-                color: "#D4AF37",
+                color: "#C8A24D",
                 fontFamily: "var(--font-cinzel)",
                 fontWeight: 600,
               }}
@@ -83,11 +83,11 @@ export default function Footer() {
               <div className="flex items-start gap-2">
                 <MapPin
                   size={14}
-                  style={{ color: "#D4AF37", marginTop: 2, flexShrink: 0 }}
+                  style={{ color: "#C8A24D", marginTop: 2, flexShrink: 0 }}
                 />
                 <p
                   className="text-xs"
-                  style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
+                  style={{ color: "#CBB998", fontFamily: "var(--font-poppins)" }}
                 >
                   Dinas Kebudayaan dan Pariwisata Kota Batam
                   <br />
@@ -95,33 +95,33 @@ export default function Footer() {
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <Phone size={14} style={{ color: "#D4AF37" }} />
+                <Phone size={14} style={{ color: "#C8A24D" }} />
                 <a
                   href="tel:+62778469000"
-                  className="text-xs transition-colors hover:text-[#D4AF37]"
-                  style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
+                  className="text-xs transition-colors hover:text-[#C8A24D]"
+                  style={{ color: "#CBB998", fontFamily: "var(--font-poppins)" }}
                 >
                   (0778) 469000
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Mail size={14} style={{ color: "#D4AF37" }} />
+                <Mail size={14} style={{ color: "#C8A24D" }} />
                 <a
                   href="mailto:dutawisata@batam.go.id"
-                  className="text-xs transition-colors hover:text-[#D4AF37]"
-                  style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
+                  className="text-xs transition-colors hover:text-[#C8A24D]"
+                  style={{ color: "#CBB998", fontFamily: "var(--font-poppins)" }}
                 >
                   dutawisata@batam.go.id
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Instagram size={14} style={{ color: "#D4AF37" }} />
+                <Instagram size={14} style={{ color: "#C8A24D" }} />
                 <a
                   href="https://instagram.com/dutawisatabatam"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs transition-colors hover:text-[#D4AF37]"
-                  style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
+                  className="text-xs transition-colors hover:text-[#C8A24D]"
+                  style={{ color: "#CBB998", fontFamily: "var(--font-poppins)" }}
                 >
                   @dutawisatabatam
                 </a>
@@ -133,7 +133,7 @@ export default function Footer() {
             <h4
               className="mb-4 text-sm"
               style={{
-                color: "#D4AF37",
+                color: "#C8A24D",
                 fontFamily: "var(--font-cinzel)",
                 fontWeight: 600,
               }}
@@ -145,9 +145,9 @@ export default function Footer() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-left text-xs py-1 transition-colors hover:text-[#D4AF37]"
+                  className="text-left text-xs py-1 transition-colors hover:text-[#C8A24D]"
                   style={{
-                    color: "#BDBDBD",
+                    color: "#CBB998",
                     fontFamily: "var(--font-poppins)",
                   }}
                 >
@@ -162,7 +162,7 @@ export default function Footer() {
           className="h-px mb-6"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent)",
+              "linear-gradient(90deg, transparent, rgba(200,162,77,0.3), transparent)",
           }}
         />
 
@@ -170,17 +170,17 @@ export default function Footer() {
           <p
             className="text-xs"
             style={{
-              color: "#BDBDBD",
+              color: "#CBB998",
               fontFamily: "var(--font-poppins)",
               opacity: 0.6,
             }}
           >
-            © 2026 Duta Wisata Kota Batam. Hak Cipta Dilindungi.
+            ©2026 Duta Wisata Kota Batam. Hak Cipta Dilindungi.
           </p>
           <p
             className="text-xs"
             style={{
-              color: "#D4AF37",
+              color: "#C8A24D",
               fontFamily: "var(--font-cinzel)",
               opacity: 0.6,
             }}

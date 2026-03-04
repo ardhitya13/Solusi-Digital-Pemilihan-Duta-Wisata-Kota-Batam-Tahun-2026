@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Calendar, ArrowLeft } from "lucide-react";
 import { mockNews, type NewsBlock } from "../../../data/mockData";
 import NewsArticleClient from "../components/NewsArticleClient";
@@ -29,7 +29,7 @@ export default async function NewsDetailPage({
         <p className="mb-6" style={{ fontFamily: "var(--font-poppins)" }}>
           Berita tidak ditemukan.
         </p>
-        <Link href="/news" className="underline" style={{ color: "#D4AF37" }}>
+        <Link href="/news" className="underline" style={{ color: "#C8A24D" }}>
           Kembali ke News
         </Link>
       </div>
@@ -59,7 +59,7 @@ export default async function NewsDetailPage({
             <Link
               href="/news"
               className="inline-flex items-center gap-2 text-sm mb-6"
-              style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+              style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
             >
               <ArrowLeft size={16} /> Kembali
             </Link>
@@ -68,7 +68,7 @@ export default async function NewsDetailPage({
               <span
                 className="text-xs px-2 py-1 rounded-full"
                 style={{
-                  background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                  background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                   color: "#0F0F0F",
                   fontFamily: "var(--font-poppins)",
                   fontWeight: 600,
@@ -78,7 +78,7 @@ export default async function NewsDetailPage({
               </span>
 
               <div className="flex items-center gap-2 text-xs">
-                <Calendar size={12} style={{ color: "#D4AF37" }} />
+                <Calendar size={12} style={{ color: "#C8A24D" }} />
                 <span
                   style={{
                     color: "#BDBDBD",
@@ -111,7 +111,7 @@ export default async function NewsDetailPage({
           className="rounded-2xl p-6 sm:p-10"
           style={{
             background: "#1A1A1A",
-            border: "1px solid rgba(212,175,55,0.25)",
+            border: "1px solid rgba(200,162,77,0.25)",
             boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
           }}
         >
@@ -130,7 +130,7 @@ export default async function NewsDetailPage({
 
           <div
             className="w-full h-px mb-8"
-            style={{ background: "rgba(212,175,55,0.15)" }}
+            style={{ background: "rgba(200,162,77,0.15)" }}
           />
 
           <NewsArticleClient body={articleBody} />

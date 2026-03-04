@@ -39,7 +39,7 @@ type EducationCategory = FormState["educationCategory"];
 
 const inputStyle: React.CSSProperties = {
   background: "#111",
-  border: "1px solid rgba(212,175,55,0.25)",
+  border: "1px solid rgba(200,162,77,0.25)",
   color: "#F5E6C8",
   fontFamily: "var(--font-poppins)",
 };
@@ -343,7 +343,7 @@ export default function BiodataPage() {
     <div>
       <label
         className="block text-xs mb-1.5"
-        style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+        style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
       >
         {label} {required ? <span style={{ color: "#ef4444" }}>*</span> : null}
       </label>
@@ -354,8 +354,8 @@ export default function BiodataPage() {
         placeholder={placeholder}
         className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
         style={inputStyle}
-        onFocus={(e) => (e.target.style.borderColor = "rgba(212,175,55,0.6)")}
-        onBlur={(e) => (e.target.style.borderColor = "rgba(212,175,55,0.25)")}
+        onFocus={(e) => (e.target.style.borderColor = "rgba(200,162,77,0.6)")}
+        onBlur={(e) => (e.target.style.borderColor = "rgba(200,162,77,0.25)")}
       />
       {hint ? (
         <p className="text-xs mt-1" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
@@ -384,7 +384,7 @@ export default function BiodataPage() {
     <div>
       <label
         className="block text-xs mb-1.5"
-        style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+        style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
       >
         {label} {required ? <span style={{ color: "#ef4444" }}>*</span> : null}
       </label>
@@ -395,8 +395,8 @@ export default function BiodataPage() {
         rows={rows}
         className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all resize-none"
         style={inputStyle}
-        onFocus={(e) => (e.target.style.borderColor = "rgba(212,175,55,0.6)")}
-        onBlur={(e) => (e.target.style.borderColor = "rgba(212,175,55,0.25)")}
+        onFocus={(e) => (e.target.style.borderColor = "rgba(200,162,77,0.6)")}
+        onBlur={(e) => (e.target.style.borderColor = "rgba(200,162,77,0.25)")}
       />
       {hint ? (
         <p className="text-xs mt-1" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
@@ -419,7 +419,7 @@ export default function BiodataPage() {
     <div>
       <label
         className="block text-xs mb-1.5"
-        style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+        style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
       >
         {label} {required ? <span style={{ color: "#ef4444" }}>*</span> : null}
       </label>
@@ -471,12 +471,12 @@ export default function BiodataPage() {
   };
 
   return (
-    <div className="max-w-4xl">
+    <div className="w-full">
       {/* Header halaman biodata + progress */}
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
         <div>
           <h1
-            style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.5rem", fontWeight: 700 }}
+            style={{ fontFamily: "var(--font-cinzel)", color: "#C8A24D", fontSize: "1.5rem", fontWeight: 700 }}
           >
             Data Diri dan Biodata
           </h1>
@@ -490,19 +490,19 @@ export default function BiodataPage() {
             <p className="text-xs" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
               Kelengkapan
             </p>
-            <p className="text-lg font-bold" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+            <p className="text-lg font-bold" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
               {completionProgress}%
             </p>
           </div>
           <div className="relative w-12 h-12">
             <svg viewBox="0 0 36 36" className="w-12 h-12 -rotate-90">
-              <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(212,175,55,0.15)" strokeWidth="3" />
+              <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(200,162,77,0.15)" strokeWidth="3" />
               <circle
                 cx="18"
                 cy="18"
                 r="15.5"
                 fill="none"
-                stroke="#D4AF37"
+                stroke="#C8A24D"
                 strokeWidth="3"
                 strokeDasharray={`${completionProgress * 0.974} 100`}
                 strokeLinecap="round"
@@ -519,9 +519,9 @@ export default function BiodataPage() {
           <h2
             className="text-sm font-bold mb-5 pb-3"
             style={{
-              color: "#D4AF37",
+              color: "#C8A24D",
               fontFamily: "var(--font-cinzel)",
-              borderBottom: "1px solid rgba(212,175,55,0.15)",
+              borderBottom: "1px solid rgba(200,162,77,0.15)",
             }}
           >
             DATA PRIBADI
@@ -530,13 +530,13 @@ export default function BiodataPage() {
             <div className="sm:col-span-2">
               <label
                 className="block text-xs mb-1.5"
-                style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+                style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
               >
                 Foto Profil Peserta
               </label>
               <div
                 className="rounded-xl p-3 flex items-center gap-3"
-                style={{ background: "#111", border: "1px solid rgba(212,175,55,0.25)" }}
+                style={{ background: "#111", border: "1px solid rgba(200,162,77,0.25)" }}
               >
                 <NextImage
                   src={form.profilePhoto || "/logo.png"}
@@ -545,7 +545,7 @@ export default function BiodataPage() {
                   height={64}
                   unoptimized
                   className="w-16 h-16 rounded-xl object-cover"
-                  style={{ border: "1px solid rgba(212,175,55,0.35)" }}
+                  style={{ border: "1px solid rgba(200,162,77,0.35)" }}
                 />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
@@ -558,9 +558,9 @@ export default function BiodataPage() {
                 <label
                   className="px-3 py-2 rounded-lg text-xs cursor-pointer inline-flex items-center gap-2"
                   style={{
-                    background: "rgba(212,175,55,0.12)",
-                    border: "1px solid rgba(212,175,55,0.28)",
-                    color: "#D4AF37",
+                    background: "rgba(200,162,77,0.12)",
+                    border: "1px solid rgba(200,162,77,0.28)",
+                    color: "#C8A24D",
                     fontFamily: "var(--font-poppins)",
                   }}
                 >
@@ -579,7 +579,7 @@ export default function BiodataPage() {
             <div>
               <label
                 className="block text-xs mb-1.5"
-                style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+                style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
               >
                 Kategori <span style={{ color: "#ef4444" }}>*</span>
               </label>
@@ -611,7 +611,7 @@ export default function BiodataPage() {
             <div className="sm:col-span-2">
               <label
                 className="block text-xs mb-1.5"
-                style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
+                style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}
               >
                 Pendidikan Terakhir <span style={{ color: "#ef4444" }}>*</span>
               </label>
@@ -656,19 +656,19 @@ export default function BiodataPage() {
                     }}
                     onFocus={(e) => {
                       setShowInstitutionDropdown(true);
-                      e.target.style.borderColor = "rgba(212,175,55,0.6)";
+                      e.target.style.borderColor = "rgba(200,162,77,0.6)";
                     }}
                     placeholder="Contoh: Politeknik Negeri Batam"
                     className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
                     style={inputStyle}
-                    onBlur={(e) => (e.target.style.borderColor = "rgba(212,175,55,0.25)")}
+                    onBlur={(e) => (e.target.style.borderColor = "rgba(200,162,77,0.25)")}
                   />
                   {showInstitutionDropdown ? (
                     <div
                       className="absolute left-0 right-0 mt-1 rounded-xl overflow-hidden z-30"
                       style={{
                         background: "#141414",
-                        border: "1px solid rgba(212,175,55,0.25)",
+                        border: "1px solid rgba(200,162,77,0.25)",
                         maxHeight: 220,
                         overflowY: "auto",
                       }}
@@ -732,19 +732,19 @@ export default function BiodataPage() {
                     }}
                     onFocus={(e) => {
                       setShowMajorDropdown(true);
-                      e.target.style.borderColor = "rgba(212,175,55,0.6)";
+                      e.target.style.borderColor = "rgba(200,162,77,0.6)";
                     }}
                     placeholder="Contoh: Teknik Informatika"
                     className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
                     style={inputStyle}
-                    onBlur={(e) => (e.target.style.borderColor = "rgba(212,175,55,0.25)")}
+                    onBlur={(e) => (e.target.style.borderColor = "rgba(200,162,77,0.25)")}
                   />
                   {showMajorDropdown ? (
                     <div
                       className="absolute left-0 right-0 mt-1 rounded-xl overflow-hidden z-30"
                       style={{
                         background: "#141414",
-                        border: "1px solid rgba(212,175,55,0.25)",
+                        border: "1px solid rgba(200,162,77,0.25)",
                         maxHeight: 220,
                         overflowY: "auto",
                       }}
@@ -785,9 +785,9 @@ export default function BiodataPage() {
           <h2
             className="text-sm font-bold mb-5 pb-3"
             style={{
-              color: "#D4AF37",
+              color: "#C8A24D",
               fontFamily: "var(--font-cinzel)",
-              borderBottom: "1px solid rgba(212,175,55,0.15)",
+              borderBottom: "1px solid rgba(200,162,77,0.15)",
             }}
           >
             MEDIA SOSIAL
@@ -806,9 +806,9 @@ export default function BiodataPage() {
           <h2
             className="text-sm font-bold mb-5 pb-3"
             style={{
-              color: "#D4AF37",
+              color: "#C8A24D",
               fontFamily: "var(--font-cinzel)",
-              borderBottom: "1px solid rgba(212,175,55,0.15)",
+              borderBottom: "1px solid rgba(200,162,77,0.15)",
             }}
           >
             VISI, MISI, DAN PENGALAMAN
@@ -842,9 +842,9 @@ export default function BiodataPage() {
           <h2
             className="text-sm font-bold mb-5 pb-3"
             style={{
-              color: "#D4AF37",
+              color: "#C8A24D",
               fontFamily: "var(--font-cinzel)",
-              borderBottom: "1px solid rgba(212,175,55,0.15)",
+              borderBottom: "1px solid rgba(200,162,77,0.15)",
             }}
           >
             PERTANYAAN TAMBAHAN
@@ -908,9 +908,9 @@ export default function BiodataPage() {
           <h2
             className="text-sm font-bold mb-5 pb-3"
             style={{
-              color: "#D4AF37",
+              color: "#C8A24D",
               fontFamily: "var(--font-cinzel)",
-              borderBottom: "1px solid rgba(212,175,55,0.15)",
+              borderBottom: "1px solid rgba(200,162,77,0.15)",
             }}
           >
             INFORMASI TAMBAHAN (OPSIONAL)
@@ -983,3 +983,4 @@ export default function BiodataPage() {
     </div>
   );
 }
+

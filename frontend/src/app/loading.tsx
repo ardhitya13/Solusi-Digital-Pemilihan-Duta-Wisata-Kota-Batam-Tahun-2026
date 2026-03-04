@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 
 export default function Loading() {
   return (
@@ -13,12 +13,13 @@ export default function Loading() {
           width={96}
           height={96}
           style={{
-            filter: "drop-shadow(0 0 14px rgba(212,175,55,0.45))",
+            filter: "drop-shadow(0 0 14px rgba(200,162,77,0.45))",
           }}
           priority
         />
-        <div className="loader" style={{ color: "#D4AF37" }} />
+        <div className="loader" style={{ color: "#C8A24D" }} />
       </div>
     </div>
   );
 }
+

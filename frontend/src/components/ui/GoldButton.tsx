@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useMemo, useState } from "react";
 
@@ -47,7 +47,7 @@ export function GoldButton({
     const transform = hovered ? "translateY(-2px)" : "translateY(0)";
 
     return {
-      background: "linear-gradient(135deg, #F5D06F, #D4AF37, #8C6A1C)",
+      background: "linear-gradient(135deg, #F5D06F, #C8A24D, #8C6A1C)",
       color: "#0F0F0F",
       boxShadow,
       transform,
@@ -60,8 +60,8 @@ export function GoldButton({
   const outlineStyle = useMemo<React.CSSProperties>(() => {
     return {
       background: hovered ? "rgba(212, 175, 55, 0.1)" : "transparent",
-      color: "#D4AF37",
-      border: "1.5px solid #D4AF37",
+      color: "#C8A24D",
+      border: "1.5px solid #C8A24D",
       boxShadow: hovered ? "0 4px 20px rgba(212, 175, 55, 0.2)" : "none",
       fontFamily: "var(--font-cinzel)",
       letterSpacing: "0.05em",
@@ -70,7 +70,7 @@ export function GoldButton({
 
   // ghost (simple)
   const ghostStyle: React.CSSProperties = {
-    color: "#D4AF37",
+    color: "#C8A24D",
     fontFamily: "var(--font-poppins)",
   };
 

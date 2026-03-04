@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { GoldButton } from "../../../components/ui/GoldButton";
@@ -41,7 +41,7 @@ export default function FeedbackForm() {
       className="rounded-2xl p-6 sm:p-8"
       style={{
         background: "#1A1A1A",
-        border: "1px solid rgba(212,175,55,0.25)",
+        border: "1px solid rgba(200,162,77,0.25)",
         boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
       }}
     >
@@ -49,7 +49,7 @@ export default function FeedbackForm() {
         <div>
           <label
             className="text-xs block mb-2"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
           >
             Nama
           </label>
@@ -60,7 +60,7 @@ export default function FeedbackForm() {
             className="w-full rounded-xl px-4 py-3 outline-none"
             style={{
               background: "#111111",
-              border: "1px solid rgba(212,175,55,0.2)",
+              border: "1px solid rgba(200,162,77,0.2)",
               color: "#F5E6C8",
               fontFamily: "var(--font-poppins)",
             }}
@@ -70,7 +70,7 @@ export default function FeedbackForm() {
         <div>
           <label
             className="text-xs block mb-2"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
           >
             Email
           </label>
@@ -82,7 +82,7 @@ export default function FeedbackForm() {
             className="w-full rounded-xl px-4 py-3 outline-none"
             style={{
               background: "#111111",
-              border: "1px solid rgba(212,175,55,0.2)",
+              border: "1px solid rgba(200,162,77,0.2)",
               color: "#F5E6C8",
               fontFamily: "var(--font-poppins)",
             }}
@@ -93,7 +93,7 @@ export default function FeedbackForm() {
       <div className="mt-4">
         <label
           className="text-xs block mb-2"
-          style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+          style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
         >
           Kategori
         </label>
@@ -103,7 +103,7 @@ export default function FeedbackForm() {
           className="w-full rounded-xl px-4 py-3 outline-none"
           style={{
             background: "#111111",
-            border: "1px solid rgba(212,175,55,0.2)",
+            border: "1px solid rgba(200,162,77,0.2)",
             color: "#F5E6C8",
             fontFamily: "var(--font-poppins)",
           }}
@@ -118,7 +118,7 @@ export default function FeedbackForm() {
       <div className="mt-4">
         <label
           className="text-xs block mb-2"
-          style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+          style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
         >
           Pesan
         </label>
@@ -130,7 +130,7 @@ export default function FeedbackForm() {
           className="w-full rounded-xl px-4 py-3 outline-none resize-y"
           style={{
             background: "#111111",
-            border: "1px solid rgba(212,175,55,0.2)",
+            border: "1px solid rgba(200,162,77,0.2)",
             color: "#F5E6C8",
             fontFamily: "var(--font-poppins)",
           }}
@@ -140,7 +140,7 @@ export default function FeedbackForm() {
       <div className="mt-6 flex items-center justify-between gap-4">
         <p
           className="text-xs"
-          style={{ color: submitted ? "#D4AF37" : "#8F8F8F", fontFamily: "var(--font-poppins)" }}
+          style={{ color: submitted ? "#C8A24D" : "#8F8F8F", fontFamily: "var(--font-poppins)" }}
         >
           {submitted ? "Terima kasih, feedback Anda sudah diterima." : "Feedback akan ditinjau oleh panitia."}
         </p>
@@ -152,3 +152,4 @@ export default function FeedbackForm() {
     </form>
   );
 }
+

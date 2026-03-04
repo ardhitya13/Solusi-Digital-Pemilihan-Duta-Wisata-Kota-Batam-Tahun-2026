@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import FAQList from "./components/FAQList";
 
 export default function FAQPage() {
@@ -10,7 +10,7 @@ export default function FAQPage() {
       <div className="max-w-5xl mx-auto">
         <p
           className="text-sm tracking-widest uppercase mb-3"
-          style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+          style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
         >
           Bantuan
         </p>
@@ -19,7 +19,7 @@ export default function FAQPage() {
           className="mb-6"
           style={{
             fontFamily: "var(--font-cinzel)",
-            background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+            background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
@@ -34,4 +34,5 @@ export default function FAQPage() {
     </div>
   );
 }
+
 

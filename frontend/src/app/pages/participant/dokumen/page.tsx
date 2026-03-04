@@ -9,6 +9,7 @@ import ParticipantGuidePanel from "../components/ParticipantGuidePanel";
 import {
   optionalDocuments,
   requiredDocuments,
+  type DocumentItem,
   type UploadFileInfo,
 } from "../components/documentUploadConfig";
 
@@ -21,6 +22,8 @@ export default function ParticipantDocumentsPage() {
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, UploadFileInfo | null>>({});
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const [noticeMessage, setNoticeMessage] = useState("");
+  const [noticeType, setNoticeType] = useState<"success" | "error">("success");
+  const allDocuments: DocumentItem[] = [...requiredDocuments, ...optionalDocuments];
 
   // Menentukan dokumen sudah lengkap berdasarkan data profil peserta.
   const inferredDoneFromProfile = (key: string) => {
@@ -42,6 +45,15 @@ export default function ParticipantDocumentsPage() {
   const handleFileChange = async (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+    const documentMeta = allDocuments.find((item) => item.key === key);
+    const maxSizeMb = Number(documentMeta?.maxSize.replace(/[^\d.]/g, "") || "0");
+    const maxSizeBytes = maxSizeMb * 1024 * 1024;
+
+    if (maxSizeBytes > 0 && file.size > maxSizeBytes) {
+      setNoticeType("error");
+      setNoticeMessage(`Ukuran file terlalu besar. Maksimal ${documentMeta?.maxSize}.`);
+      return;
+    }
 
     setUploadingKey(key);
     await new Promise((resolve) => setTimeout(resolve, 900));
@@ -59,6 +71,7 @@ export default function ParticipantDocumentsPage() {
       ...prev,
       [key]: { name: file.name, size: formattedSize, preview: previewUrl },
     }));
+    setNoticeType("success");
     setNoticeMessage(`Berkas ${file.name} berhasil diupload.`);
   };
 
@@ -75,12 +88,12 @@ export default function ParticipantDocumentsPage() {
   }, [noticeMessage]);
 
   return (
-    <div className="max-w-5xl">
+    <div className="w-full">
       <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
         {/* Header halaman upload dokumen */}
         <div>
           <h1
-            style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.5rem", fontWeight: 700 }}
+            style={{ fontFamily: "var(--font-cinzel)", color: "#C8A24D", fontSize: "1.5rem", fontWeight: 700 }}
           >
             Upload Berkas Persyaratan
           </h1>
@@ -94,7 +107,7 @@ export default function ParticipantDocumentsPage() {
           </p>
           <p
             className="text-2xl font-bold"
-            style={{ color: completedRequired === totalRequired ? "#22c55e" : "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+            style={{ color: completedRequired === totalRequired ? "#22c55e" : "#C8A24D", fontFamily: "var(--font-cinzel)" }}
           >
             {completedRequired}/{totalRequired}
           </p>
@@ -107,7 +120,7 @@ export default function ParticipantDocumentsPage() {
       {/* Card progress upload dokumen wajib */}
       <GoldCard className="mb-6">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-semibold" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+          <span className="text-sm font-semibold" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
             Progress Upload Berkas Wajib
           </span>
           <span className="text-sm" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
@@ -122,7 +135,7 @@ export default function ParticipantDocumentsPage() {
               background:
                 completedRequired === totalRequired
                   ? "linear-gradient(90deg, #22c55e, #16a34a)"
-                  : "linear-gradient(90deg, #F5D06F, #D4AF37)",
+                  : "linear-gradient(90deg, #F5D06F, #C8A24D)",
             }}
           />
         </div>
@@ -159,7 +172,7 @@ export default function ParticipantDocumentsPage() {
       {/* Daftar dokumen opsional */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <FileText size={16} style={{ color: "#D4AF37" }} />
+          <FileText size={16} style={{ color: "#C8A24D" }} />
           <h2 className="text-sm font-bold" style={{ color: "#F5E6C8", fontFamily: "var(--font-cinzel)" }}>
             BERKAS OPSIONAL
           </h2>
@@ -184,11 +197,20 @@ export default function ParticipantDocumentsPage() {
           className="fixed bottom-5 right-5 z-50 rounded-xl px-4 py-3 shadow-lg"
           style={{
             background: "rgba(17,17,17,0.95)",
-            border: "1px solid rgba(34,197,94,0.55)",
+            border:
+              noticeType === "success"
+                ? "1px solid rgba(34,197,94,0.55)"
+                : "1px solid rgba(239,68,68,0.55)",
             backdropFilter: "blur(8px)",
           }}
         >
-          <p className="text-sm" style={{ color: "#22c55e", fontFamily: "var(--font-poppins)" }}>
+          <p
+            className="text-sm"
+            style={{
+              color: noticeType === "success" ? "#22c55e" : "#ef4444",
+              fontFamily: "var(--font-poppins)",
+            }}
+          >
             {noticeMessage}
           </p>
         </div>
@@ -196,3 +218,4 @@ export default function ParticipantDocumentsPage() {
     </div>
   );
 }
+

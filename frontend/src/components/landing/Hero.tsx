@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
@@ -49,7 +49,7 @@ export default function Hero() {
       particles.forEach((p) => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(212, 175, 55, ${p.opacity})`;
+        ctx.fillStyle = `rgba(200, 162, 77, ${p.opacity})`;
         ctx.fill();
 
         p.x += p.speedX;
@@ -79,7 +79,10 @@ export default function Hero() {
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: "#0F0F0F" }}
+      style={{
+        background:
+          "linear-gradient(180deg, #1A140A 0%, #2B1F0F 52%, #6E4E1F 100%)",
+      }}
     >
       {/* Animated particles canvas */}
       <canvas
@@ -99,14 +102,14 @@ export default function Hero() {
             width: "120%",
             height: "140%",
             background:
-              "conic-gradient(from 180deg at 50% 0%, transparent 30%, rgba(212,175,55,0.04) 40%, rgba(245,208,111,0.08) 50%, rgba(212,175,55,0.04) 60%, transparent 70%)",
+              "conic-gradient(from 180deg at 50% 0%, transparent 30%, rgba(200,162,77,0.04) 40%, rgba(245,208,111,0.08) 50%, rgba(200,162,77,0.04) 60%, transparent 70%)",
           }}
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 50% 40%, rgba(212,175,55,0.08) 0%, transparent 70%)",
+              "radial-gradient(ellipse 60% 50% at 50% 40%, rgba(232,197,122,0.16) 0%, transparent 70%)",
           }}
         />
         <div
@@ -114,7 +117,15 @@ export default function Hero() {
           style={{
             height: "300px",
             background:
-              "linear-gradient(0deg, rgba(140,106,28,0.12) 0%, transparent 100%)",
+              "linear-gradient(0deg, rgba(110,78,31,0.34) 0%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0"
+          style={{
+            height: "240px",
+            background:
+              "linear-gradient(180deg, rgba(38,32,24,0) 0%, rgba(38,32,24,0.86) 55%, rgba(33,28,22,0.96) 100%)",
           }}
         />
       </div>
@@ -123,7 +134,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C8A24D' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           opacity: 0.8,
         }}
       />
@@ -142,11 +153,11 @@ export default function Hero() {
               style={{
                 fontSize: s.size,
                 opacity: s.opacity,
-                background: "linear-gradient(135deg, #F5D06F, #D4AF37, #8C6A1C)",
+                background: "linear-gradient(135deg, #F5D06F, #C8A24D, #8C6A1C)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                filter: "drop-shadow(0 0 10px rgba(212,175,55,0.55))",
+                filter: "drop-shadow(0 0 10px rgba(200,162,77,0.55))",
               }}
             >
               ★
@@ -159,7 +170,7 @@ export default function Hero() {
           <div
             className="relative"
             style={{
-              filter: "drop-shadow(0 0 30px rgba(212,175,55,0.5))",
+              filter: "drop-shadow(0 0 30px rgba(200,162,77,0.5))",
             }}
           >
             <Image
@@ -176,7 +187,7 @@ export default function Hero() {
         {/* Subtitle */}
         <p
           className="text-sm sm:text-base mb-3 tracking-widest uppercase"
-          style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+          style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
         >
           Dinas Kebudayaan & Pariwisata Kota Batam
         </p>
@@ -186,7 +197,7 @@ export default function Hero() {
           className="mb-2 leading-tight"
           style={{
             fontFamily: "var(--font-cinzel)",
-            background: "linear-gradient(135deg, #F5D06F, #D4AF37, #F5D06F)",
+            background: "linear-gradient(135deg, #F5D06F, #C8A24D, #F5D06F)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -202,7 +213,7 @@ export default function Hero() {
           className="mb-1 leading-tight"
           style={{
             fontFamily: "var(--font-cinzel)",
-            background: "linear-gradient(135deg, #F5E6C8, #D4AF37)",
+            background: "linear-gradient(135deg, #F5E6C8, #C8A24D)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -250,7 +261,7 @@ export default function Hero() {
           onClick={scrollToAbout}
           className="mt-16 mx-auto flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
           style={{
-            color: "#D4AF37",
+            color: "#C8A24D",
             background: "none",
             border: "none",
             cursor: "pointer",
@@ -269,3 +280,4 @@ export default function Hero() {
     </section>
   );
 }
+

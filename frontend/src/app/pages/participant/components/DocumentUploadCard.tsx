@@ -30,7 +30,7 @@ export default function DocumentUploadCard({
       style={{
         background: "#1A1A1A",
         border: `1px solid ${
-          done ? "rgba(34,197,94,0.35)" : item.required ? "rgba(239,68,68,0.25)" : "rgba(212,175,55,0.2)"
+          done ? "rgba(34,197,94,0.35)" : item.required ? "rgba(239,68,68,0.25)" : "rgba(200,162,77,0.2)"
         }`,
       }}
     >
@@ -38,8 +38,8 @@ export default function DocumentUploadCard({
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
           style={{
-            background: done ? "rgba(34,197,94,0.15)" : item.required ? "rgba(239,68,68,0.1)" : "rgba(212,175,55,0.1)",
-            color: done ? "#22c55e" : item.required ? "#ef4444" : "#D4AF37",
+            background: done ? "rgba(34,197,94,0.15)" : item.required ? "rgba(239,68,68,0.1)" : "rgba(200,162,77,0.1)",
+            color: done ? "#22c55e" : item.required ? "#ef4444" : "#C8A24D",
           }}
         >
           {done ? <CheckCircle size={20} /> : item.required ? <AlertCircle size={20} /> : icon}
@@ -54,8 +54,8 @@ export default function DocumentUploadCard({
             <span
               className="text-xs px-2 py-0.5 rounded-full"
               style={{
-                background: item.required ? "rgba(239,68,68,0.1)" : "rgba(212,175,55,0.1)",
-                color: item.required ? "#ef4444" : "#D4AF37",
+                background: item.required ? "rgba(239,68,68,0.1)" : "rgba(200,162,77,0.1)",
+                color: item.required ? "#ef4444" : "#C8A24D",
                 fontFamily: "var(--font-poppins)",
               }}
             >
@@ -76,7 +76,7 @@ export default function DocumentUploadCard({
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1 mt-2 text-xs underline"
-              style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}
+              style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}
             >
               <FileText size={12} /> {item.templateLabel ?? "Unduh template"}
             </Link>
@@ -132,9 +132,9 @@ export default function DocumentUploadCard({
               style={{
                 background: done
                   ? "rgba(34,197,94,0.1)"
-                  : "linear-gradient(135deg, rgba(245,208,111,0.15), rgba(212,175,55,0.15))",
-                border: done ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(212,175,55,0.3)",
-                color: done ? "#22c55e" : "#D4AF37",
+                  : "linear-gradient(135deg, rgba(245,208,111,0.15), rgba(200,162,77,0.15))",
+                border: done ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(200,162,77,0.3)",
+                color: done ? "#22c55e" : "#C8A24D",
                 fontFamily: "var(--font-poppins)",
                 cursor: uploading ? "not-allowed" : "pointer",
               }}
@@ -162,3 +162,4 @@ export default function DocumentUploadCard({
     </div>
   );
 }
+

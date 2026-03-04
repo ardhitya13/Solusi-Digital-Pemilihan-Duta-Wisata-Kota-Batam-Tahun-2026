@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -109,7 +109,7 @@ export default function LoginPage() {
             width: "600px",
             height: "600px",
             background:
-              "radial-gradient(ellipse, rgba(212,175,55,0.06) 0%, transparent 70%)",
+              "radial-gradient(ellipse, rgba(200,162,77,0.06) 0%, transparent 70%)",
           }}
         />
       </div>
@@ -119,7 +119,7 @@ export default function LoginPage() {
           onClick={() => router.push("/")}
           className="flex items-center gap-2 mb-8 text-sm transition-opacity hover:opacity-80"
           style={{
-            color: "#D4AF37",
+            color: "#C8A24D",
             fontFamily: "var(--font-poppins)",
             background: "none",
             border: "none",
@@ -135,8 +135,8 @@ export default function LoginPage() {
           className="rounded-2xl p-8"
           style={{
             background: "#1A1A1A",
-            border: "1px solid rgba(212,175,55,0.3)",
-            boxShadow: "0 0 40px rgba(212,175,55,0.08)",
+            border: "1px solid rgba(200,162,77,0.3)",
+            boxShadow: "0 0 40px rgba(200,162,77,0.08)",
           }}
         >
           <div className="text-center mb-8">
@@ -146,12 +146,12 @@ export default function LoginPage() {
               width={64}
               height={64}
               className="w-16 h-16 object-contain mx-auto mb-3"
-              style={{ filter: "drop-shadow(0 0 10px rgba(212,175,55,0.4))" }}
+              style={{ filter: "drop-shadow(0 0 10px rgba(200,162,77,0.4))" }}
             />
             <h1
               style={{
                 fontFamily: "var(--font-cinzel)",
-                color: "#D4AF37",
+                color: "#C8A24D",
                 fontSize: "1.2rem",
                 fontWeight: 700,
               }}
@@ -177,22 +177,22 @@ export default function LoginPage() {
                   style={{
                     background:
                       role === r.id
-                        ? "rgba(212,175,55,0.15)"
+                        ? "rgba(200,162,77,0.15)"
                         : "rgba(255,255,255,0.03)",
                     border:
                       role === r.id
-                        ? "1px solid rgba(212,175,55,0.6)"
+                        ? "1px solid rgba(200,162,77,0.6)"
                         : "1px solid rgba(255,255,255,0.08)",
                     cursor: "pointer",
                   }}
                   title={r.desc}
                   type="button"
                 >
-                  <Icon size={18} style={{ color: role === r.id ? "#D4AF37" : "#BDBDBD" }} />
+                  <Icon size={18} style={{ color: role === r.id ? "#C8A24D" : "#BDBDBD" }} />
                   <span
                     className="text-xs font-semibold"
                     style={{
-                      color: role === r.id ? "#D4AF37" : "#BDBDBD",
+                      color: role === r.id ? "#C8A24D" : "#BDBDBD",
                       fontFamily: "var(--font-cinzel)",
                     }}
                   >
@@ -208,7 +208,7 @@ export default function LoginPage() {
               <label
                 className="block text-xs mb-1.5"
                 style={{
-                  color: "#D4AF37",
+                  color: "#C8A24D",
                   fontFamily: "var(--font-poppins)",
                   fontWeight: 600,
                 }}
@@ -224,7 +224,7 @@ export default function LoginPage() {
                 className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
                 style={{
                   background: "#111",
-                  border: "1px solid rgba(212,175,55,0.25)",
+                  border: "1px solid rgba(200,162,77,0.25)",
                   color: "#F5E6C8",
                   fontFamily: "var(--font-poppins)",
                 }}
@@ -235,7 +235,7 @@ export default function LoginPage() {
               <label
                 className="block text-xs mb-1.5"
                 style={{
-                  color: "#D4AF37",
+                  color: "#C8A24D",
                   fontFamily: "var(--font-poppins)",
                   fontWeight: 600,
                 }}
@@ -252,7 +252,7 @@ export default function LoginPage() {
                   className="w-full rounded-xl px-4 py-3 pr-12 text-sm outline-none transition-all"
                   style={{
                     background: "#111",
-                    border: "1px solid rgba(212,175,55,0.25)",
+                    border: "1px solid rgba(200,162,77,0.25)",
                     color: "#F5E6C8",
                     fontFamily: "var(--font-poppins)",
                   }}
@@ -269,6 +269,23 @@ export default function LoginPage() {
                   }}
                 >
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+              <div className="mt-2 text-right">
+                <button
+                  type="button"
+                  onClick={() => router.push("/auth/forgot-password")}
+                  className="text-xs"
+                  style={{
+                    color: "#C8A24D",
+                    fontFamily: "var(--font-poppins)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontWeight: 600,
+                  }}
+                >
+                  Lupa password?
                 </button>
               </div>
             </div>
@@ -292,7 +309,7 @@ export default function LoginPage() {
                 <button
                   onClick={() => router.push("/auth/register")}
                   style={{
-                    color: "#D4AF37",
+                    color: "#C8A24D",
                     background: "none",
                     border: "none",
                     cursor: "pointer",
@@ -306,7 +323,7 @@ export default function LoginPage() {
             </div>
           ) : null}
 
-          <div className="mt-6 pt-5" style={{ borderTop: "1px solid rgba(212,175,55,0.15)" }}>
+          <div className="mt-6 pt-5" style={{ borderTop: "1px solid rgba(200,162,77,0.15)" }}>
             <p
               className="text-xs text-center mb-3"
               style={{
@@ -328,9 +345,9 @@ export default function LoginPage() {
                   }}
                   className="text-xs px-3 py-1.5 rounded-lg transition-all"
                   style={{
-                    background: "rgba(212,175,55,0.1)",
-                    border: "1px solid rgba(212,175,55,0.2)",
-                    color: "#D4AF37",
+                    background: "rgba(200,162,77,0.1)",
+                    border: "1px solid rgba(200,162,77,0.2)",
+                    color: "#C8A24D",
                     fontFamily: "var(--font-poppins)",
                     cursor: "pointer",
                   }}
@@ -346,3 +363,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

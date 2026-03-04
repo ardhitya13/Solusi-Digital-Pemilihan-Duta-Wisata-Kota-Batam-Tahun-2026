@@ -52,7 +52,7 @@ export default function NewsArticleClient({ body }: { body: NewsBlock[] }) {
               className="my-8 p-5 rounded-2xl"
               style={{
                 background: "#141414",
-                border: "1px solid rgba(212,175,55,0.25)",
+                border: "1px solid rgba(200,162,77,0.25)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
               }}
             >
@@ -70,7 +70,7 @@ export default function NewsArticleClient({ body }: { body: NewsBlock[] }) {
                 <p
                   className="mt-3 text-sm"
                   style={{
-                    color: "#D4AF37",
+                    color: "#C8A24D",
                     fontFamily: "var(--font-poppins)",
                   }}
                 >
@@ -107,7 +107,7 @@ export default function NewsArticleClient({ body }: { body: NewsBlock[] }) {
               <div
                 className="relative w-full overflow-hidden rounded-2xl"
                 style={{
-                  border: "1px solid rgba(212,175,55,0.20)",
+                  border: "1px solid rgba(200,162,77,0.20)",
                   background: "#0F0F0F",
                 }}
               >

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -45,11 +45,12 @@ export default function GlobalPreloader() {
           width={96}
           height={96}
           priority
-          style={{ filter: "drop-shadow(0 0 14px rgba(212,175,55,0.45))" }}
+          style={{ filter: "drop-shadow(0 0 14px rgba(200,162,77,0.45))" }}
         />
-        <div className="loader" style={{ color: "#D4AF37" }} />
+        <div className="loader" style={{ color: "#C8A24D" }} />
       </div>
     </div>
   );
 }
+
 

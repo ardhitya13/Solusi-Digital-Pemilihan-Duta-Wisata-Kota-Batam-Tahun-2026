@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Instagram, Star, Crown } from "lucide-react";
@@ -17,7 +17,7 @@ export default function VoteSection() {
         <div className="text-center mb-6">
           <p
             className="text-sm tracking-widest uppercase mb-3"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
           >
             Grand Final
           </p>
@@ -25,7 +25,7 @@ export default function VoteSection() {
           <h1
             style={{
               fontFamily: "var(--font-cinzel)",
-              background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+              background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -40,7 +40,7 @@ export default function VoteSection() {
             className="w-24 h-0.5 mx-auto mt-4 mb-6"
             style={{
               background:
-                "linear-gradient(90deg, transparent, #D4AF37, transparent)",
+                "linear-gradient(90deg, transparent, #C8A24D, transparent)",
             }}
           />
 
@@ -57,21 +57,21 @@ export default function VoteSection() {
         <div
           className="max-w-2xl mx-auto mb-12 rounded-xl p-4 flex items-start gap-3"
           style={{
-            background: "rgba(212,175,55,0.08)",
-            border: "1px solid rgba(212,175,55,0.2)",
+            background: "rgba(200,162,77,0.08)",
+            border: "1px solid rgba(200,162,77,0.2)",
           }}
         >
           <Star
             size={16}
-            fill="#D4AF37"
-            style={{ color: "#D4AF37", marginTop: 2, flexShrink: 0 }}
+            fill="#C8A24D"
+            style={{ color: "#C8A24D", marginTop: 2, flexShrink: 0 }}
           />
           <p
             className="text-xs leading-relaxed"
             style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
           >
             Voting dilakukan melalui Instagram. Klik tombol{" "}
-            <strong style={{ color: "#D4AF37" }}>
+            <strong style={{ color: "#C8A24D" }}>
               &quot;Vote via Instagram&quot;
             </strong>{" "}
             untuk membuka profil finalis dan berikan dukungan Anda.
@@ -82,7 +82,7 @@ export default function VoteSection() {
           <div className="text-center py-16">
             <Crown
               size={48}
-              style={{ color: "#D4AF37", margin: "0 auto 16px", opacity: 0.5 }}
+              style={{ color: "#C8A24D", margin: "0 auto 16px", opacity: 0.5 }}
             />
             <p style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
               Finalis Grand Final belum diumumkan.
@@ -107,7 +107,7 @@ export default function VoteSection() {
                   className="rounded-2xl overflow-hidden group transition-all duration-300 hover:-translate-y-1"
                   style={{
                     background: "#1A1A1A",
-                    border: "1px solid rgba(212,175,55,0.3)",
+                    border: "1px solid rgba(200,162,77,0.3)",
                     boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
                   }}
                 >
@@ -130,7 +130,7 @@ export default function VoteSection() {
                     <div
                       className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                       style={{
-                        background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                        background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                         color: "#0F0F0F",
                         fontFamily: "var(--font-cinzel)",
                       }}
@@ -164,7 +164,7 @@ export default function VoteSection() {
                       <p
                         className="text-xs mt-1"
                         style={{
-                          color: "#D4AF37",
+                          color: "#C8A24D",
                           fontFamily: "var(--font-poppins)",
                         }}
                       >
@@ -186,7 +186,7 @@ export default function VoteSection() {
                     <p
                       className="text-xs mb-4 truncate"
                       style={{
-                        color: "#D4AF37",
+                        color: "#C8A24D",
                         fontFamily: "var(--font-poppins)",
                       }}
                     >
@@ -215,4 +215,5 @@ export default function VoteSection() {
     </section>
   );
 }
+
 

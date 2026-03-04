@@ -11,6 +11,10 @@ import {
   TrendingUp,
   Upload,
   CheckCircle,
+  BookOpenCheck,
+  Send,
+  ShieldCheck,
+  LockKeyhole,
 } from "lucide-react";
 import { useApp } from "../../../../context/AppContext";
 import { statusLabelsId } from "../../../../data/mockData";
@@ -48,14 +52,14 @@ export default function ParticipantDashboardPage() {
       PreCamp: { color: "#3b82f6", bg: "rgba(59,130,246,0.1)", icon: <Star size={14} /> },
       Camp: { color: "#8b5cf6", bg: "rgba(139,92,246,0.1)", icon: <Star size={14} /> },
       GrandFinal: {
-        color: "#D4AF37",
-        bg: "rgba(212,175,55,0.1)",
-        icon: <Star size={14} fill="#D4AF37" />,
+        color: "#C8A24D",
+        bg: "rgba(200,162,77,0.1)",
+        icon: <Star size={14} fill="#C8A24D" />,
       },
       Winner: {
-        color: "#D4AF37",
-        bg: "rgba(212,175,55,0.1)",
-        icon: <Star size={14} fill="#D4AF37" />,
+        color: "#C8A24D",
+        bg: "rgba(200,162,77,0.1)",
+        icon: <Star size={14} fill="#C8A24D" />,
       },
     }),
     []
@@ -119,6 +123,52 @@ export default function ParticipantDashboardPage() {
     { label: "Juara", index: 5 },
   ];
 
+  // Panduan penggunaan dashboard untuk peserta baru.
+  const usageGuide = [
+    {
+      title: "Lengkapi Biodata",
+      description: "Isi data diri peserta selengkap mungkin hingga progress biodata 100%.",
+      cta: "Buka Biodata",
+      onClick: () => router.push("/pages/participant/biodata"),
+      icon: <BookOpenCheck size={16} />,
+    },
+    {
+      title: "Upload Berkas Wajib",
+      description: "Unggah semua dokumen wajib sesuai format dan ukuran file yang ditentukan.",
+      cta: "Buka Dokumen",
+      onClick: () => router.push("/pages/participant/dokumen"),
+      icon: <Upload size={16} />,
+    },
+    {
+      title: "Kirim ke Admin",
+      description: "Jika biodata dan berkas sudah 100%, kirim data untuk proses verifikasi panitia.",
+      cta: "Kirim Sekarang",
+      onClick: handleSubmitToAdmin,
+      icon: <Send size={16} />,
+    },
+    {
+      title: "Pantau Status Seleksi",
+      description: "Cek perkembangan tahap seleksi dan notifikasi hasil dari panitia.",
+      cta: "Lihat Status",
+      onClick: () => router.push("/pages/participant/status"),
+      icon: <ShieldCheck size={16} />,
+    },
+    {
+      title: "Export PDF",
+      description: "Unduh ringkasan data pendaftaran dalam format PDF untuk arsip pribadi.",
+      cta: "Buka Export",
+      onClick: () => router.push("/pages/participant/export"),
+      icon: <FileText size={16} />,
+    },
+    {
+      title: "Ubah Password",
+      description: "Perbarui password akun secara berkala agar akun Anda lebih aman.",
+      cta: "Ubah Password",
+      onClick: () => router.push("/pages/participant/change-password"),
+      icon: <LockKeyhole size={16} />,
+    },
+  ];
+
   // Toast submit admin akan hilang otomatis.
   useEffect(() => {
     if (!submitInfo) return;
@@ -127,7 +177,7 @@ export default function ParticipantDashboardPage() {
   }, [submitInfo]);
 
   // Kirim data peserta ke admin jika semua syarat lengkap.
-  const handleSubmitToAdmin = () => {
+  function handleSubmitToAdmin() {
     if (alreadySubmitted) {
       setSubmitInfoType("success");
       setSubmitInfo("Anda sudah mengirim data Anda. Mohon tunggu verifikasi admin.");
@@ -152,7 +202,7 @@ export default function ParticipantDashboardPage() {
     );
     setSubmitInfoType("success");
     setSubmitInfo("Data berhasil dikirim ke admin. Silakan tunggu proses verifikasi.");
-  };
+  }
 
   return (
     <>
@@ -161,7 +211,7 @@ export default function ParticipantDashboardPage() {
         <h1
           style={{
             fontFamily: "var(--font-cinzel)",
-            color: "#D4AF37",
+            color: "#C8A24D",
             fontSize: "1.5rem",
             fontWeight: 700,
           }}
@@ -199,7 +249,7 @@ export default function ParticipantDashboardPage() {
               </p>
               <p
                 className="text-sm font-bold"
-                style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+                style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
               >
                 {participant.number}
               </p>
@@ -207,8 +257,8 @@ export default function ParticipantDashboardPage() {
             <div
               className="px-3 py-1 rounded-full text-xs capitalize font-semibold"
               style={{
-                background: "rgba(212,175,55,0.15)",
-                color: "#D4AF37",
+                background: "rgba(200,162,77,0.15)",
+                color: "#C8A24D",
                 fontFamily: "var(--font-cinzel)",
               }}
             >
@@ -252,7 +302,7 @@ export default function ParticipantDashboardPage() {
             label: "Progress Overall",
             value: `${overallProgress}%`,
             icon: <TrendingUp size={18} />,
-            color: "#D4AF37",
+            color: "#C8A24D",
           },
           {
             label: "Tahap Seleksi",
@@ -278,10 +328,70 @@ export default function ParticipantDashboardPage() {
         ))}
       </div>
 
+      {/* Card tata cara penggunaan aplikasi untuk peserta */}
+      <GoldCard className="mb-6">
+        <div className="flex items-center justify-between gap-3 mb-5 flex-wrap">
+          <div>
+            <h3 className="text-sm font-bold" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
+              Tata Cara Penggunaan Aplikasi
+            </h3>
+            <p className="text-xs mt-1" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+              Ikuti urutan ini agar pendaftaran Anda cepat diverifikasi panitia.
+            </p>
+          </div>
+          <span
+            className="text-xs px-3 py-1 rounded-full"
+            style={{ color: "#C8A24D", background: "rgba(200,162,77,0.12)", border: "1px solid rgba(200,162,77,0.24)" }}
+          >
+            Langkah {usageGuide.length}
+          </span>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-3">
+          {usageGuide.map((item, index) => (
+            <div
+              key={item.title}
+              className="rounded-xl p-4"
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(200,162,77,0.18)",
+              }}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: "rgba(200,162,77,0.15)", color: "#C8A24D" }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-xs mb-1" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
+                      Langkah {index + 1}
+                    </p>
+                    <p className="text-sm font-semibold" style={{ color: "#F5E6C8", fontFamily: "var(--font-poppins)" }}>
+                      {item.title}
+                    </p>
+                    <p className="text-xs mt-1" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3">
+                <GoldButton variant="outline" size="sm" onClick={item.onClick}>
+                  {item.cta}
+                </GoldButton>
+              </div>
+            </div>
+          ))}
+        </div>
+      </GoldCard>
+
       {/* Kolom progress pendaftaran + timeline seleksi */}
       <div className="grid lg:grid-cols-2 gap-6 mb-6">
         <GoldCard glow>
-          <h3 className="text-sm font-bold mb-5" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+          <h3 className="text-sm font-bold mb-5" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
             Kelengkapan Pendaftaran
           </h3>
 
@@ -289,7 +399,7 @@ export default function ParticipantDashboardPage() {
             {
               label: "Biodata",
               progress: profileProgress,
-              bar: "linear-gradient(90deg, #F5D06F, #D4AF37)",
+              bar: "linear-gradient(90deg, #F5D06F, #C8A24D)",
             },
             {
               label: "Upload Berkas Wajib",
@@ -299,7 +409,7 @@ export default function ParticipantDashboardPage() {
             {
               label: "Keseluruhan",
               progress: overallProgress,
-              bar: "linear-gradient(90deg, #F5D06F, #D4AF37, #8C6A1C)",
+              bar: "linear-gradient(90deg, #F5D06F, #C8A24D, #8C6A1C)",
             },
           ].map((item, index) => (
             <div key={item.label} className={index < 2 ? "mb-4" : "mb-5"}>
@@ -340,7 +450,7 @@ export default function ParticipantDashboardPage() {
         </GoldCard>
 
         <GoldCard>
-          <h3 className="text-sm font-bold mb-5" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+          <h3 className="text-sm font-bold mb-5" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
             Alur Tahapan Seleksi
           </h3>
           <div className="space-y-3">
@@ -365,7 +475,7 @@ export default function ParticipantDashboardPage() {
                         state === "done"
                           ? "rgba(34,197,94,0.2)"
                           : state === "active"
-                          ? "rgba(212,175,55,0.2)"
+                          ? "rgba(200,162,77,0.2)"
                           : state === "failed"
                           ? "rgba(239,68,68,0.2)"
                           : "rgba(255,255,255,0.05)",
@@ -373,7 +483,7 @@ export default function ParticipantDashboardPage() {
                         state === "done"
                           ? "rgba(34,197,94,0.4)"
                           : state === "active"
-                          ? "rgba(212,175,55,0.4)"
+                          ? "rgba(200,162,77,0.4)"
                           : state === "failed"
                           ? "rgba(239,68,68,0.4)"
                           : "rgba(255,255,255,0.1)"
@@ -382,7 +492,7 @@ export default function ParticipantDashboardPage() {
                         state === "done"
                           ? "#22c55e"
                           : state === "active"
-                          ? "#D4AF37"
+                          ? "#C8A24D"
                           : state === "failed"
                           ? "#ef4444"
                           : "#555",
@@ -399,7 +509,7 @@ export default function ParticipantDashboardPage() {
                           state === "done"
                             ? "#22c55e"
                             : state === "active"
-                            ? "#D4AF37"
+                            ? "#C8A24D"
                             : state === "failed"
                             ? "#ef4444"
                             : "#666",
@@ -419,7 +529,7 @@ export default function ParticipantDashboardPage() {
 
       {/* Checklist cepat status dokumen */}
       <GoldCard>
-        <h3 className="text-sm font-bold mb-4" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+        <h3 className="text-sm font-bold mb-4" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
           Status Upload Berkas
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -475,3 +585,4 @@ export default function ParticipantDashboardPage() {
     </>
   );
 }
+

@@ -1,11 +1,15 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
-  --background: #0b0b0b;
+  --background: #120f0a;
   --foreground: #f5e6c8;
   --gold-1: #f5d06f;
-  --gold-2: #d4af37;
+  --gold-2: #c8a24d;
   --gold-3: #8c6a1c;
+  --champagne-top: #e6d2a8;
+  --champagne-mid: #c6a46c;
+  --champagne-bottom: #b8862f;
+  --champagne-overlay: rgba(15, 12, 8, 0.78);
 }
 
 @theme inline {
@@ -17,15 +21,27 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #120f0a;
     --foreground: #ededed;
   }
 }
 
 body {
-  background: var(--background);
+  background:
+    linear-gradient(var(--champagne-overlay), var(--champagne-overlay)),
+    radial-gradient(circle at 20% 10%, rgba(255, 241, 200, 0.16) 0%, transparent 35%),
+    radial-gradient(circle at 82% 88%, rgba(255, 223, 141, 0.2) 0%, transparent 38%),
+    linear-gradient(180deg, var(--champagne-top) 0%, var(--champagne-mid) 48%, var(--champagne-bottom) 100%);
   color: var(--foreground);
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+}
+
+.warm-champagne-bg {
+  background:
+    linear-gradient(var(--champagne-overlay), var(--champagne-overlay)),
+    radial-gradient(circle at 20% 10%, rgba(255, 241, 200, 0.16) 0%, transparent 35%),
+    radial-gradient(circle at 82% 88%, rgba(255, 223, 141, 0.2) 0%, transparent 38%),
+    linear-gradient(180deg, var(--champagne-top) 0%, var(--champagne-mid) 48%, var(--champagne-bottom) 100%);
 }
 
 .kepri-batik-shell {
@@ -67,25 +83,25 @@ body {
 
 .loader {
   width: fit-content;
-  font-weight: 700;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: bold;
+  font-family: monospace;
   white-space: pre;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 1.2em;
   height: 1.2em;
   overflow: hidden;
 }
 
 .loader::before {
-  content:
-    "Loading...\A⌰oading...\A⌰⍜ading...\A⌰⍜⏃ding...\A⌰⍜⏃⎅ing...\A⌰⍜⏃⎅⟟ng...\A⌰⍜⏃⎅⟟⋏g...\A⌰⍜⏃⎅⟟⋏☌...\A⌰⍜⏃⎅⟟⋏☌⟒..\A⌰⍜⏃⎅⟟⋏☌⟒⏁.\A⌰⍜⏃⎅⟟⋏☌⟒⏁⋔";
+  content: "Loading...\A⌰oading...\A⌰⍜ading...\A⌰⍜⏃ding...\A⌰⍜⏃⎅ing...\A⌰⍜⏃⎅⟟ng...\A⌰⍜⏃⎅⟟⋏g...\A⌰⍜⏃⎅⟟⋏☌...\A⌰⍜⏃⎅⟟⋏☌⟒..\A⌰⍜⏃⎅⟟⋏☌⟒⏁.\A⌰⍜⏃⎅⟟⋏☌⟒⏁⋔";
   white-space: pre;
   display: inline-block;
-  animation: loader-glyph 1s infinite steps(11) alternate;
+  animation: l39 1s infinite steps(11) alternate;
 }
 
-@keyframes loader-glyph {
+@keyframes l39 {
   100% {
     transform: translateY(-100%);
   }
 }
+

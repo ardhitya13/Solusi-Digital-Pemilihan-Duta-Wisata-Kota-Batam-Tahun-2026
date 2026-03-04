@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { mockNews } from "../../data/mockData";
 
@@ -19,14 +19,14 @@ export default function NewsHighlightSection() {
         <div className="text-center mb-12">
           <p
             className="text-sm tracking-widest uppercase mb-3"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
           >
             Berita Terkini
           </p>
           <h2
             style={{
               fontFamily: "var(--font-cinzel)",
-              background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+              background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -39,7 +39,7 @@ export default function NewsHighlightSection() {
           <div
             className="w-24 h-[2px] mx-auto mt-4"
             style={{
-              background: "linear-gradient(90deg, transparent, #D4AF37, transparent)",
+              background: "linear-gradient(90deg, transparent, #C8A24D, transparent)",
             }}
           />
         </div>
@@ -52,7 +52,7 @@ export default function NewsHighlightSection() {
               className="rounded-2xl overflow-hidden group transition-transform duration-300 hover:-translate-y-1"
               style={{
                 background: "#1A1A1A",
-                border: "1px solid rgba(212,175,55,0.25)",
+                border: "1px solid rgba(200,162,77,0.25)",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
               }}
             >
@@ -73,7 +73,7 @@ export default function NewsHighlightSection() {
 
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-3">
-                  <Calendar size={12} style={{ color: "#D4AF37" }} />
+                  <Calendar size={12} style={{ color: "#C8A24D" }} />
                   <span
                     className="text-xs"
                     style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}
@@ -108,7 +108,7 @@ export default function NewsHighlightSection() {
         </div>
 
         <div className="text-center mt-8">
-          <Link href="/news" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+          <Link href="/news" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}>
             Lihat semua berita
           </Link>
         </div>
@@ -116,4 +116,5 @@ export default function NewsHighlightSection() {
     </section>
   );
 }
+
 

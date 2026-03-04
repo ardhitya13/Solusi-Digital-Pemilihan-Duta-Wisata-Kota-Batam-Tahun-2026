@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { schedule } from "../../data/mockData";
 
 const stepLabels = [
@@ -15,14 +15,14 @@ export default function RegistrationStepsSection() {
         <div className="text-center mb-12">
           <p
             className="text-sm tracking-widest uppercase mb-3"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
           >
             Pendaftaran
           </p>
           <h2
             style={{
               fontFamily: "var(--font-cinzel)",
-              background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+              background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -35,7 +35,7 @@ export default function RegistrationStepsSection() {
           <div
             className="w-24 h-[2px] mx-auto mt-4"
             style={{
-              background: "linear-gradient(90deg, transparent, #D4AF37, transparent)",
+              background: "linear-gradient(90deg, transparent, #C8A24D, transparent)",
             }}
           />
         </div>
@@ -45,7 +45,7 @@ export default function RegistrationStepsSection() {
             className="rounded-2xl p-6 sm:p-8"
             style={{
               background: "#1A1A1A",
-              border: "1px solid rgba(212,175,55,0.25)",
+              border: "1px solid rgba(200,162,77,0.25)",
             }}
           >
             <h3
@@ -61,14 +61,14 @@ export default function RegistrationStepsSection() {
                   key={step}
                   className="rounded-xl px-4 py-3 flex items-center gap-3"
                   style={{
-                    background: "rgba(212,175,55,0.08)",
-                    border: "1px solid rgba(212,175,55,0.2)",
+                    background: "rgba(200,162,77,0.08)",
+                    border: "1px solid rgba(200,162,77,0.2)",
                   }}
                 >
                   <div
                     className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
                     style={{
-                      background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                      background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                       color: "#0F0F0F",
                       fontFamily: "var(--font-cinzel)",
                     }}
@@ -85,7 +85,7 @@ export default function RegistrationStepsSection() {
                 href="/auth/register"
                 className="inline-flex items-center px-5 py-2 rounded-xl text-sm font-semibold"
                 style={{
-                  background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+                  background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
                   color: "#0F0F0F",
                   fontFamily: "var(--font-cinzel)",
                 }}
@@ -99,7 +99,7 @@ export default function RegistrationStepsSection() {
             className="rounded-2xl p-6 sm:p-8"
             style={{
               background: "#1A1A1A",
-              border: "1px solid rgba(212,175,55,0.25)",
+              border: "1px solid rgba(200,162,77,0.25)",
             }}
           >
             <h3
@@ -114,8 +114,8 @@ export default function RegistrationStepsSection() {
                   key={item.activity}
                   className="rounded-xl px-4 py-3"
                   style={{
-                    background: "rgba(212,175,55,0.08)",
-                    border: "1px solid rgba(212,175,55,0.2)",
+                    background: "rgba(200,162,77,0.08)",
+                    border: "1px solid rgba(200,162,77,0.2)",
                   }}
                 >
                   <p
@@ -124,7 +124,7 @@ export default function RegistrationStepsSection() {
                   >
                     {item.activity}
                   </p>
-                  <p className="text-xs mt-1" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+                  <p className="text-xs mt-1" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}>
                     {item.date}
                   </p>
                 </div>
@@ -136,4 +136,5 @@ export default function RegistrationStepsSection() {
     </section>
   );
 }
+
 

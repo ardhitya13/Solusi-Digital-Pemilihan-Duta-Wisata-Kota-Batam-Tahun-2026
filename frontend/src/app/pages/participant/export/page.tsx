@@ -76,11 +76,11 @@ export default function ExportPDFPage() {
   };
 
   return (
-    <div className="max-w-3xl">
+    <div className="w-full">
       {/* Header halaman export */}
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
         <div>
-          <h1 style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.5rem", fontWeight: 700 }}>
+          <h1 style={{ fontFamily: "var(--font-cinzel)", color: "#C8A24D", fontSize: "1.5rem", fontWeight: 700 }}>
             Export PDF Biodata
           </h1>
           <p className="text-sm mt-1" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
@@ -96,9 +96,9 @@ export default function ExportPDFPage() {
       {/* Card info format dokumen PDF */}
       <GoldCard className="mb-6">
         <div className="flex items-start gap-3">
-          <FileText size={16} style={{ color: "#D4AF37", marginTop: 1 }} />
+          <FileText size={16} style={{ color: "#C8A24D", marginTop: 1 }} />
           <div>
-            <p className="text-sm font-semibold mb-1" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+            <p className="text-sm font-semibold mb-1" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
               Format PDF Biodata
             </p>
             <p className="text-xs leading-relaxed" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
@@ -115,8 +115,8 @@ export default function ExportPDFPage() {
           className="rounded-2xl overflow-hidden print:shadow-none"
           style={{
             background: "#0F0F0F",
-            border: "1px solid rgba(212,175,55,0.4)",
-            boxShadow: "0 0 40px rgba(212,175,55,0.1)",
+            border: "1px solid rgba(200,162,77,0.4)",
+            boxShadow: "0 0 40px rgba(200,162,77,0.1)",
           }}
         >
           {/* Header surat */}
@@ -124,7 +124,7 @@ export default function ExportPDFPage() {
             className="p-6"
             style={{
               background: "linear-gradient(135deg, #1A1A1A, #0F0F0F)",
-              borderBottom: "2px solid rgba(212,175,55,0.4)",
+              borderBottom: "2px solid rgba(200,162,77,0.4)",
             }}
           >
             <div className="flex items-center gap-4">
@@ -134,10 +134,10 @@ export default function ExportPDFPage() {
                 width={56}
                 height={56}
                 className="w-14 h-14 object-contain"
-                style={{ filter: "drop-shadow(0 0 10px rgba(212,175,55,0.5))" }}
+                style={{ filter: "drop-shadow(0 0 10px rgba(200,162,77,0.5))" }}
               />
               <div>
-                <h2 style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.1em" }}>
+                <h2 style={{ fontFamily: "var(--font-cinzel)", color: "#C8A24D", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.1em" }}>
                   PEMILIHAN DUTA WISATA KOTA BATAM
                 </h2>
                 <p style={{ fontFamily: "var(--font-cinzel)", color: "#F5D06F", fontSize: "0.75rem", letterSpacing: "0.12em" }}>
@@ -151,7 +151,7 @@ export default function ExportPDFPage() {
                 <p className="text-xs" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
                   Nomor Peserta
                 </p>
-                <p style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.1rem", fontWeight: 700 }}>
+                <p style={{ fontFamily: "var(--font-cinzel)", color: "#C8A24D", fontSize: "1.1rem", fontWeight: 700 }}>
                   {participant?.number || "-"}
                 </p>
               </div>
@@ -170,18 +170,18 @@ export default function ExportPDFPage() {
                     height={160}
                     unoptimized
                     className="w-32 h-40 object-cover rounded-xl"
-                    style={{ border: "3px solid rgba(212,175,55,0.5)" }}
+                    style={{ border: "3px solid rgba(200,162,77,0.5)" }}
                   />
                   <div
                     className="absolute -bottom-3 -right-3 w-12 h-12 rounded-xl flex items-center justify-center"
-                    style={{ background: "#1A1A1A", border: "2px solid rgba(212,175,55,0.4)" }}
+                    style={{ background: "#1A1A1A", border: "2px solid rgba(200,162,77,0.4)" }}
                   >
                     <div className="grid grid-cols-3 gap-0.5">
                       {Array.from({ length: 9 }).map((_, i) => (
                         <div
                           key={i}
                           className="w-2.5 h-2.5 rounded-sm"
-                          style={{ background: [0, 2, 4, 6, 8].includes(i) ? "#D4AF37" : "#333" }}
+                          style={{ background: [0, 2, 4, 6, 8].includes(i) ? "#C8A24D" : "#333" }}
                         />
                       ))}
                     </div>
@@ -218,7 +218,7 @@ export default function ExportPDFPage() {
 
             {/* Status checklist dokumen */}
             <div className="mb-5">
-              <p className="text-xs font-bold mb-3" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+              <p className="text-xs font-bold mb-3" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
                 STATUS BERKAS ({doneCount}/{berkasWajib.length})
               </p>
               <div className="flex flex-wrap gap-2">
@@ -242,13 +242,13 @@ export default function ExportPDFPage() {
             {/* Ringkasan status seleksi saat ini */}
             <div
               className="flex items-center justify-between p-4 rounded-xl"
-              style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.25)" }}
+              style={{ background: "rgba(200,162,77,0.08)", border: "1px solid rgba(200,162,77,0.25)" }}
             >
               <div>
                 <p className="text-xs" style={{ color: "#888", fontFamily: "var(--font-poppins)" }}>
                   Status Seleksi Saat Ini
                 </p>
-                <p className="text-sm font-bold" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+                <p className="text-sm font-bold" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
                   {participant ? statusLabel[participant.status] : "Menunggu Verifikasi"}
                 </p>
               </div>
@@ -266,7 +266,7 @@ export default function ExportPDFPage() {
           {/* Footer surat */}
           <div
             className="px-6 py-4"
-            style={{ borderTop: "1px solid rgba(212,175,55,0.2)", background: "rgba(212,175,55,0.03)" }}
+            style={{ borderTop: "1px solid rgba(200,162,77,0.2)", background: "rgba(200,162,77,0.03)" }}
           >
             <p className="text-xs text-center" style={{ color: "#555", fontFamily: "var(--font-poppins)" }}>
               Dokumen ini digenerate secara otomatis oleh Sistem Pemilihan Duta Wisata Kota Batam 2026
@@ -277,3 +277,4 @@ export default function ExportPDFPage() {
     </div>
   );
 }
+

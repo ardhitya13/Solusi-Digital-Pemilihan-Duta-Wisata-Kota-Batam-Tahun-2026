@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import NextImage from "next/image";
@@ -66,28 +66,28 @@ const timelineStages = [
 // Mapping visual untuk badge state timeline.
 const stateIcon: Record<TimelineState, React.ReactNode> = {
   done: <CheckCircle size={20} style={{ color: "#22c55e" }} />,
-  active: <Star size={20} style={{ color: "#D4AF37" }} fill="#D4AF37" />,
+  active: <Star size={20} style={{ color: "#C8A24D" }} fill="#C8A24D" />,
   failed: <XCircle size={20} style={{ color: "#ef4444" }} />,
   pending: <Clock size={20} style={{ color: "#666" }} />,
 };
 
 const stateBorder: Record<TimelineState, string> = {
   done: "rgba(34,197,94,0.4)",
-  active: "rgba(212,175,55,0.55)",
+  active: "rgba(200,162,77,0.55)",
   failed: "rgba(239,68,68,0.4)",
   pending: "rgba(255,255,255,0.1)",
 };
 
 const stateBg: Record<TimelineState, string> = {
   done: "rgba(34,197,94,0.08)",
-  active: "rgba(212,175,55,0.1)",
+  active: "rgba(200,162,77,0.1)",
   failed: "rgba(239,68,68,0.08)",
   pending: "rgba(255,255,255,0.02)",
 };
 
 const stateColor: Record<TimelineState, string> = {
   done: "#22c55e",
-  active: "#D4AF37",
+  active: "#C8A24D",
   failed: "#ef4444",
   pending: "#666",
 };
@@ -144,10 +144,10 @@ export default function ParticipantStatusPage() {
   };
 
   return (
-    <div className="max-w-3xl">
+    <div className="w-full">
       {/* Header halaman status seleksi */}
       <div className="mb-8">
-        <h1 style={{ fontFamily: "var(--font-cinzel)", color: "#D4AF37", fontSize: "1.5rem", fontWeight: 700 }}>
+        <h1 style={{ fontFamily: "var(--font-cinzel)", color: "#C8A24D", fontSize: "1.5rem", fontWeight: 700 }}>
           Status Seleksi
         </h1>
         <p className="text-sm mt-1" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
@@ -166,7 +166,7 @@ export default function ParticipantStatusPage() {
               height={64}
               unoptimized
               className="w-16 h-16 rounded-xl object-cover object-top flex-shrink-0"
-              style={{ border: "2px solid rgba(212,175,55,0.35)" }}
+              style={{ border: "2px solid rgba(200,162,77,0.35)" }}
             />
 
             <div className="flex-1">
@@ -176,7 +176,7 @@ export default function ParticipantStatusPage() {
               <h2 className="text-base font-bold" style={{ color: "#F5E6C8", fontFamily: "var(--font-cinzel)" }}>
                 {participant.name}
               </h2>
-              <p className="text-xs mt-1" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+              <p className="text-xs mt-1" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}>
                 {participant.gender === "Encik" ? "ENCIK" : "PUAN"} - {participant.education || "Pendidikan belum diisi"}
               </p>
             </div>
@@ -186,7 +186,7 @@ export default function ParticipantStatusPage() {
               style={{
                 background:
                   currentStatus === "Winner"
-                    ? "linear-gradient(135deg, rgba(245,208,111,0.2), rgba(212,175,55,0.2))"
+                    ? "linear-gradient(135deg, rgba(245,208,111,0.2), rgba(200,162,77,0.2))"
                     : currentStatus === "Rejected"
                     ? "rgba(239,68,68,0.1)"
                     : currentStatus === "Pending"
@@ -194,7 +194,7 @@ export default function ParticipantStatusPage() {
                     : "rgba(34,197,94,0.1)",
                 border: `1px solid ${
                   currentStatus === "Winner"
-                    ? "rgba(212,175,55,0.4)"
+                    ? "rgba(200,162,77,0.4)"
                     : currentStatus === "Rejected"
                     ? "rgba(239,68,68,0.3)"
                     : currentStatus === "Pending"
@@ -203,7 +203,7 @@ export default function ParticipantStatusPage() {
                 }`,
                 color:
                   currentStatus === "Winner"
-                    ? "#D4AF37"
+                    ? "#C8A24D"
                     : currentStatus === "Rejected"
                     ? "#ef4444"
                     : currentStatus === "Pending"
@@ -274,8 +274,8 @@ export default function ParticipantStatusPage() {
 
                 {timelineState === "active" && stage.id === "grand_final" ? (
                   <div className="mt-3 flex items-center gap-2">
-                    <Trophy size={14} style={{ color: "#D4AF37" }} />
-                    <p className="text-xs font-semibold" style={{ color: "#D4AF37", fontFamily: "var(--font-poppins)" }}>
+                    <Trophy size={14} style={{ color: "#C8A24D" }} />
+                    <p className="text-xs font-semibold" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)" }}>
                       Selamat! Anda sudah mencapai Grand Final. Persiapkan penampilan terbaik Anda.
                     </p>
                   </div>
@@ -297,7 +297,7 @@ export default function ParticipantStatusPage() {
 
       {/* Informasi umum untuk peserta */}
       <GoldCard>
-        <h3 className="text-sm font-bold mb-3" style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}>
+        <h3 className="text-sm font-bold mb-3" style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}>
           Informasi Penting
         </h3>
         <ul className="space-y-2">
@@ -308,7 +308,7 @@ export default function ParticipantStatusPage() {
             "Keputusan dewan juri dan panitia bersifat final.",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2 text-xs" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
-              <Star size={10} fill="#D4AF37" style={{ color: "#D4AF37", marginTop: 3, flexShrink: 0 }} />
+              <Star size={10} fill="#C8A24D" style={{ color: "#C8A24D", marginTop: 3, flexShrink: 0 }} />
               {item}
             </li>
           ))}
@@ -317,3 +317,4 @@ export default function ParticipantStatusPage() {
     </div>
   );
 }
+

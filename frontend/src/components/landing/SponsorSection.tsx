@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 
 const partnerLogos = [
   { id: "logo-site", src: "/logo.png", alt: "Duta Wisata Batam" },
@@ -11,7 +11,6 @@ const partnerLogos = [
     alt: "Wonderful Indonesia",
   },
   { id: "kementrian-pariwisata", src: "/partners/kemenpar.png", alt: "Kementrian Pariwisata" },
-  { id: "polibatam", src: "/partners/polibatam.png", alt: "Politeknik Negeri Batam" },
 ];
 
 const loopedLogos = [...partnerLogos, ...partnerLogos];
@@ -23,14 +22,14 @@ export default function SponsorSection() {
         <div className="text-center mb-12">
           <p
             className="text-sm tracking-widest uppercase mb-3"
-            style={{ color: "#D4AF37", fontFamily: "var(--font-cinzel)" }}
+            style={{ color: "#C8A24D", fontFamily: "var(--font-cinzel)" }}
           >
             Partnership
           </p>
           <h2
             style={{
               fontFamily: "var(--font-cinzel)",
-              background: "linear-gradient(135deg, #F5D06F, #D4AF37)",
+              background: "linear-gradient(135deg, #F5D06F, #C8A24D)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -42,14 +41,14 @@ export default function SponsorSection() {
           </h2>
           <div
             className="w-24 h-0.5 mx-auto mt-4"
-            style={{ background: "linear-gradient(90deg, transparent, #D4AF37, transparent)" }}
+            style={{ background: "linear-gradient(90deg, transparent, #C8A24D, transparent)" }}
           />
         </div>
 
         <div
           className="relative overflow-hidden rounded-2xl"
           style={{
-            border: "1px solid rgba(212,175,55,0.2)",
+            border: "1px solid rgba(200,162,77,0.2)",
             background: "linear-gradient(180deg, rgba(255,255,255,0.96), rgba(243,243,243,0.96))",
             boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.7)",
           }}
@@ -84,3 +83,4 @@ export default function SponsorSection() {
     </section>
   );
 }
+
