@@ -117,13 +117,13 @@ export default function Footer() {
               <div className="flex items-center gap-2">
                 <Instagram size={14} style={{ color: "#C8A24D" }} />
                 <a
-                  href="https://instagram.com/dutawisatabatam"
+                  href="https://www.instagram.com/dutawisatakotabatam/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-xs transition-colors hover:text-[#C8A24D]"
                   style={{ color: "#CBB998", fontFamily: "var(--font-poppins)" }}
                 >
-                  @dutawisatabatam
+                  @dutawisatakotabatam
                 </a>
               </div>
             </div>

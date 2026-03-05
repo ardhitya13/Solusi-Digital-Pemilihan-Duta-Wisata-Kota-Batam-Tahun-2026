@@ -7,6 +7,18 @@ import { BookOpen, Download, ExternalLink, FileText, Hash, MessageCircle, Phone 
 import GoldCard from "../../../../components/dashboard/GoldCard";
 import { hashtags, officialLinks, resourceDownloads } from "./documentUploadConfig";
 
+const closeUpExamples = [
+  { src: "/participant-resources/photo-examples/closeup-1.jpg", label: "Close Up Putra" },
+  { src: "/participant-resources/photo-examples/closeup-2.jpg", label: "Close Up Putri Hijab" },
+  { src: "/participant-resources/photo-examples/closeup-3.jpg", label: "Close Up Putri Non-Hijab" },
+];
+
+const fullBodyExamples = [
+  { src: "/participant-resources/photo-examples/fullbody-1.jpg", label: "Full Body Putra" },
+  { src: "/participant-resources/photo-examples/fullbody-2.jpg", label: "Full Body Putri Hijab" },
+  { src: "/participant-resources/photo-examples/fullbody-3.jpg", label: "Full Body Putri Non-Hijab" },
+];
+
 export default function ParticipantGuidePanel() {
   return (
     <div className="space-y-6 mb-6">
@@ -84,14 +96,53 @@ export default function ParticipantGuidePanel() {
           <p className="text-xs mb-3" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
             Gunakan latar putih polos, pakaian formal hitam, dan pencahayaan jelas.
           </p>
-          <NextImage
-            src="/participant-resources/contoh-foto-closeup-fullbody.png"
-            alt="Contoh foto close up dan full body"
-            width={640}
-            height={360}
-            className="w-full h-auto rounded-xl border"
-            style={{ borderColor: "rgba(200,162,77,0.3)" }}
-          />
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs mb-2" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                Contoh Close Up (3 Foto)
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {closeUpExamples.map((item) => (
+                  <div key={item.src} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(200,162,77,0.3)" }}>
+                    <NextImage
+                      src={item.src}
+                      alt={item.label}
+                      width={500}
+                      height={700}
+                      className="w-full h-auto"
+                      unoptimized
+                    />
+                    <p className="text-[11px] px-2 py-1 text-center" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)", background: "rgba(0,0,0,0.35)" }}>
+                      {item.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs mb-2" style={{ color: "#C8A24D", fontFamily: "var(--font-poppins)", fontWeight: 600 }}>
+                Contoh Full Body (3 Foto)
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {fullBodyExamples.map((item) => (
+                  <div key={item.src} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(200,162,77,0.3)" }}>
+                    <NextImage
+                      src={item.src}
+                      alt={item.label}
+                      width={500}
+                      height={700}
+                      className="w-full h-auto"
+                      unoptimized
+                    />
+                    <p className="text-[11px] px-2 py-1 text-center" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)", background: "rgba(0,0,0,0.35)" }}>
+                      {item.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </GoldCard>
 
         {/* Twibbon, QR grup WA, dan hashtag resmi publikasi */}
@@ -116,6 +167,34 @@ export default function ParticipantGuidePanel() {
               className="w-full h-auto rounded-xl border"
               style={{ borderColor: "rgba(200,162,77,0.3)" }}
             />
+          </div>
+          <div className="flex flex-wrap gap-2 mb-3">
+            <a
+              href="/participant-resources/twibbon-duwis-2026.png"
+              download
+              className="inline-flex items-center gap-1 text-xs px-3 py-2 rounded-lg"
+              style={{
+                color: "#0F0F0F",
+                background: "#C8A24D",
+                fontFamily: "var(--font-poppins)",
+                fontWeight: 600,
+              }}
+            >
+              <Download size={12} /> Unduh Twibbon
+            </a>
+            <Link
+              href={officialLinks.forms}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-xs px-3 py-2 rounded-lg"
+              style={{
+                color: "#C8A24D",
+                border: "1px solid rgba(200,162,77,0.35)",
+                fontFamily: "var(--font-poppins)",
+              }}
+            >
+              <ExternalLink size={12} /> Buka Link Twibbon
+            </Link>
           </div>
           <p className="text-xs mb-2" style={{ color: "#BDBDBD", fontFamily: "var(--font-poppins)" }}>
             Wajib posting twibbon di Instagram dan mention <strong>@dutawisatakotabatam</strong> serta <strong>@batamtourism.official</strong>.
@@ -147,4 +226,5 @@ export default function ParticipantGuidePanel() {
     </div>
   );
 }
+
 

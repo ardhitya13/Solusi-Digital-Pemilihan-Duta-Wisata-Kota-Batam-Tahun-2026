@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
@@ -311,7 +311,7 @@ export default function DashboardLayout({
   );
 
   return (
-    <div className="flex h-screen warm-champagne-bg overflow-hidden">
+    <div className="flex h-[100dvh] min-h-[100dvh] warm-champagne-bg overflow-hidden" style={{ paddingTop: "env(safe-area-inset-top)" }}>
       <aside
         className={`hidden lg:flex flex-col shrink-0 transition-all duration-200 ${
           sidebarCollapsed ? "w-20" : "w-64"
@@ -464,11 +464,12 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto dashboard-scrollbar p-4 lg:p-6">
+        <main className="flex-1 overflow-y-auto dashboard-scrollbar dashboard-main-scroll p-4 lg:p-6 pb-[calc(env(safe-area-inset-bottom)+1.25rem)]">
           <div className="w-full">{children}</div>
         </main>
       </div>
     </div>
   );
 }
+
 
