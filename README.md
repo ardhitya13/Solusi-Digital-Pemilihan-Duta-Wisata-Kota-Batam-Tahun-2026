@@ -30,3 +30,5 @@ Link Vidio Presentasi ATS: https://drive.google.com/file/d/1EWSYVM8WnPKBguOs-Hcw
 Link GitHub: https://github.com/ardhitya13/Solusi-Digital-Pemilihan-Duta-Wisata-Kota-Batam-Tahun-2026.git
 
 Link Figma: https://www.figma.com/design/HUx6lyNKYhWSaj76p83tts/Duta-Wisata-Kota-Batam-tahun-2026?node-id=52-2&t=KToJYOuirDV91mtk-1
+
+Link Dokumen Pengujian Perangkat Lunak: https://drive.google.com/drive/folders/1haZx4BMpKEAkWXcWOhhuivbyWDgiPzgp?usp=drive_link
